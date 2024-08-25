@@ -35,8 +35,8 @@
                     <th>Category</th>
                     <th>Product</th>
                     <th>UOM</th>
-                    <th>Request Qty</th>
-                    <th>Issued Qty</th>
+                    <th>Raw Material Request Qty</th>
+                    <th>Raw Material Issued Qty</th>
                 </tr>
                 </thead>
                 <tbody>

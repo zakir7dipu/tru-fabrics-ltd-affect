@@ -6,7 +6,7 @@
     <div class="content">
         <div class="container-fluid">
             @include('components.breadcrumb', [
-                'item' => ['/' => languageValue(websiteSettings()->name), 'active' => 'Store Inventory'],
+                'item' => ['/' => languageValue(websiteSettings()->name), 'admin/store/requisition-list' => 'Requisitions', 'active' => 'Delivery'],
                 'pTitle' => $title,
             ])
 
@@ -34,28 +34,47 @@
                                 'class'=>'','files'=>true,'id'=>'ProductsForm')) !!}
 
                                 <div class="row">
-                                    <div class="col-md-4">
-                                        <div class="form-group">
-                                            <div class="form-line">
-                                                {!!  Form::label('reference_no', 'Reference No', ['class' => 'col-form-label']) !!}
-                                                <span class="text-danger">*</span>
-                                                {!! Form::text('reference_no', isset($sku)?$sku:request()->old('reference_no'), [
-                                                    'id' => 'reference_no',
-                                                    'class' => 'form-control',
-                                                    'placeholder' => 'Enter Reference No'
-                                                ]) !!}
-                                                {!! $errors->first('reference_no') !!}
-                                            </div>
-                                        </div>
-                                    </div>
 
-                                    <div class="col-md-4">
+                                    <input type="hidden" name="reference_no"
+                                           value="{{isset($sku)?$sku:request()->old('reference_no')}}">
+
+                                    {{--                                    <div class="col-md-3">--}}
+                                    {{--                                        <div class="form-group">--}}
+                                    {{--                                            <div class="form-line">--}}
+                                    {{--                                                {!!  Form::label('reference_no', 'Reference No', ['class' => 'col-form-label']) !!}--}}
+                                    {{--                                                <span class="text-danger">*</span>--}}
+                                    {{--                                                {!! Form::text('reference_no', isset($sku)?$sku:request()->old('reference_no'), [--}}
+                                    {{--                                                    'id' => 'reference_no',--}}
+                                    {{--                                                    'class' => 'form-control',--}}
+                                    {{--                                                    'placeholder' => 'Enter Reference No'--}}
+                                    {{--                                                ]) !!}--}}
+                                    {{--                                                {!! $errors->first('reference_no') !!}--}}
+                                    {{--                                            </div>--}}
+                                    {{--                                        </div>--}}
+                                    {{--                                    </div>--}}
+
+                                    {{--                                    <div class="col-md-3">--}}
+                                    {{--                                        <div class="form-group">--}}
+                                    {{--                                            <div class="form-line">--}}
+                                    {{--                                                {!!  Form::label('challan_no', 'Issue Challan No', ['class' => 'col-form-label']) !!}--}}
+                                    {{--                                                <span class="text-danger">*</span>--}}
+                                    {{--                                                {!! Form::text('challan_no', request()->old('challan_no'), [--}}
+                                    {{--                                                    'id' => 'challan_no',--}}
+                                    {{--                                                    'class' => 'form-control',--}}
+                                    {{--                                                    'placeholder' => 'Enter Challan No'--}}
+                                    {{--                                                ]) !!}--}}
+                                    {{--                                                {!! $errors->first('challan_no') !!}--}}
+                                    {{--                                            </div>--}}
+                                    {{--                                        </div>--}}
+                                    {{--                                    </div>--}}
+
+                                    <div class="col-md-3">
                                         <div class="form-group">
                                             <div class="form-line">
                                                 {!!  Form::label('requisition_id', 'Requisition No', ['class' => 'col-form-label']) !!}
                                                 <span class="text-danger">*</span>
                                                 <input type="text" readonly class="form-control"
-                                                       value="{{$requisition->reference_no}}">
+                                                       value="{{$requisition->requisition_no}}">
 
                                                 <input type="hidden" name="requisition_id" class="form-control"
                                                        value="{{$requisition->id}}">
@@ -65,10 +84,10 @@
                                         </div>
                                     </div>
 
-                                    <div class="col-md-4">
+                                    <div class="col-md-3">
                                         <div class="form-group">
                                             <div class="form-line">
-                                                {!!  Form::label('delivery_date', 'Delivery Date', ['class' => 'col-form-label']) !!}
+                                                {!!  Form::label('delivery_date', 'Issuing Date', ['class' => 'col-form-label']) !!}
                                                 <span class="text-danger">*</span>
                                                 {!! Form::date('delivery_date', date('Y-m-d'), [
                                                     'id' => 'delivery_date',
@@ -76,6 +95,33 @@
                                                     'placeholder' => 'Enter Date'
                                                 ]) !!}
                                                 {!! $errors->first('delivery_date') !!}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <div class="form-line">
+                                                {!!  Form::label('received_by', 'Received By', ['class' => 'col-form-label']) !!}
+                                                <span class="text-danger">*</span>
+                                                {!! Form::text('received_by', request()->old('received_by'), [
+                                                    'id' => 'received_by',
+                                                    'class' => 'form-control',
+                                                    'placeholder' => 'Mr. X : 89073'
+                                                ]) !!}
+                                                {!! $errors->first('received_by') !!}
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <div class="form-line">
+                                                {!!  Form::label('delivery_file', 'Internal Issuing File', array('class' => 'col-form-label')) !!}
+                                                <br>
+                                                <input type="file" name="delivery_file"
+                                                       id="wo_file" class="form-control btn-sm">
+
+                                                {!! $errors->first('delivery_file') !!}
                                             </div>
                                         </div>
                                     </div>
@@ -87,13 +133,13 @@
                                                width="100%" id="dataTable">
                                             <thead>
                                             <tr class="text-center">
-                                                <th width="15%">Category</th>
-                                                <th width="25%">Product</th>
+                                                <th width="15%">Product Category</th>
+                                                <th width="25%">Product Detail</th>
                                                 <th width="5%">UOM</th>
-                                                <th width="5%">Stock Qty</th>
-                                                <th width="10%">Request Qty</th>
-                                                <th width="10%">Prev. Issue Qty</th>
-                                                <th width="10%">Issue Qty</th>
+                                                {{--<th width="5%">Stock Qty</th>--}}
+                                                <th width="10%">Raw Material Request Qty</th>
+                                                <th width="10%">Raw Material Issued Qty</th>
+                                                <th width="10%">Issuing Qty</th>
                                                 <th width="20%">Warehouse</th>
                                             </tr>
                                             </thead>
@@ -105,8 +151,8 @@
                                                     @endphp
                                                     @if($item->qty != $deliveredQty)
                                                         @php
-                                                            $left = floor($deliveredQty>0 ? $item->qty-$deliveredQty : $item->qty);
-                                                            $stockInventoryWiseDeliveryQty = \Modules\Commercial\app\Models\RequisitionDeliveryItems::whereIn('stock_inventory_id',$item->storeInventories->pluck('id'))->sum('issued_qty')
+                                                            $left = $deliveredQty>0 ? $item->qty-$deliveredQty : $item->qty;
+                                                            $stockInventoryWiseDeliveryQty = \Modules\Commercial\app\Models\RequisitionDeliveryItems::whereIn('stock_inventory_id',$item->storeInventories->pluck('id'))->sum('issued_qty');
 
                                                         @endphp
 
@@ -116,7 +162,7 @@
                                                             <td class="text-center">
                                                                 {{ $item->product->productUnit->unit_name }}
                                                             </td>
-                                                            <td class="text-center">{{$item->storeInventories->where('grnItem.expire_date', '>', date('Y-m-d'))->sum('qty')-$stockInventoryWiseDeliveryQty}}</td>
+                                                            {{--                                                            <td class="text-center">{{$item->storeInventories->where('grnItem.expire_date', '>', date('Y-m-d'))->sum('qty')-$stockInventoryWiseDeliveryQty}}</td>--}}
                                                             <td class="text-center">{{$item->qty}}</td>
                                                             <td class="text-center">{{$deliveredQty}}</td>
                                                             <td class="text-center">
@@ -129,7 +175,7 @@
                                                                        value="{{$left}}"
                                                                        data-id="{{$item->id}}"
                                                                        data-qty="{{$left}}"
-                                                                       step="1"
+                                                                       step="any"
                                                                        onchange="checkDeliveryQuantity($(this))"
                                                                        onkeyup="checkDeliveryQuantity($(this))">
                                                             </td>
@@ -139,8 +185,15 @@
                                                                         id="stock_inventory_id{{$item->id}}"
                                                                         data-id="{{$item->id}}"
                                                                         onchange="updateDeliveryQuantity($(this))">
-                                                                    @if($item->storeInventories->where('grnItem.expire_date', '>', date('Y-m-d'))->count() > 0)
-                                                                        @foreach($item->storeInventories->where('grnItem.expire_date', '>', date('Y-m-d')) as $data)
+                                                                    @php
+                                                                        $count = $item->storeInventories->where(function($query){
+                                                                            return $query->where('grnItem.expire_date', '>', date('Y-m-d'))
+                                                                            ->orWhereNull('grnItem.expire_date');
+                                                                        });
+
+                                                                    @endphp
+                                                                    @if($count->count() > 0)
+                                                                        @foreach($count as $data)
                                                                             @php
                                                                                 $sumOfDeliveryItemQty = $data->requisitionDeliveryItems->sum('issued_qty');
                                                                             @endphp
@@ -210,8 +263,9 @@
 @endsection
 @section('javascript')
     <script>
-
-        updateDeliveryQuantity($('.stock_inventory_id'));
+        $.each($('.stock_inventory_id'), function (element) {
+            updateDeliveryQuantity($(this));
+        });
 
         function updateDeliveryQuantity(element) {
             var dataId = element.attr('data-id');
@@ -220,10 +274,7 @@
 
             var requestQty = $('#issued_qty_' + dataId).attr('data-qty');
 
-            console.log(requestQty)
-            console.log(left)
-
-            $('#issued_qty_' + dataId).val((parseFloat(left) <= parseFloat(requestQty)) ? parseFloat(left) : parseFloat(requestQty)).attr('max', (parseFloat(left) <= parseFloat(requestQty)) ? parseFloat(left) : parseFloat(requestQty));
+            $('#issued_qty_' + dataId).val(requestQty).attr('max', left);
         }
 
         function checkDeliveryQuantity(element) {

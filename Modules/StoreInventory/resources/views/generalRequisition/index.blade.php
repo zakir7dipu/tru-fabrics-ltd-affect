@@ -19,10 +19,6 @@
                                 </div>
                                 <div class="col-xl-4">
                                     <div class="text-xl-end mt-xl-0 mt-2">
-                                        <a href="{{route('bulk-requisition-list.index')}}"
-                                           class="btn btn-info mb-2 me-2"
-                                           data-toggle="tooltip" title="Bulk Requisition List"> <i class="mdi mdi-text
-                                           me-1"></i>{{translate('Bulk Requisition Lists')}}</a>
                                     </div>
                                 </div>
                             </div>
@@ -56,15 +52,10 @@
     @include('yajra.js')
     <script>
         function showDetails(id) {
-            $('.bd-example-modal-xl .modal-title').html('Bulk Requisition Issued Details');
-            $('#dataBody').empty().load('{{ url('admin/store/requisition-list') }}/' + id);
-            $('#showUserDetailsModal').modal('show');
-        }
-
-        function showWoDetails(id) {
             $('.bd-example-modal-xl .modal-title').html('Requisition Details');
             $('#dataBody').empty().load('{{ url('admin/commercial/requisitions') }}/' + id);
             $('#showUserDetailsModal').modal('show');
         }
+
     </script>
 @endsection

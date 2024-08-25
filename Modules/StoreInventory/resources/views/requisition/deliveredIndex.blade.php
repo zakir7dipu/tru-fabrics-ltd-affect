@@ -55,7 +55,7 @@
     @include('yajra.js')
     <script>
         function showDetails(id) {
-            $('.bd-example-modal-xl .modal-title').html('Requisition Details');
+            $('.bd-example-modal-xl .modal-title').html('Requisition Issued Details');
             $('#dataBody').empty().load('{{ url('admin/store/requisition-list') }}/' + id);
             $('#showUserDetailsModal').modal('show');
         }

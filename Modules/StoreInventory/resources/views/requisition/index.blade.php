@@ -62,5 +62,13 @@
             $('#dataBody').empty().load('{{ url('admin/commercial/work-orders') }}/' + id);
             $('#showUserDetailsModal').modal('show');
         }
+
+        function showReqDetails(element) {
+            let code = element.attr('data-code');
+            $('.bd-example-modal-xl .modal-title').html('Requisition Details');
+            $('#dataBody').empty().load('{{ url('admin/commercial/requisition-wise-details') }}/' + code);
+            $('#showUserDetailsModal').modal('show');
+        }
+
     </script>
 @endsection
