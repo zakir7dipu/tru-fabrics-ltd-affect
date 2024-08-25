@@ -53,6 +53,11 @@
                                                     @endcan
                                                 @endif
                                                 @can('attribute-create')
+                                                    <a href="javascript:void(0)" class="text-info"
+                                                       data-toggle="modal" title="Upload Attribute by xlsx file"
+                                                       id="uploadFile"> <i class="mdi mdi-cloud-upload"></i> Upload
+                                                        Attribute</a>
+
                                                     <a class="text-success" onclick="openModal('New Attribute', '{{
                                                     url('admin/attributes/create') }}');" style="font-size: 12px"><i
                                                             class="mdi mdi-plus me-1"></i>&nbsp;New Attribute</a>
@@ -64,6 +69,12 @@
                                 <div class="col-xl-4">
                                     <div class="text-xl-end mt-xl-0 mt-2">
                                         @if(isOptionPermitted('attribute-option-create'))
+
+                                            <a href="javascript:void(0)" class="btn btn-success mb-2"
+                                               data-toggle="modal" title="Upload Attribute by xlsx file"
+                                               id="uploadOptionFile"> <i class="mdi mdi-cloud-upload"></i> Upload
+                                                Attribute Option</a>
+
                                             <a href="{{ url('admin/attribute-options/create?attribute_id='.request()
                                             ->get('attribute_id')) }}"
                                                class="btn btn-info mb-2 me-2"
@@ -101,11 +112,22 @@
             </div>
         </div>
     </div>
+
+    @include('products::attributes.xlsfile')
+    @include('products::attributes.options.xlsfile')
 @endsection
 
 @section('javascript')
     @include('yajra.js')
     <script>
+        $('#uploadFile').on('click', function () {
+            $('#attributeUploadModal').modal('show');
+        });
+
+        $('#uploadOptionFile').on('click', function () {
+            $('#attributeOptionUploadModal').modal('show');
+        });
+
         function showDetails(id) {
             $('#dataBody').empty().load('{{url(Request()->route()->getPrefix()."/departments")}}/' + id);
             $('#showUserDetailsModal').modal('show');

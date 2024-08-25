@@ -5,8 +5,8 @@
     <meta charset="utf-8"/>
     <title>{{ languageValue(websiteSettings()->name) }} | {{translate('LogIn')}}</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="title" content=" "/>
-    <meta name="keywords" content="YbCustomer Area, Larasoft"/>
+    <meta name="title" content="Bizzsol PLC"/>
+    <meta name="keywords" content="Bizzsol PLC"/>
     <meta name="description" content="{{ languageValue(websiteSettings()->slogan) }}"/>
     <meta name="author" content="the LaraSoft">
     <meta name="og:title"
@@ -15,7 +15,7 @@
     <meta name="og:url" content="{{url('/')}}"/>
     <meta name="og:image"
           content="{{asset(session()->get('language') == 'en' ? websiteSettings()->logo : websiteSettings()->default_user_cover)}}"/>
-    <meta name="og:site_name" content="sanajinx.net"/>
+    <meta name="og:site_name" content="bizzsol.com.bd"/>
     <meta name="og:description"
           content="{{ languageValue(websiteSettings()->slogan) }}"/>
 

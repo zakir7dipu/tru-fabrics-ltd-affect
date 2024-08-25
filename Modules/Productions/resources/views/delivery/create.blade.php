@@ -32,7 +32,32 @@
                                         'class'=>'','files'=>true,'id'=>'ProductsForm')) !!}
 
                                         <div class="row">
-                                            <div class="col-md-4">
+                                            <div class="col-md-3">
+                                                <div class="form-group">
+                                                    <div class="form-line">
+                                                        {!!  Form::label('work_order_id', 'Work Orders', array('class' => 'col-form-label')) !!}
+                                                        <span class="text-danger">*</span>
+                                                        <select name="work_order_id"
+                                                                id="work_order_id"
+                                                                style="width: 100%"
+                                                                class="form-control select2"
+                                                                onchange="window.open('{{ url('admin/finished-goods-deliveries/create') }}?work_order_id='+$('#work_order_id').val(), '_parent')"
+                                                        >
+
+                                                            @if(isset($workOrders))
+                                                                <option value="{{null}}">Choose Work Order</option>
+                                                                @foreach($workOrders as $key => $workOrder)
+                                                                    <option
+                                                                        value="{{ $workOrder->id }}" {{ $workOrder->id == \request()->get('work_order_id') ? 'selected' : '' }}>{{ $workOrder->work_order_no }}</option>
+                                                                @endforeach
+                                                            @endif
+                                                        </select>
+
+                                                        {!! $errors->first('work_order_id') !!}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3">
                                                 <div class="form-group">
                                                     <div class="form-line">
                                                         {!!  Form::label('reference_no', 'Reference No', ['class' => 'col-form-label']) !!}
@@ -46,8 +71,22 @@
                                                     </div>
                                                 </div>
                                             </div>
+                                            <div class="col-md-3">
+                                                <div class="form-group">
+                                                    <div class="form-line">
+                                                        {!!  Form::label('challan_no', 'Challan No', ['class' => 'col-form-label']) !!}
+                                                        <span class="text-danger">*</span>
+                                                        {!! Form::text('challan_no', request()->old('challan_no'), [
+                                                            'id' => 'challan_no',
+                                                            'class' => 'form-control',
+                                                            'placeholder' => 'Enter Challan No'
+                                                        ]) !!}
+                                                        {!! $errors->first('challan_no') !!}
+                                                    </div>
+                                                </div>
+                                            </div>
 
-                                            <div class="col-md-4">
+                                            <div class="col-md-3">
                                                 <div class="form-group">
                                                     <div class="form-line">
                                                         {!!  Form::label('delivered_date', 'Delivered Date', ['class' => 'col-form-label']) !!}
@@ -62,31 +101,119 @@
                                                 </div>
                                             </div>
 
-                                            <div class="col-md-4">
+                                            <div class="col-md-3">
                                                 <div class="form-group">
                                                     <div class="form-line">
-                                                        {!!  Form::label('work_order_id', 'Work Orders', array('class' => 'col-form-label')) !!}
-
-                                                        <select name="work_order_id"
-                                                                id="work_order_id"
-                                                                style="width: 100%"
-                                                                class="form-control select2"
-                                                                onchange="window.open('{{ url('admin/finished-goods-deliveries/create') }}?work_order_id='+$('#work_order_id').val(), '_parent')"
-                                                        >
-
-                                                            @if(isset($workOrders))
-                                                                <option value="{{null}}">Choose Work Order</option>
-                                                                @foreach($workOrders as $key => $workOrder)
-                                                                    <option
-                                                                        value="{{ $workOrder->id }}" {{ $workOrder->id == \request()->get('work_order_id') ? 'selected' : '' }}>{{ $workOrder->reference_no }}</option>
-                                                                @endforeach
-                                                            @endif
-                                                        </select>
-
-                                                        {!! $errors->first('work_order_id') !!}
+                                                        {!!  Form::label('custom_charge_ref_no', 'UP Ref No', ['class' => 'col-form-label']) !!}
+                                                        <span class="text-danger">*</span>
+                                                        {!! Form::text('custom_charge_ref_no', request()->old('custom_charge_ref_no'), [
+                                                            'id' => 'custom_charge_ref_no',
+                                                            'class' => 'form-control',
+                                                            'placeholder' => 'Enter UP Ref No',
+                                                            'required' => true,
+                                                        ]) !!}
+                                                        {!! $errors->first('custom_charge_ref_no') !!}
                                                     </div>
                                                 </div>
                                             </div>
+                                            <div class="col-md-2">
+                                                <div class="form-group">
+                                                    <div class="form-line">
+                                                        {!!  Form::label('custom_charge', 'UP Charge', ['class' => 'col-form-label']) !!}
+                                                        <span class="text-danger">*</span>
+                                                        {!! Form::number('custom_charge', request()->old('custom_charge'), [
+                                                            'id' => 'custom_charge',
+                                                            'required' => true,
+                                                            'step' => 'any',
+                                                            'class' => 'form-control',
+                                                            'placeholder' => 'Enter UP Charge'
+                                                        ]) !!}
+                                                        {!! $errors->first('custom_charge') !!}
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-3">
+                                                <div class="form-group">
+                                                    <div class="form-line">
+                                                        {!!  Form::label('vendor_id', 'Vendors', array('class' => 'col-form-label')) !!}
+                                                        <span class="text-danger">*</span>
+                                                        <select name="vendor_id" class="form-control select2"
+                                                                id="vendor_id"
+                                                                required>
+                                                            <option value="{{null}}">Select One</option>
+                                                            @foreach($vendors as $vendor)
+                                                                <option value="{{$vendor->id}}">{{$vendor->name}}
+                                                                    ({{$vendor->code}})
+                                                                </option>
+                                                            @endforeach
+                                                        </select>
+                                                        {!! $errors->first('vendor_id') !!}
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-2">
+                                                <div class="form-group">
+                                                    <div class="form-line">
+                                                        {!!  Form::label('truck_no', 'Truck No', ['class' => 'col-form-label']) !!}
+                                                        <span class="text-danger">*</span>
+                                                        {!! Form::text('truck_no', request()->old('truck_no'), [
+                                                            'id' => 'truck_no',
+                                                            'class' => 'form-control',
+                                                            'placeholder' => 'Enter truck no',
+                                                            'required' => true,
+                                                        ]) !!}
+                                                        {!! $errors->first('truck_no') !!}
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-2">
+                                                <div class="form-group">
+                                                    <div class="form-line">
+                                                        {!!  Form::label('driver_name', 'Driver Name', ['class' => 'col-form-label']) !!}
+                                                        <span class="text-danger">*</span>
+                                                        {!! Form::text('driver_name', request()->old('driver_name'), [
+                                                            'id' => 'driver_name',
+                                                            'class' => 'form-control',
+                                                            'placeholder' => 'Enter driver name',
+                                                            'required' => true,
+                                                        ]) !!}
+                                                        {!! $errors->first('driver_name') !!}
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-2">
+                                                <div class="form-group">
+                                                    <div class="form-line">
+                                                        {!!  Form::label('driver_phone', 'Driver Phone', ['class' => 'col-form-label']) !!}
+                                                        <span class="text-danger">*</span>
+                                                        {!! Form::text('driver_phone', request()->old('driver_phone'), [
+                                                            'id' => 'driver_phone',
+                                                            'class' => 'form-control',
+                                                            'placeholder' => 'Enter driver phone no',
+                                                            'required' => true,
+                                                        ]) !!}
+                                                        {!! $errors->first('driver_phone') !!}
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-3">
+                                                <div class="form-group">
+                                                    <div class="form-line">
+                                                        {!!  Form::label('delivery_file', 'Delivery File', array('class' => 'col-form-label')) !!}
+                                                        <br>
+                                                        <input type="file" name="delivery_file"
+                                                               id="wo_file" class="form-control">
+
+                                                        {!! $errors->first('delivery_file') !!}
+                                                    </div>
+                                                </div>
+                                            </div>
+
 
                                             <div class="col-md-12 table-responsive style-scroll mt-4 mb-2">
 
@@ -95,13 +222,14 @@
                                                        width="100%" id="dataTable">
                                                     <thead>
                                                     <tr class="text-center">
-                                                        <th width="15%">Category</th>
-                                                        <th width="25%">Product</th>
+                                                        <th width="20%">Product Detail</th>
                                                         <th width="5%">UOM</th>
-                                                        <th width="5%">Stock Qty</th>
-                                                        <th width="10%">Request Qty</th>
+{{--                                                        <th width="10%">Total Stock</th>--}}
+                                                        <th width="10%">Work Order Qty</th>
                                                         <th width="10%">Prev. Delivered Qty</th>
-                                                        <th width="10%">Delivered Qty</th>
+                                                        <th width="10%">Delivery Qty</th>
+                                                        <th width="10%">UOM Type</th>
+                                                        <th width="10%">UOM Qty</th>
                                                         <th width="20%">Warehouse</th>
                                                     </tr>
                                                     </thead>
@@ -123,12 +251,16 @@
 
 
                                                             <tr id="SelectedRow{{$item->product_id}}">
-                                                                <td>{{isset($item->product->category->name)?$item->product->category->name:''}}</td>
-                                                                <td>{{isset($item->product->name)?$item->product->name:''}} {{ getProductAttributesFaster($item->product) }}</td>
+
+                                                                <td>
+                                                                    <strong>Category: {{isset($item->product->category->name)?$item->product->category->name:''}}</strong><br>
+                                                                    {{isset($item->product->name)?$item->product->name:''}}
+                                                                    <br>{{ getProductAttributesFaster($item->product) }}
+                                                                </td>
                                                                 <td class="text-center">
                                                                     {{ $item->product->productUnit->unit_name }}
                                                                 </td>
-                                                                <td class="text-center">{{$stockQty}}</td>
+{{--                                                                <td class="text-center">{{$stockQty}}</td>--}}
                                                                 <td class="text-center">
                                                                     {{$item->qty}}
                                                                     <input type="hidden" name="work_order_item_id[]"
@@ -145,9 +277,30 @@
                                                                            value="{{$left}}"
                                                                            data-id="{{$item->id}}"
                                                                            data-qty="{{$left}}"
-                                                                           step="1"
+                                                                           step="any"
                                                                            onchange="checkDeliveryQuantity($(this))"
                                                                            onkeyup="checkDeliveryQuantity($(this))">
+                                                                </td>
+                                                                <td>
+                                                                    <div class="input-group input-group-md mb-3 d-">
+                                                                        <select class="form-control select2"
+                                                                                id="uom_type_{{$key+1}}"
+                                                                                name="uom_type[{{isset($item->id)?$item->id:0}}]">
+                                                                            @foreach(getUnits($item->product->type) as $data)
+                                                                                <option
+                                                                                    value="{{$data}}">{{$data}}
+                                                                                </option>
+                                                                            @endforeach
+                                                                        </select>
+                                                                    </div>
+                                                                </td>
+                                                                <td>
+                                                                    <input type="number"
+                                                                           name="uom_qty[{{isset($item->id)?$item->id:0}}]"
+                                                                           class="form-control bg-white" min="0"
+                                                                           id="uom_qty_{{$key+1}}" placeholder="0"
+                                                                           step="any"
+                                                                    >
                                                                 </td>
                                                                 <td class="text-center">
                                                                     <select
@@ -170,13 +323,13 @@
                                                                                     $wh_left = $wh_deliveredQty>0?($wh_stockQty-$wh_deliveredQty):$wh_stockQty;
                                                                                 @endphp
                                                                                 @if($wh_left > 0)
-                                                                                <option
-                                                                                    value="{{$warehouse->id}}"
-                                                                                    data-remaining="{{$wh_left}}"
-                                                                                >
-                                                                                    {{ $warehouse->name }}
-                                                                                    ({{ $wh_left }})
-                                                                                </option>
+                                                                                    <option
+                                                                                        value="{{$warehouse->id}}"
+                                                                                        data-remaining="{{$wh_left}}"
+                                                                                    >
+                                                                                        {{ $warehouse->name }}
+                                                                                        ({{ $wh_left }})
+                                                                                    </option>
                                                                                 @endif
                                                                             @endforeach
                                                                         @endif

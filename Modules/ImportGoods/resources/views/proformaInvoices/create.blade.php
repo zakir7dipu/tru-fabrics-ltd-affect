@@ -18,14 +18,14 @@
                                 </div>
                                 <div class="col-xl-4">
                                     <div class="text-xl-end mt-xl-0 mt-2">
-                                        <a class="btn btn-success mb-2 me-2 text-white" title="Upload Excel"
-                                           data-toggle="modal" data-target="#uploadExcel"><i class="las la-upload"></i>&nbsp;Upload
-                                            Excel
-                                        </a>
+                                        {{--                                        <a class="btn btn-success mb-2 me-2 text-white" title="Upload Excel"--}}
+                                        {{--                                           data-toggle="modal" data-target="#uploadExcel"><i class="mdi mdi-upload"></i>&nbsp;Upload--}}
+                                        {{--                                            Excel--}}
+                                        {{--                                        </a>--}}
 
                                         <a href="{{route('proforma-invoices.index')}}" class="btn btn-info mb-2 me-2"
-                                           data-toggle="tooltip" title="Proforma Invoices List"> <i class="mdi mdi-text
-                                           me-1"></i>{{translate('LC Lists')}}</a>
+                                           data-toggle="tooltip" title="Purchase List"> <i class="mdi mdi-text
+                                           me-1"></i>{{translate('Purchase Lists')}}</a>
                                     </div>
                                 </div>
                             </div>
@@ -36,40 +36,56 @@
                                         'class'=>'','files'=>true,'id'=>'ProductsForm')) !!}
 
                                         <div class="row">
-                                            <div class="col-md-3">
+                                            {{--                                            <div class="col-md-2">--}}
+                                            {{--                                                <div class="form-group">--}}
+                                            {{--                                                    <div class="form-line">--}}
+                                            {{--                                                        {!!  Form::label('pi_no', 'Reference No', ['class' => 'col-form-label']) !!}--}}
+                                            {{--                                                        <span class="text-danger">*</span>--}}
+                                            {{--                                                        {!! Form::text('pi_no', isset($sku)?$sku:request()->old('pi_no'), [--}}
+                                            {{--                                                            'id' => 'pi_no',--}}
+                                            {{--                                                            'class' => 'form-control',--}}
+                                            {{--                                                            'placeholder' => 'Enter Reference No'--}}
+                                            {{--                                                        ]) !!}--}}
+                                            {{--                                                        {!! $errors->first('pi_no') !!}--}}
+                                            {{--                                                    </div>--}}
+                                            {{--                                                </div>--}}
+                                            {{--                                            </div>--}}
+
+                                            <input type="hidden" name="pi_no"
+                                                   value="{{isset($sku)?$sku:request()->old('pi_no')}}">
+
+
+                                            <div class="col-md-2">
                                                 <div class="form-group">
                                                     <div class="form-line">
-                                                        {!!  Form::label('pi_no', 'Reference No', ['class' => 'col-form-label']) !!}
-                                                        <span class="text-danger">*</span>
-                                                        {!! Form::text('pi_no', isset($sku)?$sku:request()->old('pi_no'), [
-                                                            'id' => 'pi_no',
-                                                            'class' => 'form-control',
-                                                            'placeholder' => 'Enter pi_no'
-                                                        ]) !!}
-                                                        {!! $errors->first('pi_no') !!}
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-3">
-                                                <div class="form-group">
-                                                    <div class="form-line">
-                                                        {!!  Form::label('pi_date', 'PI Date', ['class' => 'col-form-label']) !!}
+                                                        {!!  Form::label('pi_date', 'Date', ['class' => 'col-form-label']) !!}
                                                         <span class="text-danger">*</span>
                                                         {!! Form::date('pi_date', date('Y-m-d'), [
                                                             'id' => 'pi_date',
                                                             'class' => 'form-control',
-                                                            'placeholder' => 'Enter pi_date'
+                                                            'placeholder' => 'Enter PI Date'
                                                         ]) !!}
                                                         {!! $errors->first('pi_date') !!}
                                                     </div>
                                                 </div>
                                             </div>
 
-                                            <div class="col-md-3">
+                                            <div class="col-md-2">
+                                                <div class="form-group">
+                                                    <div class="form-line">
+                                                        {!!  Form::label('mode_of_purchase', 'Mode Of Purchase', array('class' => 'col-form-label')) !!}
+                                                        {!! Form::Select('mode_of_purchase',array('import'=>'Import','native'=>'Native'),Request::old('mode_of_purchase'),['id'=>'mode_of_purchase', 'class'=>'form-control select2','onchange'=> 'showHideLcInvoice()']) !!}
+                                                        {!! $errors->first('mode_of_purchase') !!}
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-3 lc-no-section">
                                                 <div class="form-group">
                                                     <div class="form-line">
                                                         {!!  Form::label('lc_no', 'LC No', ['class' => 'col-form-label']) !!}
                                                         <span class="text-danger">*</span>
+
                                                         {!! Form::text('lc_no', request()->old('lc_no'), [
                                                             'id' => 'lc_no',
                                                             'class' => 'form-control',
@@ -80,34 +96,51 @@
                                                 </div>
                                             </div>
 
+                                            <div class="col-md-3 invoice-no-section" style="display: none">
+                                                <div class="form-group">
+                                                    <div class="form-line">
+                                                        {!!  Form::label('invoice_no', 'Local Invoice No', ['class' => 'col-form-label']) !!}
+                                                        <span class="text-danger">*</span>
+
+                                                        {!! Form::text('invoice_no', request()->old('invoice_no'), [
+                                                            'id' => 'invoice_no',
+                                                            'class' => 'form-control',
+                                                            'placeholder' => 'Enter Local Invoice No'
+                                                        ]) !!}
+                                                        {!! $errors->first('invoice_no') !!}
+                                                    </div>
+                                                </div>
+                                            </div>
+
                                             <div class="col-md-3">
                                                 <div class="form-group">
                                                     <div class="form-line">
-                                                        {!!  Form::label('lc_date', 'LC Open Date', ['class' => 'col-form-label']) !!}
+                                                        {!!  Form::label('lc_date', 'Purchase Date', ['class' => 'col-form-label']) !!}
                                                         <span class="text-danger">*</span>
                                                         {!! Form::date('lc_date', date('Y-m-d'), [
                                                             'id' => 'lc_date',
                                                             'class' => 'form-control',
-                                                            'placeholder' => 'Enter lc_date'
+                                                            'placeholder' => 'Enter Purchase Date'
                                                         ]) !!}
                                                         {!! $errors->first('lc_date') !!}
                                                     </div>
                                                 </div>
                                             </div>
 
-                                            <div class="col-md-12 style-scroll mt-2">
-
-                                                <table class="table table-striped table-bordered miw-500 dac_table"
-                                                       cellspacing="0"
-                                                       width="100%" id="dataTable">
+                                            <div class="col-md-12 style-scroll mt-3">
+                                                <table class="table table-striped table-bordered"
+                                                       width="100%">
                                                     <thead>
                                                     <tr class="text-center">
-                                                        <th width="20%">Category</th>
-                                                        <th width="40%">Product</th>
-                                                        <th width="10%">UOM</th>
-                                                        <th width="10%">Qty</th>
-                                                        <th width="10%">Unit Price</th>
-                                                        <th class="text-center">Action</th>
+                                                        <th width="15%">Product Category</th>
+                                                        <th width="18%">Product Detail</th>
+                                                        <th width="5%">UOM</th>
+                                                        <th width="12%">Qty</th>
+                                                        <th width="15%">Price</th>
+                                                        <th width="15%">Total</th>
+                                                        <th width="10%">Currency</th>
+                                                        <th width="15%">C.Rate <p>(1 USD =?)</p></th>
+                                                        <th width="5%" class="text-center">#</th>
                                                     </tr>
                                                     </thead>
                                                     <tbody class="field_wrapper">
@@ -145,28 +178,70 @@
                                                         </td>
                                                         <td>
                                                             <div class="input-group input-group-md mb-3 d-">
-                                                                <input type="number" name="qty[]" min="1"
-                                                                       max="99999999"
+                                                                <input type="number"
+                                                                       name="qty[]"
+                                                                       min="1"
                                                                        id="qty_1"
                                                                        class="form-control requisition-qty"
                                                                        aria-label="Large"
                                                                        aria-describedby="inputGroup-sizing-sm"
-                                                                       onKeyPress="if(this.value.length==12) return false;"
-                                                                       min="1"
                                                                        required data-input="recommended"
                                                                        oninput="this.value = Math.abs(this.value)"
                                                                        data-quantity=""
+                                                                       data-id='1'
+                                                                       onchange="calculateUnitPrice($(this))"
+                                                                       onkeyup="calculateUnitPrice($(this))"
                                                                 >
                                                             </div>
                                                         </td>
                                                         <td>
                                                             <div class="input-group input-group-md mb-3 d-">
-                                                                <input type="text" name="unit_price[]"
+                                                                <input type="number" name="unit_price[]"
                                                                        id="unit_price_1"
-                                                                       class="form-control mask-money"
+                                                                       class="form-control mask-money calculateUnitPrice"
                                                                        required data-input="recommended"
                                                                        data-unit-price=""
+                                                                       step="any"
+                                                                       data-id='1'
+                                                                       onchange="calculateUnitPrice($(this))"
+                                                                       onkeyup="calculateUnitPrice($(this))"
                                                                 >
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="input-group input-group-md mb-3 d-">
+                                                                <input type="number" name="sub_total_price[]"
+                                                                       id="total_price_1"
+                                                                       class="form-control mask-money total_price_1"
+                                                                       required data-input="recommended"
+                                                                       data-unit-price=""
+                                                                       step="any"
+                                                                       readonly
+                                                                >
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="input-group input-group-md mb-3 d-">
+                                                                <select class="form-control select2 currency"
+                                                                        id="currency_id_1" name="currency_id[]"
+                                                                        onchange="getCurrencyDefault()">
+                                                                    @foreach($currenciesModel as $data)
+                                                                        <option
+                                                                            value="{{$data->id}}"
+                                                                            data-default="{{$data->is_default}}">{{$data->short_code}}
+                                                                            ({{$data->symbol}})
+                                                                        </option>
+                                                                    @endforeach
+                                                                </select>
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="input-group input-group-md mb-3 d-">
+                                                                <input type="number" name="currency_convert_rate[]"
+                                                                       id="currency_convert_rate_1"
+                                                                       step="any"
+                                                                       class="form-control mask-money cRate"
+                                                                       required>
                                                             </div>
                                                         </td>
                                                         <td>
@@ -187,32 +262,34 @@
                                                 </a>
                                             </div>
 
-
-{{--                                            <div class="col-md-2">--}}
-{{--                                                <div class="form-group">--}}
-{{--                                                    <div class="form-line">--}}
-{{--                                                        {!!  Form::label('status', 'Suppliers', array('class' => 'col-form-label')) !!}--}}
-{{--                                                        {!! Form::Select('status',array('pending'=>'Pending','approved'=>'Approved','halt'=>'Halt'),Request::old('status'),['id'=>'status', 'class'=>'form-control select2']) !!}--}}
-{{--                                                        {!! $errors->first('status') !!}--}}
-{{--                                                    </div>--}}
-{{--                                                </div>--}}
-{{--                                            </div>--}}
-
                                             <input type="hidden" name="status" value="approved">
 
                                             <div class="col-md-2">
                                                 <div class="form-group">
                                                     <div class="form-line">
                                                         {!!  Form::label('supplier_id', 'Suppliers', array('class' => 'col-form-label')) !!}
+                                                        <span class="text-danger">*</span>
                                                         {!! Form::Select('supplier_id',$suppliers,Request::old('supplier_id'),['id'=>'supplier_id', 'class'=>'form-control select2']) !!}
                                                         {!! $errors->first('supplier_id') !!}
                                                     </div>
                                                 </div>
                                             </div>
+
+                                            <div class="col-md-2">
+                                                <div class="form-group">
+                                                    <div class="form-line">
+                                                        {!!  Form::label('payment_term_id', 'Payment Terms', array('class' => 'col-form-label')) !!}
+                                                        <span class="text-danger">*</span>
+                                                        {!! Form::Select('payment_term_id',$paymentTerms,Request::old('payment_term_id'),['id'=>'payment_term_id', 'class'=>'form-control select2']) !!}
+                                                        {!! $errors->first('payment_term_id') !!}
+                                                    </div>
+                                                </div>
+                                            </div>
+
                                             <div class="col-md-4">
                                                 <div class="form-group">
                                                     <div class="form-line">
-                                                        {!!  Form::label('pi_file', 'PI File', array('class' => 'col-form-label')) !!}
+                                                        {!!  Form::label('pi_file', 'Reference File', array('class' => 'col-form-label')) !!}
                                                         <br>
                                                         <input type="file" name="pi_file"
                                                                id="pi_file" class="btn btn-outline-success btn-sm">
@@ -256,8 +333,6 @@
                                                 &nbsp;
                                             </div>
                                         </div>
-
-
                                         {!! Form::close() !!}
                                     </div>
                                 </div>
@@ -296,6 +371,11 @@
 
             getSubCategories();
 
+            var currencies = '';
+            $.each(<?php echo json_encode($currenciesModel); ?>, function (key, value) {
+                currencies += '<option data-default="' + (value.is_default) + '"  value="' + (value.id) + '">' + value.short_code + ' (' + (value.symbol) + ')</option>';
+            });
+
             $(addButton).click(function () {
 
                 x++;
@@ -321,16 +401,32 @@
                     '<td class="product-uom text-center"></td>' +
                     '                                            <td>\n' +
                     '                                                <div class="input-group input-group-md mb-3 d-">\n' +
-                    '                                                    <input type="number" name="qty[]" min="1" max="9999" onKeyPress="if(this.value.length==6) return false;" id="qty_' + x + '" class="form-control requisition-qty" aria-label="Large" aria-describedby="inputGroup-sizing-sm" oninput="this.value = Math.abs(this.value)" required data-quantity="">\n' +
+                    '                                                    <input type="number" name="qty[]" min="1"  id="qty_' + x + '" class="form-control requisition-qty" aria-label="Large" aria-describedby="inputGroup-sizing-sm" oninput="this.value = Math.abs(this.value)" onchange="calculateUnitPrice($(this))" data-id="' + x + '" onkeyup="calculateUnitPrice($(this))" required data-quantity="">\n' +
                     '                                                </div>\n' +
                     '                                            </td>\n'
                     +
                     '                                            <td>\n' +
                     '                                                <div class="input-group input-group-md mb-3 d-">\n' +
-                    '                                                    <input type="text" name="unit_price[]" id="unit_price_' + x + '" class="form-control mask-money" aria-label="Large" aria-describedby="inputGroup-sizing-sm" required data-quantity="">\n' +
+                    '                                                    <input type="number" name="unit_price[]" id="unit_price_' + x + '" class="form-control mask-money" step="any" aria-label="Large" aria-describedby="inputGroup-sizing-sm" required data-quantity="" onchange="calculateUnitPrice($(this))" data-id="' + x + '" onkeyup="calculateUnitPrice($(this))"  >\n' +
                     '                                                </div>\n' +
+                    '                                            </td>\n'
+                    + '<td>\n' +
+                    '                                                <div class="input-group input-group-md mb-3 d-">\n' +
+                    '                                                    <input type="number" name="sub_total_price[]" id="total_price_' + x + '" class="form-control mask-money total_price_' + x + '" aria-label="Large" aria-describedby="inputGroup-sizing-sm" step="any" readonly required data-quantity="">\n' +
+                    '                                                </div>\n' +
+                    '                                            </td>\n'
+                    + '                                                <td><div class="input-group input-group-md mb-3 d-">'
+                    +
+                    '                                          <select name="currency_id[]" id="currency_id_' + x + '" data-increment="' + x + '" onchange="getCurrencyDefault()" class="form-control select2 currency" required>' + (currencies) + '</select>\n' +
+                    '</div>\n' +
                     '                                            </td>\n' +
                     '\n' +
+                    '                                            <td>\n' +
+                    '                                                <div class="input-group input-group-md mb-3 d-">\n' +
+                    '                                                    <input type="number" name="currency_convert_rate[]" id="currency_convert_rate_' + x + '" class="form-control mask-money" aria-label="Large" aria-describedby="inputGroup-sizing-sm" step="any" required data-quantity="">' +
+                    '\n' +
+                    '                                                </div>\n' +
+                    '                                            </td>\n' +
                     '                                            <td>\n' +
                     '                                                <a href="javascript:void(0);" id="remove_' + x + '" class="remove_button btn btn-sm btn-danger" title="Remove" style="color:#fff;">\n' +
                     '                                                    <i class="mdi mdi-trash-can"></i>\n' +
@@ -343,11 +439,22 @@
                 $(wrapper).append(fieldHTML);
                 $('#sub_category_id_' + x, wrapper).select2();
                 $('#product_' + x, wrapper).select2();
+                $('#currency_id_' + x, wrapper).select2();
                 generateSubCategories($('#sub_category_id_' + x, wrapper))
-                $('.mask-money').maskMoney(
-                    {
-                        thousands: '', decimal: '.', allowZero: true, allowEmpty: true
-                    });
+
+                // $('.mask-money').maskMoney(
+                //     {
+                //         thousands: '', decimal: '.', allowZero: false, allowEmpty: true
+                //     });
+
+                // $('#unit_price_' + x, wrapper).on('change', function (e) {
+                //     var productQty = parseFloat($('#qty_' + x, wrapper).val());
+                //     var productUnitPrice = parseFloat($('#unit_price_' + x, wrapper).val());
+                //
+                //     if (productQty !== null && productUnitPrice !== null) {
+                //         $('.total_price_' + x, wrapper).val(parseFloat(productQty * productUnitPrice))
+                //     }
+                // })
 
             });
 
@@ -395,15 +502,14 @@
         function generateSubCategories(element) {
             var category = $('#category_id').find(':selected');
             var categories = <?php echo json_encode($categories); ?>;
-            console.log(categories);
-            var subCategories = '<option value="">Select Subcategory</option>';
+
+            var subCategories = '<option value="">Select One</option>';
             $.each(categories, function (index, val) {
-                subCategories += '<option value="' + (val.id) + '">' + val.name + ' (' + (val.code) + ')</option>';
+                subCategories += '<option value="' + (val.id) + '">' + val.name + '</option>';
             });
 
             element.html(subCategories).change();
         }
-
 
         function getProduct(element) {
             var incrementNumber = element.attr('id').split("_")[3];
@@ -422,44 +528,50 @@
         function getUOM() {
             $.each($('.product'), function (index, val) {
                 $(this).parent().parent().next().html($(this).find(':selected').attr('data-uom'));
-                $(this).parent().parent().next().next().next().find('input').val($(this).find(':selected').attr('data-unit-price'));
+                //$(this).parent().parent().next().next().next().find('input').val($(this).find(':selected').attr('data-unit-price'));
             });
         }
 
-        function uploadExcelFile() {
-            var excel_form = $('#excel-upload-form');
-            var excel_button = $('.excel-upload-button');
-            var excel_button_content = excel_button.html();
+        getCurrencyDefault()
 
-            excel_button.prop('disabled', true).html("<i class='las la-spinner la-spin'></i>&nbsp;Please wait...");
+        function getCurrencyDefault() {
+            $.each($('.currency'), function (index, val) {
+                $(this).parent().parent().next().find('input').val($(this).find(':selected').attr('data-default'));
+            });
+        }
 
-            $.ajax({
-                url: excel_form.attr('action'),
-                type: excel_form.attr('method'),
-                dataType: 'json',
-                processData: false,
-                contentType: false,
-                data: new FormData(excel_form[0]),
-            })
-                .done(function (response) {
-                    if (response.success) {
-                        location.reload();
-                    } else {
-                        toastr.error(response.message);
-                    }
+        showHideLcInvoice();
 
-                    excel_button.prop('disabled', false).html(excel_button_content);
-                })
-                .fail(function (response) {
-                    var errors = '<ul class="">';
-                    $.each(response.responseJSON.errors, function (index, val) {
-                        errors += '<li class="text-white">' + val[0] + '</li>';
-                    });
-                    errors += '</ul>';
-                    toastr.error(errors);
+        function showHideLcInvoice() {
+            if ($('#mode_of_purchase').val() === 'native') {
+                $('.lc-no-section').hide();
+                document.getElementById('lc_no').value = null;
+                document.getElementById('lc_no').required = false;
 
-                    excel_button.prop('disabled', false).html(excel_button_content);
-                });
+                $('.invoice-no-section').show();
+                document.getElementById('invoice_no').required = true;
+
+            } else {
+                $('.lc-no-section').show();
+                document.getElementById('lc_no').required = true;
+
+                $('.invoice-no-section').hide();
+                document.getElementById('invoice_no').value = null;
+
+                document.getElementById('invoice_no').required = false;
+            }
+        }
+
+        function calculateUnitPrice(element) {
+
+            var incrementNumber = element.attr('data-id');
+
+            var productQty = parseFloat($('#qty_' + incrementNumber).val()) !== null ? parseFloat($('#qty_' + incrementNumber).val()) : 0;
+            var productUnitPrice = parseFloat($('#unit_price_' + incrementNumber).val()) !== null ? parseFloat($('#unit_price_' + incrementNumber).val()) : 0;
+
+            if (productQty !== null && productUnitPrice !== null) {
+                $('#total_price_' + incrementNumber).val(parseFloat(productQty * productUnitPrice))
+            }
         }
     </script>
 @endsection

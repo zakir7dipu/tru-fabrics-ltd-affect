@@ -24,12 +24,12 @@
                                     <div class="col-md-5 offset-md-2">
                                         <div class="form-group">
                                             <div class="form-line">
-                                                {!!  Form::label('pi_no', 'LC Reference No', ['class' => 'col-form-label']) !!}
+                                                {!!  Form::label('pi_no', 'Search Reference / LC / Invoice No', ['class' => 'col-form-label']) !!}
                                                 <span class="text-danger">*</span>
                                                 {!! Form::text('pi_no', isset($sku)?$sku:request()->old('pi_no'), [
                                                     'id' => 'pi_no',
                                                     'class' => 'form-control',
-                                                    'placeholder' => 'Enter LC Reference No'
+                                                    'placeholder' => 'Search Reference / LC / Invoice No'
                                                 ]) !!}
                                                 {!! $errors->first('pi_no') !!}
                                             </div>

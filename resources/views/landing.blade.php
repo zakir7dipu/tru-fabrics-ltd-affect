@@ -698,9 +698,7 @@
                 <div class="mt-5">
                     <p class="text-muted mt-4 text-center mb-0">© 2023 -
                         <script>Pocket - Money
-                            v{{ Illuminate\Foundation\Application::VERSION }}(PHP
-                            v{{ PHP_VERSION }}
-                            )</script>
+                            v{{ Illuminate\Foundation\Application::VERSION }}(PHP v{{ PHP_VERSION }})</script>
                         Pocket-Money. Design and coded by
                         LaraSoft
                     </p>

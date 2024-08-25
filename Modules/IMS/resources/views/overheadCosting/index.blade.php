@@ -37,9 +37,9 @@
         </div>
     </div>
 
-    <div class="modal fade bd-example-modal-md" id="showUserDetailsModal" tabindex="-1" role="dialog"
+    <div class="modal fade bd-example-modal-xl" id="showUserDetailsModal" tabindex="-1" role="dialog"
          aria-labelledby="myLargeModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-lg">
+        <div class="modal-dialog modal-xl">
             <div class="modal-content">
                 <div class="modal-header modal-colored-header bg-info">
                     <h4 class="modal-title " id="myLargeModalLabel">{{translate(' Details')}}</h4>
@@ -58,8 +58,13 @@
     @include('yajra.js')
     <script>
         function showDetails(userId) {
-            $('#dataBody').empty().load('{{url(Request()->route()->getPrefix()."/overhead-costings")}}/' + userId);
-            $('#showUserDetailsModal').modal('show');
+            $.dialog({
+                title: 'Costing Range Details',
+                content: "url:{{ url('admin/overhead-costings') }}/" + userId,
+                animation: 'scale',
+                columnClass: 'col-md-12',
+                closeAnimation: 'scale',
+            });
         }
     </script>
 @endsection

@@ -7,7 +7,7 @@
     <div class="content">
         <div class="container-fluid">
             @include('components.breadcrumb', ['item' => ['/'=>languageValue(websiteSettings()->name),'active'=>'CMS'],
-            'pTitle' => 'Warehouse List'])
+            'pTitle' => $title])
 
             <div class="row">
                 <div class="col-12">
@@ -19,9 +19,13 @@
                                 <div class="col-xl-4">
                                     <div class="text-xl-end mt-xl-0 mt-2">
                                         @if(isOptionPermitted('supplier-create'))
-                                            <a href="{{route('suppliers.create')}}" class="btn btn-info mb-2 me-2"
+                                            <a href="{{route('suppliers.create')}}" class="btn btn-info me-2"
                                                data-toggle="tooltip" title="Add New Supplier"> <i class="mdi mdi-plus
                                            me-1"></i>{{translate('Add New Supplier')}}</a>
+
+                                            <a href="javascript:void(0)" class="btn btn-success text-white"
+                                               data-toggle="modal" title="Upload Supplier by xlsx file"
+                                               id="uploadFile"> <i class="mdi mdi-cloud-upload"></i> Upload Supplier</a>
                                         @endif
                                     </div>
                                 </div>
@@ -51,11 +55,18 @@
             </div>
         </div>
     </div>
+
+    @include('ims::suppliers.xlsfile')
 @endsection
 
 @section('javascript')
     @include('yajra.js')
     <script>
+
+        $('#uploadFile').on('click', function () {
+            $('#supplierUploadModal').modal('show');
+        });
+
         function showDetails(userId) {
             $('#dataBody').empty().load('{{url(Request()->route()->getPrefix()."/suppliers")}}/' + userId);
             $('#showUserDetailsModal').modal('show');

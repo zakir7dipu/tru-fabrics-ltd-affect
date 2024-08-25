@@ -27,6 +27,10 @@
 <link href="{{ url('backend/assets/vendor/summernote/summernote-lite.css') }}" rel="stylesheet">
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-confirm/3.3.2/jquery-confirm.min.css">
+
+<!-- toastr alert -->
+<link rel="stylesheet" href="{{asset('notification_assets/css/toastr.min.css')}}" />
+
 <style type="text/css" media="screen">
     .mask-money {
         text-align: right !important;

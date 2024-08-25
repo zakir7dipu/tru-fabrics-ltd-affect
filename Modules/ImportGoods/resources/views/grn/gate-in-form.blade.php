@@ -19,52 +19,72 @@
                                 <div class="row">
                                     <input type="hidden" name="type" value="in">
                                     <input type="hidden" name="proforma_invoice_id" value="{{$proformaInvoice->id}}">
-                                    <div class="col-md-3">
-                                        <div class="form-group">
-                                            <div class="form-line">
-                                                {!!  Form::label('pi_no', 'PI No', ['class' => 'col-form-label']) !!}
-                                                <span class="text-danger">*</span>
-                                                {!! Form::text('pi_no', isset($proformaInvoice)?$proformaInvoice->pi_no:request()->old('pi_no'), [
-                                                    'id' => 'pi_no',
-                                                    'class' => 'form-control',
-                                                    'placeholder' => 'Enter PI No',
-                                                    'readonly'=>true
-                                                ]) !!}
-                                                {!! $errors->first('pi_no') !!}
-                                            </div>
-                                        </div>
-                                    </div>
+                                    <input type="hidden" name="reference_no"
+                                           value="{{isset($referenceNo)?$referenceNo:request()->old('reference_no')}}">
 
-                                    <div class="col-md-3">
-                                        <div class="form-group">
-                                            <div class="form-line">
-                                                {!!  Form::label('reference_no', 'Reference No', ['class' => 'col-form-label']) !!}
-                                                <span class="text-danger">*</span>
-                                                {!! Form::text('reference_no', isset($referenceNo)?$referenceNo:request()->old('reference_no'), [
-                                                    'id' => 'reference_no',
-                                                    'class' => 'form-control',
-                                                    'placeholder' => 'Enter Reference',
-                                                    'required' => true,
-                                                ]) !!}
-                                                {!! $errors->first('reference_no') !!}
-                                            </div>
-                                        </div>
-                                    </div>
+                                    {{--                                    <div class="col-md-3">--}}
+                                    {{--                                        <div class="form-group">--}}
+                                    {{--                                            <div class="form-line">--}}
+                                    {{--                                                {!!  Form::label('pi_no', 'Purchase Reference No', ['class' => 'col-form-label']) !!}--}}
+                                    {{--                                                --}}
+                                    {{--                                                {!! Form::text('pi_no', isset($proformaInvoice)?$proformaInvoice->pi_no:request()->old('pi_no'), [--}}
+                                    {{--                                                    'id' => 'pi_no',--}}
+                                    {{--                                                    'class' => 'form-control',--}}
+                                    {{--                                                    'placeholder' => 'Enter PI No',--}}
+                                    {{--                                                    'readonly'=>true--}}
+                                    {{--                                                ]) !!}--}}
+                                    {{--                                                {!! $errors->first('pi_no') !!}--}}
+                                    {{--                                            </div>--}}
+                                    {{--                                        </div>--}}
+                                    {{--                                    </div>--}}
+                                    @if($proformaInvoice->mode_of_purchase==='import')
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <div class="form-line">
+                                                    {!!  Form::label('lc_no', 'LC No', ['class' => 'col-form-label']) !!}
 
-                                    <div class="col-md-3">
-                                        <div class="form-group">
-                                            <div class="form-line">
-                                                {!!  Form::label('received_date', 'Received Date', ['class' => 'col-form-label']) !!}
-                                                <span class="text-danger">*</span>
-                                                {!! Form::date('received_date', date('Y-m-d'), [
-                                                    'id' => 'received_date',
-                                                    'class' => 'form-control',
-                                                    'placeholder' => 'Enter Received Date'
-                                                ]) !!}
-                                                {!! $errors->first('received_date') !!}
+                                                    {!! Form::text('lc_no', isset($proformaInvoice)?$proformaInvoice->lc_no:request()->old('lc_no'), [
+                                                        'id' => 'lc_no',
+                                                        'class' => 'form-control',
+                                                        'readonly'=>true
+                                                    ]) !!}
+                                                    {!! $errors->first('lc_no') !!}
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
+                                    @else
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <div class="form-line">
+                                                    {!!  Form::label('lc_invoice_no', 'Purchase Invoice No', ['class' => 'col-form-label']) !!}
+
+                                                    {!! Form::text('lc_invoice_no', isset($proformaInvoice)?$proformaInvoice->invoice_no:request()->old('invoice_no'), [
+                                                        'id' => 'lc_invoice_no',
+                                                        'class' => 'form-control',
+                                                        'readonly'=>true
+                                                    ]) !!}
+                                                    {!! $errors->first('pi_invoice_no') !!}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    @endif
+
+                                    {{--                                    <div class="col-md-3">--}}
+                                    {{--                                        <div class="form-group">--}}
+                                    {{--                                            <div class="form-line">--}}
+                                    {{--                                                {!!  Form::label('reference_no', 'Reference No', ['class' => 'col-form-label']) !!}--}}
+                                    {{--                                                <span class="text-danger">*</span>--}}
+                                    {{--                                                {!! Form::text('reference_no', isset($referenceNo)?$referenceNo:request()->old('reference_no'), [--}}
+                                    {{--                                                    'id' => 'reference_no',--}}
+                                    {{--                                                    'class' => 'form-control',--}}
+                                    {{--                                                    'placeholder' => 'Enter Reference',--}}
+                                    {{--                                                    'required' => true,--}}
+                                    {{--                                                ]) !!}--}}
+                                    {{--                                                {!! $errors->first('reference_no') !!}--}}
+                                    {{--                                            </div>--}}
+                                    {{--                                        </div>--}}
+                                    {{--                                    </div>--}}
+
 
                                     <div class="col-md-3">
                                         <div class="form-group">
@@ -81,7 +101,22 @@
                                         </div>
                                     </div>
 
-                                    <div class="col-md-3">
+                                    <div class="col-md-2">
+                                        <div class="form-group">
+                                            <div class="form-line">
+                                                {!!  Form::label('received_date', 'Received Date', ['class' => 'col-form-label']) !!}
+                                                <span class="text-danger">*</span>
+                                                {!! Form::date('received_date', date('Y-m-d'), [
+                                                    'id' => 'received_date',
+                                                    'class' => 'form-control',
+                                                    'placeholder' => 'Enter Received Date'
+                                                ]) !!}
+                                                {!! $errors->first('received_date') !!}
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-2">
                                         <div class="form-group">
                                             <div class="form-line">
                                                 {!!  Form::label('invoice_no', 'Challan No', ['class' => 'col-form-label']) !!}
@@ -96,6 +131,89 @@
                                             </div>
                                         </div>
                                     </div>
+                                    <div class="col-md-2">
+                                        <div class="form-group">
+                                            <div class="form-line">
+                                                {!!  Form::label('challan_date', 'Challan Date', ['class' => 'col-form-label']) !!}
+                                                <span class="text-danger">*</span>
+                                                {!! Form::date('challan_date', request()->old('challan_date'), [
+                                                    'id' => 'challan_date',
+                                                    'class' => 'form-control',
+                                                    'placeholder' => 'Enter date',
+                                                    'required' => true,
+                                                ]) !!}
+                                                {!! $errors->first('challan_date') !!}
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <div class="form-line">
+                                                {!!  Form::label('vendor_id', 'Vendors', array('class' => 'col-form-label')) !!}
+                                                <span class="text-danger">*</span>
+                                                <select name="vendor_id" class="form-control select2" id="vendor_id"
+                                                        required>
+                                                    <option value="{{null}}">Select One</option>
+                                                    @foreach($vendors as $vendor)
+                                                        <option value="{{$vendor->id}}">{{$vendor->name}}
+                                                            ({{$vendor->code}})
+                                                        </option>
+                                                    @endforeach
+                                                </select>
+                                                {!! $errors->first('vendor_id') !!}
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-2">
+                                        <div class="form-group">
+                                            <div class="form-line">
+                                                {!!  Form::label('truck_no', 'Truck No', ['class' => 'col-form-label']) !!}
+                                                <span class="text-danger">*</span>
+                                                {!! Form::text('truck_no', request()->old('truck_no'), [
+                                                    'id' => 'truck_no',
+                                                    'class' => 'form-control',
+                                                    'placeholder' => 'Enter truck no',
+                                                    'required' => true,
+                                                ]) !!}
+                                                {!! $errors->first('truck_no') !!}
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-2">
+                                        <div class="form-group">
+                                            <div class="form-line">
+                                                {!!  Form::label('driver_name', 'Driver Name', ['class' => 'col-form-label']) !!}
+                                                <span class="text-danger">*</span>
+                                                {!! Form::text('driver_name', request()->old('driver_name'), [
+                                                    'id' => 'driver_name',
+                                                    'class' => 'form-control',
+                                                    'placeholder' => 'Enter driver name',
+                                                    'required' => true,
+                                                ]) !!}
+                                                {!! $errors->first('driver_name') !!}
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-2">
+                                        <div class="form-group">
+                                            <div class="form-line">
+                                                {!!  Form::label('driver_phone', 'Driver Phone', ['class' => 'col-form-label']) !!}
+                                                <span class="text-danger">*</span>
+                                                {!! Form::text('driver_phone', request()->old('driver_phone'), [
+                                                    'id' => 'driver_phone',
+                                                    'class' => 'form-control',
+                                                    'placeholder' => 'Enter driver phone no',
+                                                    'required' => true,
+                                                ]) !!}
+                                                {!! $errors->first('driver_phone') !!}
+                                            </div>
+                                        </div>
+                                    </div>
+
                                     <div class="col-md-3">
                                         <div class="form-group">
                                             <div class="form-line">
@@ -116,14 +234,15 @@
                                                width="100%" id="dataTable">
                                             <thead>
                                             <tr class="text-center">
-                                                <th>Category</th>
-                                                <th>Product</th>
-                                                <th>UOM</th>
-                                                <th>Qty</th>
-                                                <th>Unit Price</th>
-                                                <th>Prv.Rcv Qty</th>
-                                                <th>Receiving Qty</th>
-                                                <th>Left Qty</th>
+                                                <th width="12%">Product Category</th>
+                                                <th width="20%">Product Detail</th>
+                                                <th width="5%">UOM</th>
+                                                <th width="8%">Qty</th>
+                                                <th width="5%">Prv.Rcv Qty</th>
+                                                <th width="15%">Receiving Qty</th>
+                                                <th width="10%">Remaining Qty</th>
+                                                <th width="10%">UOM Type</th>
+                                                <th width="10%">UOM Qty</th>
                                             </tr>
                                             </thead>
                                             <tbody>
@@ -142,7 +261,7 @@
                                                             $totalReceiveQty += $receiveQty;
                                                         }
                                                         $leftQty = $item->qty-$receiveQty;
-                                                        $unitAmount = $leftQty*$item->unit_price;
+                                                        $unitAmount = $leftQty*$item->reporting_amount;
                                                         $totalPrice += $unitAmount;
                                                     @endphp
                                                     @if($leftQty > 0)
@@ -162,15 +281,16 @@
                                                                 {{$item->qty}}
                                                                 <input type="hidden" value="{{$leftQty}}"
                                                                        id="main_qty_{{isset($item->product_id)?$item->product_id:0}}">
-                                                            </td>
-                                                            <td>
-                                                                <input type="text"
+
+                                                                <input type="hidden"
                                                                        name="unit_price[{{isset($item->product_id)?$item->product_id:0}}]"
-                                                                       class="form-control text-right" min="0.0"
+                                                                       class="form-control unit_price text-right"
+                                                                       min="0.0"
                                                                        id="unit_price_{{isset($item->product_id)?$item->product_id:0}}"
-                                                                       value="{{$item->unit_price}}" readonly
+                                                                       value="{{$item->reporting_amount}}" readonly
                                                                        placeholder="0">
                                                             </td>
+
                                                             <td class="text-center"
                                                                 id="pre_rcv_qty_{{isset($item->product_id)?$item->product_id:0}}">
                                                                 {{$receiveQty}}
@@ -188,6 +308,28 @@
 
                                                             <td class="text-center"
                                                                 id="left_qty_{{isset($item->product_id)?$item->product_id:0}}"></td>
+
+                                                            <td>
+                                                                <div class="input-group input-group-md mb-3 d-">
+                                                                    <select class="form-control select2"
+                                                                            id="uom_type_{{$key+1}}"
+                                                                            name="uom_type[{{isset($item->product_id)?$item->product_id:0}}]">
+                                                                        @foreach(getUnits($item->product->type) as $data)
+                                                                            <option
+                                                                                value="{{$data}}">{{$data}}
+                                                                            </option>
+                                                                        @endforeach
+                                                                    </select>
+                                                                </div>
+                                                            </td>
+                                                            <td>
+                                                                <input type="number"
+                                                                       name="uom_qty[{{isset($item->product_id)?$item->product_id:0}}]"
+                                                                       class="form-control bg-white" min="0"
+                                                                       id="uom_qty_{{$key+1}}" placeholder="0"
+                                                                       step="any"
+                                                                >
+                                                            </td>
 
                                                             <input type="hidden"
                                                                    name="unit_amount[{{isset($item->product_id)?$item->product_id:0}}]"
@@ -212,14 +354,15 @@
                                                    width="100%" id="dataTable">
                                                 <thead>
                                                 <tr class="text-center">
-                                                    <th>Category</th>
-                                                    <th>Product</th>
+                                                    <th>Product Category</th>
+                                                    <th>Product Detail</th>
                                                     <th>UOM</th>
-                                                    <th>Unit Price</th>
                                                     <th>Replace Qty</th>
                                                     <th>Prv.Rcv Qty</th>
                                                     <th>Receiving Qty</th>
-                                                    <th>Left Qty</th>
+                                                    <th>Remaining Qty</th>
+                                                    <th>UOM Type</th>
+                                                    <th>UOM QTY</th>
                                                 </tr>
                                                 </thead>
                                                 <tbody>
@@ -246,9 +389,7 @@
                                                                 <td>
                                                                     {{isset($item->product->productUnit->unit_name)?$item->product->productUnit->unit_name:''}}
                                                                 </td>
-                                                                <td>
-                                                                    {{$item->unit_price}}
-                                                                </td>
+
                                                                 <td class="text-center">
                                                                     {{$leftQty}}
                                                                 </td>
@@ -268,8 +409,31 @@
                                                                            oninput="this.value = Math.abs(this.value)">
                                                                 </td>
 
+
+
                                                                 <td class="text-center"
                                                                     id="left_qty_{{isset($item->id)?$item->id:0}}"></td>
+                                                                <td>
+                                                                    <div class="input-group input-group-md mb-3 d-">
+                                                                        <select class="form-control select2"
+                                                                                id="uom_type_{{$key+1}}"
+                                                                                name="uom_type[{{isset($item->id)?$item->id:0}}]">
+                                                                            @foreach(getUnits($item->product->type) as $data)
+                                                                                <option
+                                                                                    value="{{$data}}">{{$data}}
+                                                                                </option>
+                                                                            @endforeach
+                                                                        </select>
+                                                                    </div>
+                                                                </td>
+                                                                <td>
+                                                                    <input type="number"
+                                                                           name="uom_qty[{{isset($item->id)?$item->id:0}}]"
+                                                                           class="form-control bg-white" min="0"
+                                                                           id="uom_qty_{{$key+1}}" placeholder="0"
+                                                                           step="any"
+                                                                    >
+                                                                </td>
                                                             </tr>
                                                         @endif
                                                     @endforeach
@@ -323,11 +487,13 @@
         "use strcit"
 
         const validateReceiveQty = (item, key) => {
+            //console.log(item.querySelectorAll('.unit_price')[0].value);
+
             var PoQty = item.querySelectorAll('td')[3];
-            var UnitPrice = item.querySelectorAll('td')[4];
-            var PrvRcvQty = item.querySelectorAll('td')[5];
-            var ReceivingQty = item.querySelectorAll('td')[6];
-            var LeftQty = item.querySelectorAll('td')[7];
+            var UnitPrice = item.querySelectorAll('.unit_price')[0];
+            var PrvRcvQty = item.querySelectorAll('td')[4];
+            var ReceivingQty = item.querySelectorAll('td')[5];
+            var LeftQty = item.querySelectorAll('td')[6];
             var SubPrice = item.querySelector('.calculateSumOfSubtotal');
 
             ReceivingQty.onkeyup = function () {
@@ -346,8 +512,8 @@
                 }
                 LeftQty.innerText = (parseInt(PoQty.innerText.trim()) - parseInt(PrvRcvQty.innerText.trim()) - ReceivingQty.querySelector('input').value);
 
-                SubPrice.value = parseFloat(ReceivingQty.querySelector('input').value) * parseFloat(UnitPrice.querySelector('input').value);
-
+                SubPrice.value = parseFloat(ReceivingQty.querySelector('input').value) * parseFloat(UnitPrice.value);
+                console.log(SubPrice.value)
                 var TotalSubTotal = 0;
                 $('.calculateSumOfSubtotal').each(function () {
                     TotalSubTotal += parseFloat($(this).val() !== "" ? $(this).val() : 0);

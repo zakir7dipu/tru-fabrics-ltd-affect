@@ -9,7 +9,10 @@
                 data: 'DT_RowIndex',
                 className: 'text-center',
                 'orderable': false,
-                'searchable': false
+                'searchable': false,
+                render: function(data, type, row, meta) {
+                    return '<p style="max-width: 50px!important;white-space: normal">'+(meta.row + meta.settings._iDisplayStart + 1)+'</p>';
+                }
             });
         }
 
@@ -21,6 +24,7 @@
                     data: val[0],
                     name: val[1],
                     className: val[2],
+
                 });
             }
         });
@@ -125,7 +129,7 @@
                 table.columns().every(function () {
                     var column = this;
                     var header = $(column.header()).html();
-                    var input = $('<input type="text"  style="width: 100% !important;" placeholder="'+header+'"/><span style="display: none">'+header+'</span>')
+                    var input = $('<input type="text"  style="width: 100% !important;" placeholder="'+header+'" class="text-center"/><span style="display: none">'+header+'</span>')
                         .appendTo($(column.header())
                         .empty());
 

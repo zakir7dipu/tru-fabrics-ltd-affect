@@ -18,14 +18,14 @@
                                 </div>
                                 <div class="col-xl-4">
                                     <div class="text-xl-end mt-xl-0 mt-2">
-                                        <a class="btn btn-success mb-2 me-2 text-white" title="Upload Excel"
-                                           data-toggle="modal" data-target="#uploadExcel"><i class="las la-upload"></i>&nbsp;Upload
-                                            Excel
-                                        </a>
+                                        {{--                                        <a class="btn btn-success mb-2 me-2 text-white" title="Upload Excel"--}}
+                                        {{--                                           data-toggle="modal" data-target="#uploadExcel"><i class="las la-upload"></i>&nbsp;Upload--}}
+                                        {{--                                            Excel--}}
+                                        {{--                                        </a>--}}
 
                                         <a href="{{route('proforma-invoices.index')}}" class="btn btn-info mb-2 me-2"
-                                           data-toggle="tooltip" title="Proforma Invoices List"> <i class="mdi mdi-text
-                                           me-1"></i>{{translate('LC Lists')}}</a>
+                                           data-toggle="tooltip" title="Purchase"> <i class="mdi mdi-text
+                                           me-1"></i>{{translate('Purchase Lists')}}</a>
                                     </div>
                                 </div>
                             </div>
@@ -40,40 +40,55 @@
                                             ]) !!}
 
                                         <div class="row">
-                                            <div class="col-md-3">
+                                            {{--                                            <div class="col-md-2">--}}
+                                            {{--                                                <div class="form-group">--}}
+                                            {{--                                                    <div class="form-line">--}}
+                                            {{--                                                        {!!  Form::label('pi_no', 'Reference No', ['class' => 'col-form-label']) !!}--}}
+                                            {{--                                                        <span class="text-danger">*</span>--}}
+                                            {{--                                                        {!! Form::text('pi_no', isset($sku)?$sku:request()->old('pi_no'), [--}}
+                                            {{--                                                            'id' => 'pi_no',--}}
+                                            {{--                                                            'class' => 'form-control',--}}
+                                            {{--                                                            'placeholder' => 'Enter Reference No'--}}
+                                            {{--                                                        ]) !!}--}}
+                                            {{--                                                        {!! $errors->first('pi_no') !!}--}}
+                                            {{--                                                    </div>--}}
+                                            {{--                                                </div>--}}
+                                            {{--                                            </div>--}}
+
+                                            <input type="hidden" name="pi_no"
+                                                   value="{{isset($proformaInvoice)?$proformaInvoice->pi_no:request()->old('pi_no')}}">
+
+                                            <div class="col-md-2">
                                                 <div class="form-group">
                                                     <div class="form-line">
-                                                        {!!  Form::label('pi_no', 'Reference No', ['class' => 'col-form-label']) !!}
-                                                        <span class="text-danger">*</span>
-                                                        {!! Form::text('pi_no', isset($sku)?$sku:request()->old('pi_no'), [
-                                                            'id' => 'pi_no',
-                                                            'class' => 'form-control',
-                                                            'placeholder' => 'Enter pi_no'
-                                                        ]) !!}
-                                                        {!! $errors->first('pi_no') !!}
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-3">
-                                                <div class="form-group">
-                                                    <div class="form-line">
-                                                        {!!  Form::label('pi_date', 'PI Date', ['class' => 'col-form-label']) !!}
+                                                        {!!  Form::label('pi_date', 'Date', ['class' => 'col-form-label']) !!}
                                                         <span class="text-danger">*</span>
                                                         {!! Form::date('pi_date', Request::old('pi_date'), [
                                                             'id' => 'pi_date',
                                                             'class' => 'form-control',
-                                                            'placeholder' => 'Enter pi_date'
+                                                            'placeholder' => 'Enter date'
                                                         ]) !!}
                                                         {!! $errors->first('pi_date') !!}
                                                     </div>
                                                 </div>
                                             </div>
 
-                                            <div class="col-md-3">
+                                            <div class="col-md-2">
+                                                <div class="form-group">
+                                                    <div class="form-line">
+                                                        {!!  Form::label('mode_of_purchase', 'Mode Of Purchase', array('class' => 'col-form-label')) !!}
+                                                        {!! Form::Select('mode_of_purchase',array('import'=>'Import','native'=>'Native'),Request::old('mode_of_purchase'),['id'=>'mode_of_purchase', 'class'=>'form-control select2','onchange'=> 'showHideLcInvoice()']) !!}
+                                                        {!! $errors->first('mode_of_purchase') !!}
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-3 lc-no-section">
                                                 <div class="form-group">
                                                     <div class="form-line">
                                                         {!!  Form::label('lc_no', 'LC No', ['class' => 'col-form-label']) !!}
                                                         <span class="text-danger">*</span>
+
                                                         {!! Form::text('lc_no', request()->old('lc_no'), [
                                                             'id' => 'lc_no',
                                                             'class' => 'form-control',
@@ -84,10 +99,26 @@
                                                 </div>
                                             </div>
 
+                                            <div class="col-md-3 invoice-no-section" style="display: none">
+                                                <div class="form-group">
+                                                    <div class="form-line">
+                                                        {!!  Form::label('invoice_no', 'Local Invoice No', ['class' => 'col-form-label']) !!}
+                                                        <span class="text-danger">*</span>
+
+                                                        {!! Form::text('invoice_no', request()->old('invoice_no'), [
+                                                            'id' => 'invoice_no',
+                                                            'class' => 'form-control',
+                                                            'placeholder' => 'Enter Local Invoice No'
+                                                        ]) !!}
+                                                        {!! $errors->first('invoice_no') !!}
+                                                    </div>
+                                                </div>
+                                            </div>
+
                                             <div class="col-md-3">
                                                 <div class="form-group">
                                                     <div class="form-line">
-                                                        {!!  Form::label('lc_date', 'LC Open Date', ['class' => 'col-form-label']) !!}
+                                                        {!!  Form::label('lc_date', 'Purchase Date', ['class' => 'col-form-label']) !!}
                                                         <span class="text-danger">*</span>
                                                         {!! Form::date('lc_date', Request::old('lc_date'), [
                                                             'id' => 'lc_date',
@@ -106,12 +137,15 @@
                                                        width="100%" id="dataTable">
                                                     <thead>
                                                     <tr class="text-center">
-                                                        <th width="20%">Category</th>
-                                                        <th width="40%">Product</th>
-                                                        <th width="10%">UOM</th>
-                                                        <th width="10%">Qty</th>
-                                                        <th width="10%">Uni Price</th>
-                                                        <th class="text-center">Action</th>
+                                                        <th width="15%">Product Category</th>
+                                                        <th width="18%">Product Detail</th>
+                                                        <th width="5%">UOM</th>
+                                                        <th width="12%">Qty</th>
+                                                        <th width="15%">Price</th>
+                                                        <th width="15%">Total</th>
+                                                        <th width="10%">Currency</th>
+                                                        <th width="15%">C.Rate <p>(1 USD =?)</p></th>
+                                                        <th width="5%" class="text-center">#</th>
                                                     </tr>
                                                     </thead>
                                                     <tbody class="field_wrapper">
@@ -147,20 +181,21 @@
                                                             <td class="product-uom text-center">{{isset($item->product->productUnit->unit_name)?$item->product->productUnit->unit_name:''}}</td>
                                                             <td>
                                                                 <div class="input-group input-group-md mb-3 d-">
-                                                                    <input type="number" name="qty[]" min="1"
-                                                                           max="99999999"
+                                                                    <input type="number" name="qty[]" min="0"
                                                                            id="qty_{{$key+1}}"
                                                                            class="form-control requisition-qty"
-                                                                           aria-label="Large"
-                                                                           aria-describedby="inputGroup-sizing-sm"
-                                                                           onKeyPress="if(this.value.length==6) return false;"
+                                                                           step="any"
                                                                            required data-input="recommended"
-                                                                           oninput="this.value = Math.abs(this.value)"
+
                                                                            data-quantity="{{$item->qty}}"
                                                                            value="{{$item->qty}}"
+                                                                           data-id='{{$key+1}}'
+                                                                           onchange="calculateUnitPrice($(this))"
+                                                                           onkeyup="calculateUnitPrice($(this))"
                                                                     >
                                                                 </div>
                                                             </td>
+
                                                             <td>
                                                                 <div class="input-group input-group-md mb-3 d-">
                                                                     <input type="text" name="unit_price[]"
@@ -169,7 +204,50 @@
                                                                            required data-input="recommended"
                                                                            data-unit-price=""
                                                                            value="{{$item->unit_price}}"
+                                                                           data-id='{{$key+1}}'
+                                                                           step="any"
+                                                                           onchange="calculateUnitPrice($(this))"
+                                                                           onkeyup="calculateUnitPrice($(this))"
                                                                     >
+                                                                </div>
+                                                            </td>
+                                                            <td>
+                                                                <div class="input-group input-group-md mb-3 d-">
+                                                                    <input type="number" name="sub_total_price[]"
+                                                                           id="total_price_1"
+                                                                           class="form-control mask-money total_price_1"
+                                                                           required
+                                                                           step="any"
+                                                                           readonly
+                                                                           value="{{$item->total_price}}"
+                                                                    >
+                                                                </div>
+                                                            </td>
+
+                                                            <td>
+                                                                <div class="input-group input-group-md mb-3 d-">
+                                                                    <select class="form-control select2 currency"
+                                                                            id="currency_id_1"
+                                                                            onchange="getCurrencyDefault()"
+                                                                            name="currency_id[]">
+                                                                        @foreach($currenciesModel as $data)
+                                                                            <option
+                                                                                data-default="{{$data->is_default}}"
+                                                                                value="{{$data->id}}" {{$data->id==$item->currency_id?'selected':''}}>{{$data->short_code}}
+                                                                                ({{$data->symbol}})
+                                                                            </option>
+                                                                        @endforeach
+                                                                    </select>
+                                                                </div>
+                                                            </td>
+                                                            <td>
+                                                                <div class="input-group input-group-md mb-3 d-">
+                                                                    <input type="number" name="currency_convert_rate[]"
+                                                                           id="currency_convert_rate_1"
+                                                                           step="any"
+                                                                           class="form-control mask-money"
+                                                                           required
+                                                                           value="{{$item->currency_convert_rate}}">
                                                                 </div>
                                                             </td>
                                                             <td>
@@ -192,28 +270,34 @@
                                                 </a>
                                             </div>
 
+                                            <input type="hidden" name="status" value="approved">
+
                                             <div class="col-md-2">
                                                 <div class="form-group">
                                                     <div class="form-line">
-                                                        {!!  Form::label('status', 'Status', array('class' => 'col-form-label')) !!}
-                                                        {!! Form::Select('status',array('pending'=>'Pending','approved'=>'Approved','halt'=>'Halt'),Request::old('status'),['id'=>'status', 'class'=>'form-control select2']) !!}
-                                                        {!! $errors->first('status') !!}
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-2">
-                                                <div class="form-group">
-                                                    <div class="form-line">
-                                                        {!!  Form::label('supplier_id', 'ProductGroup', array('class' => 'col-form-label')) !!}
+                                                        {!!  Form::label('supplier_id', 'Suppliers', array('class' => 'col-form-label')) !!}
+                                                        <span class="text-danger">*</span>
                                                         {!! Form::Select('supplier_id',$suppliers,Request::old('supplier_id'),['id'=>'supplier_id', 'class'=>'form-control select2']) !!}
                                                         {!! $errors->first('supplier_id') !!}
                                                     </div>
                                                 </div>
                                             </div>
+
+                                            <div class="col-md-2">
+                                                <div class="form-group">
+                                                    <div class="form-line">
+                                                        {!!  Form::label('payment_term_id', 'Payment Terms', array('class' => 'col-form-label')) !!}
+                                                        <span class="text-danger">*</span>
+                                                        {!! Form::Select('payment_term_id',$paymentTerms,Request::old('payment_term_id'),['id'=>'payment_term_id', 'class'=>'form-control select2']) !!}
+                                                        {!! $errors->first('payment_term_id') !!}
+                                                    </div>
+                                                </div>
+                                            </div>
+
                                             <div class="col-md-4">
                                                 <div class="form-group">
                                                     <div class="form-line">
-                                                        {!!  Form::label('pi_file', 'PI File', array('class' => 'col-form-label')) !!}
+                                                        {!!  Form::label('pi_file', 'Reference File', array('class' => 'col-form-label')) !!}
                                                         <br>
                                                         <input type="file" name="pi_file"
                                                                id="pi_file" class="btn btn-outline-success btn-sm">
@@ -282,7 +366,7 @@
 
         function changeSelectedProductIds() {
             selectedProductIds = [];
-            $('.product').each(function () { //
+            $('.product').each(function () {
                 selectedProductIds.push($(this).val());
             })
         }
@@ -297,6 +381,11 @@
             var wrapper = $('.field_wrapper');
 
             getSubCategories();
+            var currencies = '';
+            $.each(<?php echo json_encode($currenciesModel); ?>, function (key, value) {
+                currencies += '<option data-default="' + (value.is_default) + '" value="' + (value.id) + '">' + value.short_code + ' (' + (value.symbol) + ')</option>';
+            });
+
 
             $(addButton).click(function () {
 
@@ -323,13 +412,29 @@
                     '<td class="product-uom text-center"></td>' +
                     '                                            <td>\n' +
                     '                                                <div class="input-group input-group-md mb-3 d-">\n' +
-                    '                                                    <input type="number" name="qty[]" min="1" max="9999" onKeyPress="if(this.value.length==6) return false;" id="qty_' + x + '" class="form-control requisition-qty" aria-label="Large" aria-describedby="inputGroup-sizing-sm" oninput="this.value = Math.abs(this.value)" required data-quantity="">\n' +
+                    '                                                    <input type="number" name="qty[]" step="any" id="qty_' + x + '" class="form-control requisition-qty"  onchange="calculateUnitPrice($(this))" data-id="' + x + '" onkeyup="calculateUnitPrice($(this))" required data-quantity="">\n' +
                     '                                                </div>\n' +
                     '                                            </td>\n'
                     +
                     '                                            <td>\n' +
                     '                                                <div class="input-group input-group-md mb-3 d-">\n' +
-                    '                                                    <input type="text" name="unit_price[]" id="unit_price_' + x + '" class="form-control mask-money" aria-label="Large" aria-describedby="inputGroup-sizing-sm" required data-quantity="">\n' +
+                    '                                                    <input type="number" name="unit_price[]" id="unit_price_' + x + '" class="form-control mask-money" step="any" aria-label="Large" aria-describedby="inputGroup-sizing-sm" required data-quantity="" onchange="calculateUnitPrice($(this))" data-id="' + x + '" onkeyup="calculateUnitPrice($(this))"  >\n' +
+                    '                                                </div>\n' +
+                    '                                            </td>\n'
+                    + '<td>\n' +
+                    '                                                <div class="input-group input-group-md mb-3 d-">\n' +
+                    '                                                    <input type="number" name="sub_total_price[]" id="total_price_' + x + '" class="form-control  mask-money total_price_' + x + '" step="any" aria-label="Large" aria-describedby="inputGroup-sizing-sm" required data-quantity="">\n' +
+                    '                                                </div>\n' +
+                    '                                            </td>\n'
+                    + '                                                <td><div class="input-group input-group-md mb-3 d-">'
+                    +
+                    '                                                    <select name="currency_id[]" id="currency_id_' + x + '" data-increment="' + x + '" onchange="getCurrencyDefault()" class="form-control select2 currency" required>' + (currencies) + '</select>\n' +
+                    '</div>\n' +
+                    '                                            </td>\n' +
+                    '\n' +
+                    '                                            <td>\n' +
+                    '                                                <div class="input-group input-group-md mb-3 d-">\n' +
+                    '                                                    <input type="text" name="currency_convert_rate[]" id="currency_convert_rate_' + x + '" step="any" class="form-control mask-money" aria-label="Large" aria-describedby="inputGroup-sizing-sm" required data-quantity="">\n' +
                     '                                                </div>\n' +
                     '                                            </td>\n' +
                     '\n' +
@@ -345,11 +450,12 @@
                 $(wrapper).append(fieldHTML);
                 $('#sub_category_id_' + x, wrapper).select2();
                 $('#product_' + x, wrapper).select2();
+                $('#currency_id_' + x, wrapper).select2();
                 generateSubCategories($('#sub_category_id_' + x, wrapper))
-                $('.mask-money').maskMoney(
-                    {
-                        thousands: '', decimal: '.', allowZero: true, allowEmpty: true
-                    });
+                // $('.mask-money').maskMoney(
+                //     {
+                //         thousands: '', decimal: '.', allowZero: true, allowEmpty: true
+                //     });
 
             });
 
@@ -401,7 +507,7 @@
 
             var subCategories = '<option value="0">Select Subcategory</option>';
             $.each(categories, function (index, val) {
-                subCategories += '<option value="' + (val.id) + '" ' + (val.id == value ? 'selected' : '') + '>' + val.name + ' (' + (val.code) + ')</option>';
+                subCategories += '<option value="' + (val.id) + '" ' + (val.id == value ? 'selected' : '') + '>' + val.name + '</option>';
             });
 
             element.html(subCategories).change();
@@ -450,40 +556,45 @@
             });
         }
 
-        function uploadExcelFile() {
-            var excel_form = $('#excel-upload-form');
-            var excel_button = $('.excel-upload-button');
-            var excel_button_content = excel_button.html();
 
-            excel_button.prop('disabled', true).html("<i class='las la-spinner la-spin'></i>&nbsp;Please wait...");
+        function getCurrencyDefault() {
+            // $.each($('.currency'), function (index, val) {
+            //     $(this).parent().parent().next().find('input').val($(this).find(':selected').attr('data-default'));
+            // });
+        }
 
-            $.ajax({
-                url: excel_form.attr('action'),
-                type: excel_form.attr('method'),
-                dataType: 'json',
-                processData: false,
-                contentType: false,
-                data: new FormData(excel_form[0]),
-            })
-                .done(function (response) {
-                    if (response.success) {
-                        location.reload();
-                    } else {
-                        toastr.error(response.message);
-                    }
+        showHideLcInvoice();
 
-                    excel_button.prop('disabled', false).html(excel_button_content);
-                })
-                .fail(function (response) {
-                    var errors = '<ul class="">';
-                    $.each(response.responseJSON.errors, function (index, val) {
-                        errors += '<li class="text-white">' + val[0] + '</li>';
-                    });
-                    errors += '</ul>';
-                    toastr.error(errors);
+        function showHideLcInvoice() {
+            if ($('#mode_of_purchase').val() === 'native') {
+                $('.lc-no-section').hide();
+                document.getElementById('lc_no').value = null;
+                document.getElementById('lc_no').required = false;
 
-                    excel_button.prop('disabled', false).html(excel_button_content);
-                });
+                $('.invoice-no-section').show();
+                document.getElementById('invoice_no').required = true;
+
+            } else {
+                $('.lc-no-section').show();
+                document.getElementById('lc_no').required = true;
+
+                $('.invoice-no-section').hide();
+                document.getElementById('invoice_no').value = null;
+
+                document.getElementById('invoice_no').required = false;
+            }
+        }
+
+        function calculateUnitPrice(element) {
+
+            var incrementNumber = element.attr('data-id');
+
+            var productQty = parseFloat($('#qty_' + incrementNumber).val()) !== null ? parseFloat($('#qty_' + incrementNumber).val()) : 0;
+            var productUnitPrice = parseFloat($('#unit_price_' + incrementNumber).val()) !== null ? parseFloat($('#unit_price_' + incrementNumber).val()) : 0;
+
+            if (productQty !== null && productUnitPrice !== null) {
+                $('#total_price_' + incrementNumber).val(parseFloat(productQty * productUnitPrice))
+            }
         }
     </script>
 @endsection

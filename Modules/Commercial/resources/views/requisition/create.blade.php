@@ -28,7 +28,10 @@
                                 <div class="card">
                                     <div class="card-body">
                                         {!! Form::open(array('route' => 'requisitions.store','method'=>'POST',
-                                        'class'=>'','files'=>true,'id'=>'ProductsForm')) !!}
+                                        'class'=>'formInputValidation','files'=>true,'id'=>'ProductsForm')) !!}
+
+                                        <input type="hidden" name="is_bulk_item"
+                                               value="{{request()->has('bulk-requisition')?'yes':'no'}}">
 
                                         <div class="row">
                                             <div class="col-md-3">
@@ -42,6 +45,22 @@
                                                             'placeholder' => 'Enter Reference No'
                                                         ]) !!}
                                                         {!! $errors->first('reference_no') !!}
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-3">
+                                                <div class="form-group">
+                                                    <div class="form-line">
+                                                        {!!  Form::label('requisition_no', 'Requisition No', ['class' => 'col-form-label']) !!}
+                                                        <span class="text-danger">*</span>
+                                                        {!! Form::text('requisition_no', request()->old('requisition_no'), [
+                                                            'id' => 'requisition_no',
+                                                            'class' => 'form-control',
+                                                            'placeholder' => 'Enter Requisition No',
+                                                            'required'
+                                                        ]) !!}
+                                                        {!! $errors->first('requisition_no') !!}
                                                     </div>
                                                 </div>
                                             </div>
@@ -63,27 +82,75 @@
                                             <div class="col-md-3">
                                                 <div class="form-group">
                                                     <div class="form-line">
-                                                        {!!  Form::label('work_order_id', 'Work Orders', array('class' => 'col-form-label')) !!}
-
-                                                        <select name="work_order_id"
-                                                                id="work_order_id"
-                                                                style="width: 100%"
-                                                                class="form-control select2"
-                                                                onchange="getWorkOrderItems($(this))">
-
-                                                            @if(isset($workOrders))
-                                                                <option value="{{null}}">Choose Work Order</option>
-                                                                @foreach($workOrders as $key => $workOrder)
-                                                                    <option
-                                                                        value="{{ $workOrder->id }}">{{ $workOrder->reference_no }}</option>
-                                                                @endforeach
-                                                            @endif
-                                                        </select>
-
-                                                        {!! $errors->first('work_order_id') !!}
+                                                        {!!  Form::label('department_id', 'Departments', array('class' => 'col-form-label')) !!}
+                                                        <span class="text-danger">*</span>
+                                                        {!! Form::Select('department_id',$departments,Request::old('department_id'),['id'=>'department_id', 'class'=>'form-control select2','required'=>true]) !!}
+                                                        {!! $errors->first('department_id') !!}
                                                     </div>
                                                 </div>
                                             </div>
+
+                                            @if(!request()->has('bulk-requisition'))
+                                                <div class="col-md-3">
+                                                    <div class="form-group">
+                                                        <div class="form-line">
+                                                            {!!  Form::label('work_order_id', 'Work Orders', array('class' => 'col-form-label')) !!}
+
+                                                            <select name="work_order_id"
+                                                                    id="work_order_id"
+                                                                    style="width: 100%"
+                                                                    class="form-control select2"
+                                                                    onchange="getWorkOrderItems($(this))">
+
+                                                                @if(isset($workOrders))
+                                                                    <option value="{{null}}">Choose Work Order</option>
+                                                                    @foreach($workOrders as $key => $workOrder)
+                                                                        <option
+                                                                            value="{{ $workOrder->id }}">{{ $workOrder->work_order_no }}</option>
+                                                                    @endforeach
+                                                                @endif
+                                                            </select>
+
+                                                            {!! $errors->first('work_order_id') !!}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            @endif
+
+
+                                            @if(!request()->has('bulk-requisition'))
+                                                <div class="col-md-4">
+                                                    <div class="form-group">
+                                                        <div class="form-line">
+                                                            {!!  Form::label('work_order_item_id', 'Work Order Wise Product', array('class' => 'col-form-label')) !!}
+                                                            <span class="text-danger">*</span>
+
+                                                            <select name="work_order_item_id"
+                                                                    id="work_order_item_id"
+                                                                    style="width: 100%"
+                                                                    class="form-control select2">
+
+                                                            </select>
+
+                                                            {!! $errors->first('work_order_id') !!}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <input type="hidden" name="type" value="workorder">
+
+                                                <div class="col-md-2">
+                                                    <div class="form-group">
+                                                        <div class="form-line">
+                                                            {!!  Form::label('finish_type', 'Fabric Type', array('class' => 'col-form-label')) !!}
+
+                                                            {!! Form::Select('finish_type',requisitionFinishType(),Request::old('finish_type'),['id'=>'finish_type', 'class'=>'form-control select2']) !!}
+                                                            {!! $errors->first('finish_type') !!}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            @else
+                                                <input type="hidden" name="type" value="bulk">
+                                            @endif
                                             <div class="col-md-3">
                                                 <div class="form-group">
                                                     <div class="form-line">
@@ -96,26 +163,6 @@
                                                     </div>
                                                 </div>
                                             </div>
-
-                                            <div class="col-md-6">
-                                                <div class="form-group">
-                                                    <div class="form-line">
-                                                        {!!  Form::label('work_order_item_id', 'Work Order Wise Product', array('class' => 'col-form-label')) !!}
-                                                        <span class="text-danger">*</span>
-
-                                                        <select name="work_order_item_id"
-                                                                id="work_order_item_id"
-                                                                style="width: 100%"
-                                                                class="form-control select2">
-
-                                                        </select>
-
-                                                        {!! $errors->first('work_order_id') !!}
-                                                    </div>
-                                                </div>
-                                            </div>
-
-
                                             <div class="col-md-12 mt-4 mb-2">
 
                                                 <table class="table table-striped table-bordered miw-500 dac_table"
@@ -123,11 +170,11 @@
                                                        width="100%" id="dataTable">
                                                     <thead>
                                                     <tr class="text-center">
-                                                        <th width="20%">Category</th>
-                                                        <th width="50%">Product</th>
+                                                        <th width="20%">Product Category</th>
+                                                        <th width="40%">Product Detail</th>
                                                         <th width="10%">UOM</th>
-                                                        <th width="10%">Qty</th>
-                                                        <th width="10%" class="text-center">Action</th>
+                                                        <th width="20%">Qty</th>
+                                                        <th width="10%" class="text-center">#</th>
                                                     </tr>
                                                     </thead>
                                                     <tbody class="field_wrapper">
@@ -137,7 +184,7 @@
                                                                 <select name="sub_category_id[]"
                                                                         id="sub_category_id_1"
                                                                         style="width: 100%"
-                                                                        class="form-control subcategory select-2"
+                                                                        class="form-control subcategory select2"
                                                                         onchange="getProduct($(this))">
 
                                                                     @if(isset($categories[0]))
@@ -153,6 +200,7 @@
                                                             <div class="input-group input-group-md mb-3 d-">
                                                                 <select name="product_id[]" id="product_1"
                                                                         class="form-control product requisition-products select2"
+                                                                        data-input="recommended"
                                                                         onchange="getUOM()" data-product-id=""
                                                                         required>
                                                                     <option value="{{ null }}"
@@ -165,18 +213,12 @@
                                                         </td>
                                                         <td>
                                                             <div class="input-group input-group-md mb-3 d-">
-                                                                <input type="number" name="qty[]" min="1"
-                                                                       max="99999999"
+                                                                <input type="number" name="qty[]" min="0"
                                                                        id="qty_1"
+                                                                       step="any"
                                                                        class="form-control requisition-qty"
-                                                                       aria-label="Large"
-                                                                       aria-describedby="inputGroup-sizing-sm"
-                                                                       onKeyPress="if(this.value.length==6) return false;"
-                                                                       min="1"
                                                                        required data-input="recommended"
-                                                                       oninput="this.value = Math.abs(this.value)"
-                                                                       data-quantity=""
-                                                                >
+                                                                       data-quantity="">
                                                             </div>
                                                         </td>
 
@@ -205,7 +247,7 @@
                                                         {!! Form::textarea('remarks', request()->old('remarks'), [
                                                             'id' => 'remarks',
                                                             'class' => 'form-control',
-                                                            'rows'=>'5',
+                                                            'rows'=>'3',
                                                             'placeholder' => 'Enter Remarks'
                                                         ]) !!}
                                                         {!! $errors->first('remarks') !!}
@@ -214,11 +256,25 @@
                                             </div>
 
                                             <div class="col-md-12 mt-2">
-                                                {!! Form::submit('Save changes', ['class' => 'btn btn-primary pull-right m-t-15','data-placement'=>'top','data-content'=>'click save changes button for save role information']) !!}
-                                                &nbsp;
+                                                <input type="hidden" name="where_to_go" id="where_to_go" value="index">
+                                                <button type="button"
+                                                        class="btn btn-primary rounded pull-right save-button"
+                                                        onclick="submitRequisition('index');" style="margin-left: 5px">
+                                                    <i
+                                                        class="mdi mdi-plus"></i>{{ __('Save Requisition') }}</button>
+                                                <button type="button"
+                                                        class="btn btn-info rounded pull-right save-new-button"
+                                                        onclick="submitRequisition('back');"><i
+                                                        class="mdi mdi-plus"></i>{{ __('Save & New Requisition') }}
+                                                </button>
+                                            </div>
+
+                                            <div class="col-md-12">
+                                                <div class="form-group" id="showSavedData">
+
+                                                </div>
                                             </div>
                                         </div>
-
 
                                         {!! Form::close() !!}
                                     </div>
@@ -283,7 +339,7 @@
                     '<td class="product-uom text-center"></td>' +
                     '                                            <td>\n' +
                     '                                                <div class="input-group input-group-md mb-3 d-">\n' +
-                    '                                                    <input type="number" name="qty[]" min="1" max="9999" onKeyPress="if(this.value.length==6) return false;" id="qty_' + x + '" class="form-control requisition-qty" aria-label="Large" aria-describedby="inputGroup-sizing-sm" oninput="this.value = Math.abs(this.value)" required data-quantity="">\n' +
+                    '                                                    <input type="number" name="qty[]" min="0"  id="qty_' + x + '" class="form-control requisition-qty" step="any" required data-quantity="">\n' +
                     '                                                </div>\n' +
                     '                                            </td>\n'
                     +
@@ -361,9 +417,9 @@
             element.html(subCategories).change();
         }
 
-
         function getProduct(element) {
             var incrementNumber = element.attr('id').split("_")[3];
+            var isBulkItem = '{{request()->has('bulk-requisition')?'yes':'no'}}';
 
             changeSelectedProductIds();
 
@@ -373,7 +429,7 @@
             }
             $('#qty_' + incrementNumber).val($('#qty_' + incrementNumber).attr('data-quantity'));
 
-            $('#product_' + incrementNumber).html('<option value="">Please Wait...</option>').load('{{URL::to(Request()->route()->getPrefix()."/requisitions/load-category-wise-product")}}/' + subcategory_id + '?selected=' + ($('#product_' + incrementNumber).attr('data-product-id')) + '&products_id=' + selectedProductIds);
+            $('#product_' + incrementNumber).html('<option value="">Please Wait...</option>').load(`{{URL::to(Request()->route()->getPrefix()."/requisitions/load-category-wise-product")}}/${subcategory_id}?selected=${$('#product_' + incrementNumber).attr('data-product-id')}&products_id=${selectedProductIds}&is_bulk_item=${isBulkItem}`);
         }
 
         function getUOM() {
@@ -382,45 +438,107 @@
             });
         }
 
-        function uploadExcelFile() {
-            var excel_form = $('#excel-upload-form');
-            var excel_button = $('.excel-upload-button');
-            var excel_button_content = excel_button.html();
-
-            excel_button.prop('disabled', true).html("<i class='las la-spinner la-spin'></i>&nbsp;Please wait...");
-
-            $.ajax({
-                url: excel_form.attr('action'),
-                type: excel_form.attr('method'),
-                dataType: 'json',
-                processData: false,
-                contentType: false,
-                data: new FormData(excel_form[0]),
-            })
-                .done(function (response) {
-                    if (response.success) {
-                        location.reload();
-                    } else {
-                        toastr.error(response.message);
-                    }
-
-                    excel_button.prop('disabled', false).html(excel_button_content);
-                })
-                .fail(function (response) {
-                    var errors = '<ul class="">';
-                    $.each(response.responseJSON.errors, function (index, val) {
-                        errors += '<li class="text-white">' + val[0] + '</li>';
-                    });
-                    errors += '</ul>';
-                    toastr.error(errors);
-
-                    excel_button.prop('disabled', false).html(excel_button_content);
-                });
-        }
-
         function getWorkOrderItems(element) {
             var workOrderId = $('#work_order_id').val();
             $('#work_order_item_id').html('<option value="">Please Wait...</option>').load('{{URL::to(Request()->route()->getPrefix()."/requisitions/load-wo-wise-product")}}/' + workOrderId);
+        }
+
+        function formInputValidation() {
+            let activeSection = document.querySelector(".formInputValidation");
+            let inputs = activeSection.querySelectorAll("input");
+            let textareas = activeSection.querySelectorAll("textarea");
+
+            let inputBoxAlert = []
+            inputs.forEach(input => {
+                if (input.getAttribute('data-input') === "recommended" && input.value === "") {
+                    inputBoxAlert.push({
+                        name: input.getAttribute('name')
+                    })
+                }
+            })
+
+            textareas.forEach(input => {
+                if (input.getAttribute('data-input') === "recommended" && input.value === "") {
+                    inputBoxAlert.push({
+                        name: input.getAttribute('name')
+                    })
+                }
+            })
+
+            if (inputBoxAlert.length > 0) {
+                inputBoxAlert.forEach(item => {
+                    toastr.error(`${item.name.replaceAll("[]", "")} can't empty. Please fill that input field.`, 'Error!')
+                });
+                return false;
+            }
+
+            return true;
+        }
+
+        function submitRequisition(where_to_go) {
+            $('#where_to_go').val(where_to_go);
+
+            var error_count = 0;
+
+            if ($('#reference_no').val() == "") {
+                error_count++;
+                toastr.error("Please Enter Reference No");
+            }
+            if ($('#requisition_no').val() == "") {
+                error_count++;
+                toastr.error("Please Enter Requisition No");
+            }
+
+            if ($('.subcategory').find(':selected').val() == "") {
+                error_count++;
+                toastr.error("Please Choose Category");
+            }
+
+            $.each($('.requisition-products'), function (index, val) {
+                if ($(this).val() == "" || parseInt($(this).val()) <= 0) {
+                    error_count++;
+                    toastr.error("Please choose Product");
+                }
+            });
+
+            $.each($('.requisition-qty'), function (index, val) {
+                if ($(this).val() == "" || parseInt($(this).val()) < 0) {
+                    error_count++;
+                    toastr.error("Please write Product Quantity");
+                }
+            });
+
+            if (error_count == 0) {
+                if (where_to_go == 'back') {
+                    let form = $('#ProductsForm');
+
+                    $.ajax({
+                        url: form.attr('action'),
+                        type: form.attr('method'),
+                        dataType: 'json',
+                        processData: false,
+                        contentType: false,
+                        data: new FormData(form[0]),
+                    })
+                        .done(function (response) {
+
+                            toastr.success(response.message);
+                            $('#reference_no').val(response.sku);
+                            $('#showSavedData').html(response.appendData);
+                        })
+                        .fail(function (response) {
+                            var errors = '<ul class="pl-3">';
+                            $.each(response.responseJSON.errors, function (index, val) {
+                                errors += '<li>' + val[0] + '</li>';
+                            });
+                            errors += '</ul>';
+                            toastr.errors(errors);
+
+                        });
+                } else {
+                    $('#ProductsForm').submit();
+                }
+            }
         }
     </script>
 @endsection

@@ -24,13 +24,13 @@
                                                width="100%" id="dataTable">
                                             <thead>
                                             <tr class="text-center">
-                                                <th>Product</th>
+                                                <th width="20%">Product Detail</th>
                                                 <th>UOM</th>
-                                                <th>Grn Qty</th>
-                                                <th width="12%">QC Status</th>
-                                                <th width="10%">Qty</th>
-                                                <th width="18%">Warehouses</th>
-                                                <th>MRR No</th>
+                                                <th>GRN Qty</th>
+                                                <th width="10%">QC Status</th>
+                                                <th width="15%">Qty</th>
+                                                <th width="15%">Warehouses</th>
+                                                <th width="15%">MRR No</th>
                                                 <th>Expire Date</th>
                                             </tr>
                                             </thead>
@@ -78,11 +78,12 @@
                                                             <td class="text-center">
                                                                 <input type="number"
                                                                        name="received_qty[{{isset($item->id)?$item->id:0}}]"
-                                                                       class="form-control bg-white" min="1"
+                                                                       class="form-control bg-white"
                                                                        max="{{$receivedQty}}"
+                                                                       step="any"
                                                                        id="received_qty_{{isset($item->id)?$item->id:0}}"
                                                                        value="{{$receivedQty}}" placeholder="0"
-                                                                       oninput="this.value = Math.abs(this.value)">
+                                                                       >
                                                             </td>
 
                                                             <td>
@@ -95,7 +96,6 @@
                                                                         @foreach($warehouses as $key=>$value)
                                                                             <option
                                                                                 value="{{$value->id}}">{{ $value->name }}
-                                                                                ({{$value->code}})
                                                                             </option>
                                                                         @endforeach
                                                                     </select>
@@ -110,17 +110,18 @@
                                                                        placeholder="MRR No">
                                                             </td>
                                                             <td class="text-center">
-                                                                <input type="date"
-                                                                       name="expire_date[{{isset($item->id)?$item->id:0}}]"
-                                                                       class="form-control bg-white"
-                                                                       value="{{date('Y-m-d')}}"
-                                                                       id="expire_date_{{isset($item->id)?$item->id:0}}"
-                                                                       placeholder="Date No">
+                                                                @if($item->product->is_expire_date=='yes')
+                                                                    <input type="date"
+                                                                           name="expire_date[{{isset($item->id)?$item->id:0}}]"
+                                                                           class="form-control bg-white"
+                                                                           id="expire_date_{{isset($item->id)?$item->id:0}}"
+                                                                           required
+                                                                           placeholder="Date No">
+                                                                @endif
                                                             </td>
 
                                                         </tr>
                                                     @endif
-
                                                 @endforeach
                                             @endif
                                             </tbody>

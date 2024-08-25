@@ -3,15 +3,18 @@
 
 <div class="row">
     <input type="hidden" name="work_order_id" value="{{$work_order_id}}">
+
     <div class="col-md-12 table-responsive style-scroll mt-2">
         <table class="table table-striped table-bordered miw-500 dac_table"
                cellspacing="0"
                width="100%" id="dataTable">
             <thead>
             <tr class="text-center">
-                <th>Charges</th>
-                <th width="20%">Amount</th>
-                <th width="10%" class="text-center">Action</th>
+                <th width="30%">Charges</th>
+                <th width="15%">Amount</th>
+                <th width="10%">Currency</th>
+                <th width="20%">C.Rate <p>(1 USD=?)</p></th>
+                <th width="5%" class="text-center">#</th>
             </tr>
             </thead>
             <tbody class="field_wrapper">
@@ -27,11 +30,37 @@
                 </td>
                 <td>
                     <div class="input-group input-group-md mb-3 d-">
-                        <input type="text" name="amount[]"
+                        <input type="number" name="amount[]"
                                id="amount_1"
                                class="form-control mask-money"
-                               required data-input="recommended"
+                               required
+                               min="0"
+                               data-input="recommended"
+                               step="any"
                         >
+                    </div>
+                </td>
+                <td>
+                    <div class="input-group input-group-md mb-3 d-">
+                        <select class="form-control select2bs4 currency"
+                                id="currency_id_1" name="currency_id[]">
+                            @foreach($currenciesModel as $data)
+                                <option
+                                    value="{{$data->id}}">{{$data->short_code}}
+                                    ({{$data->symbol}})
+                                </option>
+                            @endforeach
+                        </select>
+                    </div>
+                </td>
+                <td>
+                    <div class="input-group input-group-md mb-3 d-">
+                        <input type="number" name="currency_convert_rate[]"
+                               id="currency_convert_rate_1"
+                               step="any"
+                               min="0"
+                               class="form-control mask-money"
+                               required>
                     </div>
                 </td>
                 <td>
@@ -61,6 +90,12 @@
 <script type="text/javascript">
 
     "use strict";
+    $(".select2bs4").each(function () {
+        $(this).select2({
+            theme: "bootstrap4",
+            dropdownParent: $(this).parent()
+        });
+    });
 
     $(document).ready(function () {
 
@@ -70,7 +105,13 @@
 
         getCharges();
 
+        var currencies = '';
+        $.each(<?php echo json_encode($currenciesModel); ?>, function (key, value) {
+            currencies += '<option value="' + (value.id) + '">' + value.short_code + ' (' + (value.symbol) + ')</option>';
+        });
+
         $(addButton).click(function () {
+
 
             x++;
 
@@ -84,7 +125,19 @@
                 '                                            </td>\n' +
                 '                                            <td>\n' +
                 '                                                <div class="input-group input-group-md mb-3 d-">\n' +
-                '                                                    <input type="text" name="amount[]" id="amount_' + x + '" class="form-control mask-money" aria-label="Large" aria-describedby="inputGroup-sizing-sm" required>\n' +
+                '                                                    <input type="number" name="amount[]" step="any" id="amount_' + x + '" min="0" class="form-control mask-money" aria-label="Large" aria-describedby="inputGroup-sizing-sm" required>\n' +
+                '                                                </div>\n' +
+                '                                            </td>\n' +
+                '                                                <td><div class="input-group input-group-md mb-3 d-">'
+                +
+                '                                                    <select name="currency_id[]" id="currency_id_' + x + '" data-increment="' + x + '" class="form-control select2 currency" required>' + (currencies) + '</select>\n' +
+                '</div>\n' +
+                '                                            </td>\n' +
+                '\n' +
+                '                                            <td>\n' +
+                '                                                <div class="input-group input-group-md mb-3 d-">\n' +
+                '                                                    <input type="number" name="currency_convert_rate[]" id="currency_convert_rate_' + x + '" class="form-control mask-money" min="0" step="any" aria-label="Large" aria-describedby="inputGroup-sizing-sm" required data-quantity="">' +
+                '\n' +
                 '                                                </div>\n' +
                 '                                            </td>\n' +
                 '\n' +
@@ -103,10 +156,10 @@
             });
 
             generateCharges($('#charge_id_' + x, wrapper))
-            $('.mask-money').maskMoney(
-                {
-                    thousands: '', decimal: '.', allowZero: true, allowEmpty: true
-                });
+            // $('.mask-money').maskMoney(
+            //     {
+            //         thousands: '', decimal: '.', allowZero: true, allowEmpty: true
+            //     });
 
         });
 
@@ -121,6 +174,7 @@
 
     });
 
+
     function getCharges() {
         $.each($('.subcategory'), function (index, val) {
             generateCharges($(this));
@@ -131,7 +185,7 @@
 
         var charges = <?php echo json_encode($charges); ?>;
 
-        var chargeElement = '<option value="">Select Charge</option>';
+        var chargeElement = '';
         $.each(charges, function (index, val) {
             chargeElement += '<option value="' + (val.id) + '">' + val.charge_name + ' (' + (val.charge_code) + ')</option>';
         });
@@ -140,4 +194,5 @@
     }
 
 </script>
+
 

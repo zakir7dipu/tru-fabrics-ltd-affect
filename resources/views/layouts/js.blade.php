@@ -1,6 +1,6 @@
 <!-- Vendor js -->
 <script src="{{ url('backend') }}/assets/js/vendor.min.js"></script>
-<!-- Daterangepicker js -->
+<!-- Datetimepicker js -->
 <script src="{{ url('backend') }}/assets/vendor/daterangepicker/moment.min.js"></script>
 <script src="{{ url('backend') }}/assets/vendor/daterangepicker/daterangepicker.js"></script>
 <!-- Apex Charts js -->
@@ -48,7 +48,12 @@
 <script type="text/javascript"
         src="https://cdnjs.cloudflare.com/ajax/libs/jquery-maskmoney/3.0.2/jquery.maskMoney.min.js"></script>
 
+
+<!-- toaster alert -->
+<script src="{{asset('notification_assets/js/toastr.min.js')}}"></script>
+
 @yield('javascript')
+@toastr_render
 <script !src>
     !(function (c) {
         "use strict";
@@ -236,10 +241,10 @@
             });
     }
 
-    $('.mask-money').maskMoney(
-        {
-            thousands: '', decimal: '.', allowZero: true, allowEmpty: true
-        });
+    // $('.mask-money').maskMoney(
+    //     {
+    //         thousands: '', decimal: '.', allowZero: true, allowEmpty: true
+    //     });
 
     function formatMoneyMusking(number, digit, cCode) {
         return number.toLocaleString('fullwide', {
@@ -265,6 +270,61 @@
                 },
             },
         });
+    }
+
+    function viewPDFReport(url = '') {
+        var form = $('#report-form');
+        if(form.attr('action')){
+            $('#report_type').val('pdf');
+
+            var link = form.attr('action')+'?';
+            $.each(form.serializeArray(), function(index, val) {
+                link += val['name']+'='+val['value']+'&';
+            });
+
+            window.open(link, '_blank');
+        }else{
+            window.open(url+"?pdf", '_blank');
+        }
+    }
+
+    function viewExcelReport(url = '') {
+        var form = $('#report-form');
+        if(form.attr('action')){
+            $('#report_type').val('excel');
+
+            var link = form.attr('action')+'?';
+            $.each(form.serializeArray(), function(index, val) {
+                link += val['name']+'='+val['value']+'&';
+            });
+
+            window.open(link, '_blank');
+        }else{
+            window.open(url+"?excel", '_blank');
+        }
+    }
+
+    function exportReportToExcel(filename = '') {
+        var downloadLink;
+        var dataType = 'application/vnd.ms-excel';
+        let tableSelect = document.querySelector(".export-table");
+        var tableHTML = tableSelect.outerHTML.replace(/ /g, '%20');
+
+        filename = filename?filename+'.xls':'Report.xls';
+        downloadLink = document.createElement("a");
+
+        document.body.appendChild(downloadLink);
+
+        if(navigator.msSaveOrOpenBlob){
+            var blob = new Blob(['\ufeff', tableHTML], {
+                type: dataType
+            });
+            navigator.msSaveOrOpenBlob( blob, filename);
+        }else{
+            downloadLink.href = 'data:' + dataType + ', ' + tableHTML;
+            downloadLink.download = filename;
+            downloadLink.click();
+        }
     }
 
 </script>

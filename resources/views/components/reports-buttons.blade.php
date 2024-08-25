@@ -13,7 +13,7 @@
         </div>
     @endif
 
-    {{-- <div class="col-md-{{ !(!isset($searchHide) || !$searchHide) ? 4 : 2 }} pt-1 pl-0">
+     <div class="col-md-{{ !(!isset($searchHide) || !$searchHide) ? 4 : 2 }} pt-1 pl-0">
         <button class="btn btn-sm btn-block btn-success" type="button" onclick="viewPDFReport()"><i
                 class="mdi mdi-file-pdf-box"></i>&nbsp;PDF</button>
     </div>
@@ -22,7 +22,7 @@
         <button class="btn btn-sm btn-block btn-primary" type="button"
             onclick="exportReportToExcel('{{ $title }}')"><i
                 class="mdi mdi-file-excel-box"></i>&nbsp;Excel</button>
-    </div> --}}
+    </div>
 </div>
 
 @section('javascript')
@@ -66,39 +66,39 @@
                 });
         }
 
-        // function viewPDFReport() {
-        //     var form = $('#report-form');
-        //     $('#report_type').val('pdf');
+        function viewPDFReport() {
+            var form = $('#report-form');
+            $('#report_type').val('pdf');
 
-        //     var link = form.attr('action') + '?';
-        //     $.each(form.serializeArray(), function(index, val) {
-        //         link += val['name'] + '=' + val['value'] + '&';
-        //     });
+            var link = form.attr('action') + '?';
+            $.each(form.serializeArray(), function(index, val) {
+                link += val['name'] + '=' + val['value'] + '&';
+            });
 
-        //     window.open(link, '_blank');
-        // }
+            window.open(link, '_blank');
+        }
 
-        // function exportReportToExcel(filename = '') {
-        //     var downloadLink;
-        //     var dataType = 'application/vnd.ms-excel';
-        //     let tableSelect = document.querySelector(".export-table");
-        //     var tableHTML = tableSelect.outerHTML.replace(/ /g, '%20');
+        function exportReportToExcel(filename = '') {
+            var downloadLink;
+            var dataType = 'application/vnd.ms-excel';
+            let tableSelect = document.querySelector(".export-table");
+            var tableHTML = tableSelect.outerHTML.replace(/ /g, '%20');
 
-        //     filename = filename ? filename + '.xls' : 'Report.xls';
-        //     downloadLink = document.createElement("a");
+            filename = filename ? filename + '.xls' : 'Report.xls';
+            downloadLink = document.createElement("a");
 
-        //     document.body.appendChild(downloadLink);
+            document.body.appendChild(downloadLink);
 
-        //     if (navigator.msSaveOrOpenBlob) {
-        //         var blob = new Blob(['\ufeff', tableHTML], {
-        //             type: dataType
-        //         });
-        //         navigator.msSaveOrOpenBlob(blob, filename);
-        //     } else {
-        //         downloadLink.href = 'data:' + dataType + ', ' + tableHTML;
-        //         downloadLink.download = filename;
-        //         downloadLink.click();
-        //     }
-        // }
+            if (navigator.msSaveOrOpenBlob) {
+                var blob = new Blob(['\ufeff', tableHTML], {
+                    type: dataType
+                });
+                navigator.msSaveOrOpenBlob(blob, filename);
+            } else {
+                downloadLink.href = 'data:' + dataType + ', ' + tableHTML;
+                downloadLink.download = filename;
+                downloadLink.click();
+            }
+        }
     </script>
 @endsection

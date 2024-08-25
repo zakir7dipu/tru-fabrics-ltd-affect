@@ -18,6 +18,11 @@
                                 </div>
                                 <div class="col-xl-4">
                                     <div class="text-xl-end mt-xl-0 mt-2">
+                                        <a href="javascript:void(0)" class="btn btn-success mb-2"
+                                           data-toggle="modal" title="Upload Products by xlsx file"
+                                           id="uploadOptionFile"> <i class="mdi mdi-cloud-upload"></i> Upload
+                                            Product</a>
+
                                         @if(isOptionPermitted('product-create'))
                                             <a href="{{route('products.create')}}" class="btn btn-info mb-2 me-2"
                                                data-toggle="tooltip" title="Add New Product"> <i class="mdi mdi-plus
@@ -51,11 +56,18 @@
             </div>
         </div>
     </div>
+
+    @include('products::products.xlsfile')
 @endsection
 
 @section('javascript')
     @include('yajra.js')
+
     <script>
+        $('#uploadOptionFile').on('click', function () {
+            $('#productUploadModal').modal('show');
+        });
+
         function showDetails(userId) {
             $('#dataBody').empty().load('{{url(Request()->route()->getPrefix()."/products")}}/' + userId);
             $('#showUserDetailsModal').modal('show');

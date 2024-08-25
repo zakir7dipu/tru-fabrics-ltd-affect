@@ -69,12 +69,11 @@
     <div class="col-md-3">
         <div class="form-group">
             <div class="form-line">
-                {!!  Form::label('trade', 'Trade License', ['class' => 'col-form-label']) !!} <span
-                    class="text-danger">*</span>
+                {!!  Form::label('trade', 'Trade License', ['class' => 'col-form-label']) !!}
                 {!! Form::text('trade', request()->old('trade'), [
                     'id' => 'trade',
                     'class' => 'form-control',
-                    'required' => 'required',
+                    'required' => false,
                     'placeholder' => 'Enter Customers Trade'
                 ]) !!}
                 {!! $errors->first('trade') !!}

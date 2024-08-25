@@ -20,6 +20,11 @@
                                 <div class="col-xl-4">
                                     <div class="text-xl-end mt-xl-0 mt-2">
                                         @if(isOptionPermitted('category-create'))
+                                            <a href="javascript:void(0)" class="btn btn-success mb-2"
+                                               data-toggle="modal" title="Upload Attribute by xlsx file"
+                                               id="uploadOptionFile"> <i class="mdi mdi-cloud-upload"></i> Upload
+                                                Category</a>
+
                                             <a href="{{route('categories.create')}}" class="btn btn-info mb-2 me-2"
                                                data-toggle="tooltip" title="Add New Category"> <i class="mdi mdi-plus
                                            me-1"></i>{{translate('Add New Category')}}</a>
@@ -52,11 +57,18 @@
             </div>
         </div>
     </div>
+
+    @include('products::category.xlsfile')
 @endsection
 
 @section('javascript')
     @include('yajra.js')
     <script>
+
+        $('#uploadOptionFile').on('click', function () {
+            $('#categoryUploadModal').modal('show');
+        });
+
         function showDetails(id) {
             $('#dataBody').empty().load('{{url(Request()->route()->getPrefix()."/categories")}}/' + id);
             $('#showUserDetailsModal').modal('show');

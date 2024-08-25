@@ -7,7 +7,7 @@
     <div class="content">
         <div class="container-fluid">
             @include('components.breadcrumb', ['item' => ['/'=>languageValue(websiteSettings()->name),'active'=>'CMS'],
-            'pTitle' => 'Units List'])
+            'pTitle' => $title])
 
             <div class="row">
                 <div class="col-12">

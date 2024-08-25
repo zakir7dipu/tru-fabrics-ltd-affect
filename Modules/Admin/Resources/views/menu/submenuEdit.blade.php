@@ -28,14 +28,22 @@
                                         {!! Form::open(array('route' => ['acl.sub-menu.update',$data->id],'method'=>'PUT','class'=>'kt-form kt-form--label-right','files'=>true)) !!}
 
                                         <div class="form-group row mt-2 {{ $errors->has('name') ? 'has-error' : '' }}">
+
+                                            <div class="col-md-1">
+                                                {{Form::label('menu_id', ' Menu', array('class' => ' control-label text-right'))}}
+                                                <strong><span class="text-danger">&nbsp;*</span></strong>
+                                            </div>
+
+                                            <div class="col-md-3">
+                                                {!! Form::Select('menu_id',$allMenus,$data->menu_id,['id'=>'menu_id', 'class'=>'form-control select2']) !!}
+                                            </div>
+
                                             <div class="col-md-1">
                                                 {{Form::label('name', ' Sub Menu', array('class' => ' control-label text-right'))}}
                                                 <strong><span class="text-danger">&nbsp;*</span></strong>
                                             </div>
-                                            <div class="col-md-11">
+                                            <div class="col-md-7">
                                                 {{Form::text('name',$data->name,array('class'=>'form-control','placeholder'=>'Sub Menu Name *','required'))}}
-
-                                                <input type="hidden" name="menu_id" value="{{$menu->id}}">
                                             </div>
                                         </div>
 
@@ -58,17 +66,17 @@
                                                 </div>
                                             </div>
 
-                                            <div class="col-md-4 col-lg-4">
+                                            <div class="col-md-6 col-lg-6">
                                                 <div class="input-group">
-                                            <span class="input-group-prepend">
-                                                <label class="input-group-text">{{translate('Icon Class')}}:</label>
-                                            </span>
+                                        <span class="input-group-prepend">
+                                            <label class="input-group-text">{{translate('Icon Class')}}:</label>
+                                        </span>
 
                                                     {{Form::text('icon_class',$data->icon_class,array('class'=>'form-control','placeholder'=>'Ex: fa fa-folder'))}}
                                                     @if ($errors->has('icon_class'))
                                                         <span class="help-block">
-                                                <strong>{{ $errors->first('icon_class') }}</strong>
-                                            </span>
+                                            <strong>{{ $errors->first('icon_class') }}</strong>
+                                        </span>
                                                     @endif
                                                 </div>
                                             </div>

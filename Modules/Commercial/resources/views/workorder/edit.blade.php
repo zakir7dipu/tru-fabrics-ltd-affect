@@ -18,8 +18,6 @@
                                 </div>
                                 <div class="col-xl-4">
                                     <div class="text-xl-end mt-xl-0 mt-2">
-
-
                                         <a href="{{route('work-orders.index')}}" class="btn btn-info mb-2 me-2"
                                            data-toggle="tooltip" title="Work Order List"> <i class="mdi mdi-text
                                            me-1"></i>{{translate('Work Order Lists')}}</a>
@@ -40,7 +38,7 @@
                                             <div class="col-md-3">
                                                 <div class="form-group">
                                                     <div class="form-line">
-                                                        {!!  Form::label('reference_no', 'Reference No', ['class' => 'col-form-label']) !!}
+                                                        {!!  Form::label('reference_no', 'Pre Cost Reference No', ['class' => 'col-form-label']) !!}
                                                         <span class="text-danger">*</span>
                                                         {!! Form::text('reference_no', isset($sku)?$sku:request()->old('reference_no'), [
                                                             'id' => 'reference_no',
@@ -66,12 +64,41 @@
                                                 </div>
                                             </div>
 
-                                            <div class="col-md-3">
+                                            {{--                                            <div class="col-md-3">--}}
+                                            {{--                                                <div class="form-group">--}}
+                                            {{--                                                    <div class="form-line">--}}
+                                            {{--                                                        {!!  Form::label('export_lc_no', 'Export LC No', ['class' => 'col-form-label']) !!}--}}
+                                            {{--                                                        <span class="text-danger">*</span>--}}
+                                            {{--                                                        {!! Form::text('export_lc_no', request()->old('export_lc_no'), [--}}
+                                            {{--                                                            'id' => 'export_lc_no',--}}
+                                            {{--                                                            'class' => 'form-control',--}}
+                                            {{--                                                            'placeholder' => 'Enter export LC No'--}}
+                                            {{--                                                        ]) !!}--}}
+                                            {{--                                                        {!! $errors->first('export_lc_no') !!}--}}
+                                            {{--                                                    </div>--}}
+                                            {{--                                                </div>--}}
+                                            {{--                                            </div>--}}
+                                            <div class="col-md-2">
                                                 <div class="form-group">
                                                     <div class="form-line">
-                                                        {!!  Form::label('delivery_date', 'Delivery Date', ['class' => 'col-form-label']) !!}
+                                                        {!!  Form::label('wo_open_date', 'WO Issue Date', ['class' => 'col-form-label']) !!}
                                                         <span class="text-danger">*</span>
-                                                        {!! Form::date('delivery_date', $workOrder->delivery_date, [
+                                                        {!! Form::date('wo_open_date', \request()->old('wo_open_date'), [
+                                                            'id' => 'wo_open_date',
+                                                            'required' => true,
+                                                            'class' => 'form-control',
+                                                            'placeholder' => 'Enter Issue Date'
+                                                        ]) !!}
+                                                        {!! $errors->first('wo_open_date') !!}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-2">
+                                                <div class="form-group">
+                                                    <div class="form-line">
+                                                        {!!  Form::label('delivery_date', 'Estimated Delivery Date', ['class' => 'col-form-label']) !!}
+                                                        <span class="text-danger">*</span>
+                                                        {!! Form::date('delivery_date', date('Y-m-d', strtotime($workOrder->delivery_date)), [
                                                             'id' => 'delivery_date',
                                                             'class' => 'form-control',
                                                             'placeholder' => 'Enter Delivery Date'
@@ -80,10 +107,13 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="col-md-3">
+
+
+                                            <div class="col-md-2">
                                                 <div class="form-group">
                                                     <div class="form-line">
-                                                        {!!  Form::label('customer_id', 'Customers', array('class' => 'col-form-label')) !!}
+                                                        {!!  Form::label('customer_id', 'Customer', array('class' => 'col-form-label')) !!}
+
                                                         {!! Form::Select('customer_id',$customers,Request::old('customer_id'),['id'=>'customer_id', 'class'=>'form-control select2']) !!}
                                                         {!! $errors->first('customer_id') !!}
                                                     </div>
@@ -92,12 +122,12 @@
                                             <div class="col-md-3">
                                                 <div class="form-group">
                                                     <div class="form-line">
-                                                        {!!  Form::label('garments_name', 'Garments Name', ['class' => 'col-form-label']) !!}
-                                                        <span class="text-danger">*</span>
+                                                        {!!  Form::label('garments_name', 'Buyer Name', ['class' => 'col-form-label']) !!}
+
                                                         {!! Form::text('garments_name', request()->old('garments_name'), [
                                                             'id' => 'garments_name',
                                                             'class' => 'form-control',
-                                                            'placeholder' => 'Enter Garments Name'
+                                                            'placeholder' => 'Enter Buyer Name'
                                                         ]) !!}
                                                         {!! $errors->first('garments_name') !!}
                                                     </div>
@@ -107,8 +137,32 @@
                                             <div class="col-md-3">
                                                 <div class="form-group">
                                                     <div class="form-line">
-                                                        {!!  Form::label('lab_dep_approval', 'Lab Dep Approval', ['class' => 'col-form-label']) !!}
+                                                        {!!  Form::label('account_holder', 'Account Holder Name', ['class' => 'col-form-label']) !!}
+
+                                                        {!! Form::text('account_holder', request()->old('account_holder'), [
+                                                            'id' => 'account_holder',
+                                                            'class' => 'form-control',
+                                                            'placeholder' => 'Enter Account Holder Name'
+                                                        ]) !!}
+                                                        {!! $errors->first('account_holder') !!}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-2">
+                                                <div class="form-group">
+                                                    <div class="form-line">
+                                                        {!!  Form::label('process_id', 'Production Process', array('class' => 'col-form-label')) !!}
                                                         <span class="text-danger">*</span>
+                                                        {!! Form::Select('process_id',$productProcess,Request::old('process_id'),['id'=>'process_id', 'class'=>'form-control select2','required'=>true]) !!}
+                                                        {!! $errors->first('process_id') !!}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-2">
+                                                <div class="form-group">
+                                                    <div class="form-line">
+                                                        {!!  Form::label('lab_dep_approval', 'Lab Dep Approval', ['class' => 'col-form-label']) !!}
+
                                                         {!! Form::text('lab_dep_approval', request()->old('lab_dep_approval'), [
                                                             'id' => 'lab_dep_approval',
                                                             'class' => 'form-control',
@@ -118,11 +172,11 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="col-md-3">
+                                            <div class="col-md-2">
                                                 <div class="form-group">
                                                     <div class="form-line">
                                                         {!!  Form::label('shrinkage', 'Shrinkage', ['class' => 'col-form-label']) !!}
-                                                        <span class="text-danger">*</span>
+
                                                         {!! Form::text('shrinkage', request()->old('shrinkage'), [
                                                             'id' => 'shrinkage',
                                                             'class' => 'form-control',
@@ -132,13 +186,48 @@
                                                     </div>
                                                 </div>
                                             </div>
+                                            <div class="col-md-2">
+                                                <div class="form-group">
+                                                    <div class="form-line">
+                                                        {!!  Form::label('hand_feel', 'Hand Feel', array('class' => 'col-form-label')) !!}
+
+                                                        {!! Form::Select('hand_feel',handFeels(),Request::old('hand_feel'),['id'=>'hand_feel', 'class'=>'form-control select2']) !!}
+                                                        {!! $errors->first('hand_feel') !!}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-2">
+                                                <div class="form-group">
+                                                    <div class="form-line">
+                                                        {!!  Form::label('finish_type', 'Finish Type', array('class' => 'col-form-label')) !!}
+
+                                                        {!! Form::Select('finish_type',finishTypes(),Request::old('finish_type'),['id'=>'finish_type', 'class'=>'form-control select2']) !!}
+                                                        {!! $errors->first('finish_type') !!}
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-md-3">
+                                                <div class="form-group">
+                                                    <div class="form-line">
+                                                        {!!  Form::label('fabric_composition', 'Fabric Composition', ['class' => 'col-form-label']) !!}
+
+                                                        {!! Form::text('fabric_composition', request()->old('fabric_composition'), [
+                                                            'id' => 'fabric_composition',
+                                                            'class' => 'form-control',
+                                                            'placeholder' => 'Enter Fabric Composition'
+                                                        ]) !!}
+                                                        {!! $errors->first('fabric_composition') !!}
+                                                    </div>
+                                                </div>
+                                            </div>
                                             <div class="col-md-3">
                                                 <div class="form-group">
                                                     <div class="form-line">
                                                         {!!  Form::label('wo_file', 'Work Order File', array('class' => 'col-form-label')) !!}
                                                         <br>
                                                         <input type="file" name="wo_file"
-                                                               id="wo_file" class="btn btn-outline-success btn-sm">
+                                                               id="wo_file" class="form-control">
 
                                                         {!! $errors->first('wo_file') !!}
                                                     </div>
@@ -152,12 +241,15 @@
                                                        width="100%" id="dataTable">
                                                     <thead>
                                                     <tr class="text-center">
-                                                        <th width="20%">Category</th>
-                                                        <th width="40%">Product</th>
-                                                        <th width="10%">UOM</th>
-                                                        <th width="10%">Qty</th>
-                                                        <th width="10%">Unit Price</th>
-                                                        <th class="text-center">Action</th>
+                                                        <th width="10%">Product Category</th>
+                                                        <th width="20%">Product Detail</th>
+                                                        <th width="5%">UOM</th>
+                                                        <th width="15%">Qty</th>
+                                                        <th width="15%">Price</th>
+                                                        <th width="15%">Total</th>
+                                                        <th width="10%">Currency</th>
+                                                        <th width="15%">C.Rate <p>(1USD=?)</p></th>
+                                                        <th width="5%" class="text-center">#</th>
                                                     </tr>
                                                     </thead>
                                                     <tbody class="field_wrapper">
@@ -165,68 +257,209 @@
                                                         $oldProductIds=[];
                                                     @endphp
                                                     @foreach($workOrder->workOrderItems as $key=>$item)
-                                                        <tr>
-                                                            <td>
-                                                                <div class="input-group input-group-md mb-3 d-">
-                                                                    <select name="sub_category_id[]"
-                                                                            id="sub_category_id_{{$key+1}}"
-                                                                            style="width: 100%"
-                                                                            class="form-control subcategory select2"
-                                                                            onchange="getProduct($(this))">
+                                                        @if($item->requisitions->count() >0)
+                                                            <tr>
+                                                                <td>
+                                                                    <div class="input-group input-group-md mb-3 d-">
+                                                                        <select name="old_sub_category_id[{{$item->id}}]"
+                                                                                id="sub_category_id_{{$key+1}}"
+                                                                                style="width: 100%"
+                                                                                class="form-control subcategory select2"
+                                                                                onchange="getProduct($(this))">
+                                                                        </select>
+                                                                    </div>
+                                                                </td>
+                                                                <td class="product-td">
+                                                                    <div class="input-group input-group-md mb-3 d-">
+                                                                        <select name="old_product_id[{{$item->id}}]"
+                                                                                id="product_{{$key+1}}"
+                                                                                class="form-control product requisition-products select2"
+                                                                                onchange="getUOM()"
+                                                                                data-selected-product="{{ $item->product_id }}"
+                                                                                data-selected-sub-category="{{ $item->product->category_id }}"
+                                                                                required>
+                                                                            <option value="{{ null }}"
+                                                                                    data-uom="">{{ __('Select Product') }}</option>
+                                                                        </select>
+                                                                    </div>
+                                                                </td>
+                                                                <td class="product-uom text-center">{{isset($item->product->productUnit->unit_name)?$item->product->productUnit->unit_name:''}}</td>
+                                                                <td>
+                                                                    <div class="input-group input-group-md mb-3 d-">
+                                                                        <input type="number" name="old_qty[{{$item->id}}]"
 
-                                                                    </select>
-                                                                </div>
-                                                            </td>
-                                                            <td class="product-td">
-                                                                <div class="input-group input-group-md mb-3 d-">
-                                                                    <select name="product_id[]" id="product_{{$key+1}}"
-                                                                            class="form-control product requisition-products"
-                                                                            onchange="getUOM()"
-                                                                            data-selected-product="{{ $item->product_id }}"
-                                                                            data-selected-sub-category="{{ $item->product->category_id }}"
-                                                                            required>
-                                                                        <option value="{{ null }}"
-                                                                                data-uom="">{{ __('Select Product') }}</option>
-                                                                    </select>
-                                                                </div>
-                                                            </td>
-                                                            <td class="product-uom text-center">{{isset($item->product->productUnit->unit_name)?$item->product->productUnit->unit_name:''}}</td>
-                                                            <td>
-                                                                <div class="input-group input-group-md mb-3 d-">
-                                                                    <input type="number" name="qty[]" min="1"
-                                                                           max="99999999"
-                                                                           id="qty_{{$key+1}}"
-                                                                           class="form-control requisition-qty"
-                                                                           aria-label="Large"
-                                                                           aria-describedby="inputGroup-sizing-sm"
-                                                                           onKeyPress="if(this.value.length==6) return false;"
-                                                                           required data-input="recommended"
-                                                                           oninput="this.value = Math.abs(this.value)"
-                                                                           data-quantity="{{$item->qty}}"
-                                                                           value="{{$item->qty}}"
-                                                                    >
-                                                                </div>
-                                                            </td>
-                                                            <td>
-                                                                <div class="input-group input-group-md mb-3 d-">
-                                                                    <input type="text" name="unit_price[]"
-                                                                           id="unit_price_{{$key+1}}"
-                                                                           class="form-control mask-money"
-                                                                           required data-input="recommended"
-                                                                           data-unit-price=""
-                                                                           value="{{$item->price}}"
-                                                                    >
-                                                                </div>
-                                                            </td>
-                                                            <td>
-                                                                <a href="javascript:void(0);" id="remove_{{$key+1}}"
-                                                                   class="remove_button btn btn-sm btn-danger"
-                                                                   title="Remove"
-                                                                   style="color:#fff;">
-                                                                    <i class="mdi mdi-trash-can"></i>
-                                                                </a>
-                                                            </td>
-                                                        </tr>
+                                                                               id="qty_{{$key+1}}"
+                                                                               class="form-control requisition-qty"
+                                                                               step="any"
+                                                                               required data-input="recommended"
+                                                                               data-quantity="{{$item->qty}}"
+                                                                               value="{{$item->qty}}"
+                                                                               data-id='{{$key+1}}'
+                                                                               onchange="calculateUnitPrice($(this))"
+                                                                               onkeyup="calculateUnitPrice($(this))"
+                                                                        >
+                                                                    </div>
+                                                                </td>
+                                                                <td>
+                                                                    <div class="input-group input-group-md mb-3 d-">
+                                                                        <input type="text" name="old_unit_price[{{$item->id}}]"
+                                                                               id="unit_price_{{$key+1}}"
+                                                                               class="form-control mask-money"
+                                                                               required data-input="recommended"
+                                                                               data-unit-price=""
+                                                                               value="{{$item->price}}"
+                                                                               data-id='{{$key+1}}'
+                                                                               step="any"
+                                                                               onchange="calculateUnitPrice($(this))"
+                                                                               onkeyup="calculateUnitPrice($(this))"
+                                                                        >
+                                                                    </div>
+                                                                </td>
+                                                                <td>
+                                                                    <div class="input-group input-group-md mb-3 d-">
+                                                                        <input type="number" name="old_sub_total_price[{{$item->id}}]"
+                                                                               id="total_price_1"
+                                                                               class="form-control mask-money total_price_1"
+                                                                               required
+                                                                               step="any"
+                                                                               readonly
+                                                                               value="{{$item->sub_total}}"
+                                                                        >
+                                                                    </div>
+                                                                </td>
+                                                                <td>
+                                                                    <div class="input-group input-group-md mb-3 d-">
+                                                                        <select class="form-control select2 currency"
+                                                                                id="currency_id_1" name="old_currency_id[{{$item->id}}]">
+                                                                            @foreach($currenciesModel as $data)
+                                                                                <option
+                                                                                    value="{{$data->id}}" {{$data->id==$item->currency_id?'selected':''}}>{{$data->short_code}}
+                                                                                    ({{$data->symbol}})
+                                                                                </option>
+                                                                            @endforeach
+                                                                        </select>
+                                                                    </div>
+                                                                </td>
+                                                                <td>
+                                                                    <div class="input-group input-group-md mb-3 d-">
+                                                                        <input type="text"
+                                                                               name="old_currency_convert_rate[{{$item->id}}]"
+                                                                               id="currency_convert_rate_1"
+                                                                               class="form-control mask-money"
+                                                                               required
+                                                                               value="{{$item->currency_convert_rate}}">
+                                                                    </div>
+                                                                </td>
+                                                                <td>
+                                                                    <input type="hidden" name="work_order_item_id[]" value="{{$item->id}}">
+                                                                </td>
+                                                            </tr>
+                                                        @else
+                                                            <tr>
+                                                                <td>
+                                                                    <div class="input-group input-group-md mb-3 d-">
+                                                                        <select name="sub_category_id[]"
+                                                                                id="sub_category_id_{{$key+1}}"
+                                                                                style="width: 100%"
+                                                                                class="form-control subcategory select2"
+                                                                                onchange="getProduct($(this))">
+
+                                                                        </select>
+                                                                    </div>
+                                                                </td>
+                                                                <td class="product-td">
+                                                                    <div class="input-group input-group-md mb-3 d-">
+                                                                        <select name="product_id[]"
+                                                                                id="product_{{$key+1}}"
+                                                                                class="form-control product requisition-products select2"
+                                                                                onchange="getUOM()"
+                                                                                data-selected-product="{{ $item->product_id }}"
+                                                                                data-selected-sub-category="{{ $item->product->category_id }}"
+                                                                                required>
+                                                                            <option value="{{ null }}"
+                                                                                    data-uom="">{{ __('Select Product') }}</option>
+                                                                        </select>
+                                                                    </div>
+                                                                </td>
+                                                                <td class="product-uom text-center">{{isset($item->product->productUnit->unit_name)?$item->product->productUnit->unit_name:''}}</td>
+                                                                <td>
+                                                                    <div class="input-group input-group-md mb-3 d-">
+                                                                        <input type="number" name="qty[]"
+
+                                                                               id="qty_{{$key+1}}"
+                                                                               class="form-control requisition-qty"
+                                                                               step="any"
+                                                                               required data-input="recommended"
+                                                                               data-quantity="{{$item->qty}}"
+                                                                               value="{{$item->qty}}"
+                                                                               data-id='{{$key+1}}'
+                                                                               onchange="calculateUnitPrice($(this))"
+                                                                               onkeyup="calculateUnitPrice($(this))"
+                                                                        >
+                                                                    </div>
+                                                                </td>
+                                                                <td>
+                                                                    <div class="input-group input-group-md mb-3 d-">
+                                                                        <input type="text" name="unit_price[]"
+                                                                               id="unit_price_{{$key+1}}"
+                                                                               class="form-control mask-money"
+                                                                               required data-input="recommended"
+                                                                               data-unit-price=""
+                                                                               value="{{$item->price}}"
+                                                                               data-id='{{$key+1}}'
+                                                                               step="any"
+                                                                               onchange="calculateUnitPrice($(this))"
+                                                                               onkeyup="calculateUnitPrice($(this))"
+                                                                        >
+                                                                    </div>
+                                                                </td>
+                                                                <td>
+                                                                    <div class="input-group input-group-md mb-3 d-">
+                                                                        <input type="number" name="sub_total_price[]"
+                                                                               id="total_price_1"
+                                                                               class="form-control mask-money total_price_1"
+                                                                               required
+                                                                               step="any"
+                                                                               readonly
+                                                                               value="{{$item->sub_total}}"
+                                                                        >
+                                                                    </div>
+                                                                </td>
+                                                                <td>
+                                                                    <div class="input-group input-group-md mb-3 d-">
+                                                                        <select class="form-control select2 currency"
+                                                                                id="currency_id_1" name="currency_id[]">
+                                                                            @foreach($currenciesModel as $data)
+                                                                                <option
+                                                                                    value="{{$data->id}}" {{$data->id==$item->currency_id?'selected':''}}>{{$data->short_code}}
+                                                                                    ({{$data->symbol}})
+                                                                                </option>
+                                                                            @endforeach
+                                                                        </select>
+                                                                    </div>
+                                                                </td>
+                                                                <td>
+                                                                    <div class="input-group input-group-md mb-3 d-">
+                                                                        <input type="text"
+                                                                               name="currency_convert_rate[]"
+                                                                               id="currency_convert_rate_1"
+                                                                               class="form-control mask-money"
+                                                                               required
+                                                                               value="{{$item->currency_convert_rate}}">
+                                                                    </div>
+                                                                </td>
+                                                                <td>
+
+                                                                    <a href="javascript:void(0);" id="remove_{{$key+1}}"
+                                                                       class="remove_button btn btn-sm btn-danger"
+                                                                       title="Remove"
+                                                                       style="color:#fff;">
+                                                                        <i class="mdi mdi-trash-can"></i>
+                                                                    </a>
+
+                                                                </td>
+                                                            </tr>
+                                                        @endif
                                                     @endforeach
 
                                                     </tbody>
@@ -299,6 +532,11 @@
 
             getSubCategories();
 
+            var currencies = '';
+            $.each(<?php echo json_encode($currenciesModel); ?>, function (key, value) {
+                currencies += '<option value="' + (value.id) + '">' + value.short_code + ' (' + (value.symbol) + ')</option>';
+            });
+
             $(addButton).click(function () {
 
                 x++;
@@ -324,16 +562,31 @@
                     '<td class="product-uom text-center"></td>' +
                     '                                            <td>\n' +
                     '                                                <div class="input-group input-group-md mb-3 d-">\n' +
-                    '                                                    <input type="number" name="qty[]" min="1" max="9999" onKeyPress="if(this.value.length==6) return false;" id="qty_' + x + '" class="form-control requisition-qty" aria-label="Large" aria-describedby="inputGroup-sizing-sm" oninput="this.value = Math.abs(this.value)" required data-quantity="">\n' +
+                    '                                                    <input type="number" name="qty[]" step="any"  id="qty_' + x + '" class="form-control requisition-qty"  onchange="calculateUnitPrice($(this))" data-id="' + x + '" onkeyup="calculateUnitPrice($(this))" required data-quantity="">\n' +
                     '                                                </div>\n' +
                     '                                            </td>\n'
                     +
                     '                                            <td>\n' +
                     '                                                <div class="input-group input-group-md mb-3 d-">\n' +
-                    '                                                    <input type="text" name="unit_price[]" id="unit_price_' + x + '" class="form-control mask-money" aria-label="Large" aria-describedby="inputGroup-sizing-sm" required data-quantity="">\n' +
+                    '                                                    <input type="number" name="unit_price[]" id="unit_price_' + x + '" class="form-control mask-money" step="any" aria-label="Large" aria-describedby="inputGroup-sizing-sm" required data-quantity="" onchange="calculateUnitPrice($(this))" data-id="' + x + '" onkeyup="calculateUnitPrice($(this))"  >\n' +
+                    '                                                </div>\n' +
+                    '                                            </td>\n'
+                    + '<td>\n' +
+                    '                                                <div class="input-group input-group-md mb-3 d-">\n' +
+                    '                                                    <input type="number" name="sub_total_price[]" id="total_price_' + x + '" class="form-control mask-money total_price_' + x + '" step="any" aria-label="Large" aria-describedby="inputGroup-sizing-sm" required data-quantity="">\n' +
                     '                                                </div>\n' +
                     '                                            </td>\n' +
+                    '                                                <td><div class="input-group input-group-md mb-3 d-">'
+                    +
+                    '                                                    <select name="currency_id[]" id="currency_id_' + x + '" data-increment="' + x + '" class="form-control select2 currency" required>' + (currencies) + '</select>\n' +
+                    '</div>\n' +
+                    '                                            </td>\n' +
                     '\n' +
+                    '                                            <td>\n' +
+                    '                                                <div class="input-group input-group-md mb-3 d-">\n' +
+                    '                                                    <input type="text" name="currency_convert_rate[]" id="currency_convert_rate_' + x + '" class="form-control mask-money" aria-label="Large" aria-describedby="inputGroup-sizing-sm" required data-quantity="">\n' +
+                    '                                                </div>\n' +
+                    '                                            </td>\n' +
                     '                                            <td>\n' +
                     '                                                <a href="javascript:void(0);" id="remove_' + x + '" class="remove_button btn btn-sm btn-danger" title="Remove" style="color:#fff;">\n' +
                     '                                                    <i class="mdi mdi-trash-can"></i>\n' +
@@ -346,11 +599,13 @@
                 $(wrapper).append(fieldHTML);
                 $('#sub_category_id_' + x, wrapper).select2();
                 $('#product_' + x, wrapper).select2();
-                generateSubCategories($('#sub_category_id_' + x, wrapper))
-                $('.mask-money').maskMoney(
-                    {
-                        thousands: '', decimal: '.', allowZero: true, allowEmpty: true
-                    });
+                $('#currency_id_' + x, wrapper).select2();
+                generateSubCategories($('#sub_category_id_' + x, wrapper));
+
+                // $('.mask-money').maskMoney(
+                //     {
+                //         thousands: '', decimal: '.', allowZero: true, allowEmpty: true
+                //     });
 
             });
 
@@ -451,40 +706,15 @@
             });
         }
 
-        function uploadExcelFile() {
-            var excel_form = $('#excel-upload-form');
-            var excel_button = $('.excel-upload-button');
-            var excel_button_content = excel_button.html();
+        function calculateUnitPrice(element) {
 
-            excel_button.prop('disabled', true).html("<i class='las la-spinner la-spin'></i>&nbsp;Please wait...");
+            var incrementNumber = element.attr('data-id');
+            var productQty = parseFloat($('#qty_' + incrementNumber).val()) !== null ? parseFloat($('#qty_' + incrementNumber).val()) : 0;
+            var productUnitPrice = parseFloat($('#unit_price_' + incrementNumber).val()) !== null ? parseFloat($('#unit_price_' + incrementNumber).val()) : 0;
 
-            $.ajax({
-                url: excel_form.attr('action'),
-                type: excel_form.attr('method'),
-                dataType: 'json',
-                processData: false,
-                contentType: false,
-                data: new FormData(excel_form[0]),
-            })
-                .done(function (response) {
-                    if (response.success) {
-                        location.reload();
-                    } else {
-                        toastr.error(response.message);
-                    }
-
-                    excel_button.prop('disabled', false).html(excel_button_content);
-                })
-                .fail(function (response) {
-                    var errors = '<ul class="">';
-                    $.each(response.responseJSON.errors, function (index, val) {
-                        errors += '<li class="text-white">' + val[0] + '</li>';
-                    });
-                    errors += '</ul>';
-                    toastr.error(errors);
-
-                    excel_button.prop('disabled', false).html(excel_button_content);
-                });
+            if (productQty !== null && productUnitPrice !== null) {
+                $('#total_price_' + incrementNumber).val(parseFloat(productQty * productUnitPrice))
+            }
         }
     </script>
 @endsection

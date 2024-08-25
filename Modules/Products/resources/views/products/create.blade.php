@@ -4,6 +4,11 @@
     @php
         use Illuminate\Support\Facades\Request;
     @endphp
+    <style>
+        .select2-container {
+            width: 100% !important;
+        }
+    </style>
     <div class="content">
         <div class="container-fluid">
             @include('components.breadcrumb', ['item' => ['/'=>languageValue(websiteSettings()->name),'active'=>'IMS'],

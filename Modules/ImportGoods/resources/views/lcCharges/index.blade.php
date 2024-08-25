@@ -66,14 +66,14 @@
 
         function LCChargeCreate(event) {
             $('#showUserDetailsModal .modal-title').html('Charge Create');
-            $('#showUserDetailsModal .modal-dialog').removeClass('modal-xl').addClass('modal-lg');
+            $('#showUserDetailsModal .modal-dialog').removeClass('modal-xl').addClass('modal-xl');
             $('#showUserDetailsModal .modal-body').empty().load(event.attr('data-src'))
             $('#showUserDetailsModal').modal('show');
         }
 
         function EditPiCharges(event) {
             $('#showUserDetailsModal .modal-title').html('Charge Edit');
-            $('#showUserDetailsModal .modal-dialog').removeClass('modal-xl').addClass('modal-lg');
+            $('#showUserDetailsModal .modal-dialog').removeClass('modal-xl').addClass('modal-xl');
             $('#showUserDetailsModal .modal-body').empty().load(event.attr('data-src'))
             $('#showUserDetailsModal').modal('show');
         }

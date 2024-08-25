@@ -19,12 +19,7 @@
                                 </div>
                                 <div class="col-xl-4">
                                     <div class="text-xl-end mt-xl-0 mt-2">
-                                        @if (isOptionPermitted('work-order-create'))
-                                            <a href="{{ route('work-orders.create') }}" class="btn btn-info mb-2 me-2"
-                                               data-toggle="tooltip" title="Add New"> <i
-                                                    class="mdi mdi-plus
-                                           me-1"></i>{{ translate('Add New') }}</a>
-                                        @endif
+
                                     </div>
                                 </div>
                             </div>
@@ -57,11 +52,45 @@
 @section('javascript')
     @include('yajra.js')
 
-    //Request()->route()->getPrefix()
     <script>
         function showDetails(id) {
             $('#dataBody').empty().load('{{ url('admin/commercial/work-orders') }}/' + id);
             $('#showUserDetailsModal').modal('show');
         }
+
+        function completeProduction(button) {
+            swal({
+                title: "Are you sure ?",
+                text: "Once you "+button.html()+ ", You need to permission of management for further process.",
+                icon: "warning",
+                dangerMode: true,
+                buttons: {
+                    cancel: true,
+                    confirm: {
+                        text: button.html(),
+                        value: true,
+                        visible: true,
+                        closeModal: true
+                    },
+                },
+            }).then((value) => {
+                if(value){
+                    $.ajax({
+                        type: 'get',
+                        url: button.attr('data-href'),
+                        headers: {'X-CSRF-TOKEN': '{{ csrf_token() }}'},
+                        dataType: 'json',
+                        success:function (response) {
+                            if(response.success){
+                                notification('success', response.message)
+                                reloadDatatable();
+                            }else{
+                                notification('error', response.message);
+                                return;
+                            }
+                        },
+                    });
+                }
+            });        }
     </script>
 @endsection

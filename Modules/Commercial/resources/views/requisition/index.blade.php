@@ -19,11 +19,16 @@
                                 </div>
                                 <div class="col-xl-4">
                                     <div class="text-xl-end mt-xl-0 mt-2">
+                                        <a href="javascript:void(0)" class="btn btn-success mb-2"
+                                           data-toggle="modal" title="Upload Requisition Stock by xlsx file"
+                                           id="uploadOptionFile"> <i class="mdi mdi-cloud-upload"></i> Upload
+                                            Bulk Requisition</a>
+
                                         @if (isOptionPermitted('material-requisition-create'))
                                             <a href="{{ route('requisitions.create') }}" class="btn btn-info mb-2 me-2"
                                                data-toggle="tooltip" title="Add New"> <i
                                                     class="mdi mdi-plus
-                                           me-1"></i>{{ translate('Add New') }}</a>
+                                           me-1"></i>{{ translate('Add New Requisition') }}</a>
                                         @endif
                                     </div>
                                 </div>
@@ -52,11 +57,19 @@
             </div>
         </div>
     </div>
+
+    @include('commercial::requisition.xlsfile')
 @endsection
 
 @section('javascript')
     @include('yajra.js')
     <script>
+
+        $('#uploadOptionFile').on('click', function () {
+            $('#productUploadModal .modal-title').html('Upload Requisition Bulk Data');
+            $('#productUploadModal').modal('show');
+        });
+
         function showDetails(id) {
             $('.bd-example-modal-xl .modal-title').html('Requisition Details');
             $('#dataBody').empty().load('{{ url(Request()->route()->getPrefix() . '/requisitions') }}/' + id);
@@ -68,6 +81,15 @@
             $('#dataBody').empty().load('{{ url(Request()->route()->getPrefix() . '/work-orders') }}/' + id);
             $('#showUserDetailsModal').modal('show');
         }
+
+        function showReqDetails(element) {
+            let code = element.attr('data-code');
+
+            $('.bd-example-modal-xl .modal-title').html('Requisition Details');
+            $('#dataBody').empty().load('{{ url(Request()->route()->getPrefix() . '/requisition-wise-details') }}/' + code);
+            $('#showUserDetailsModal').modal('show');
+        }
+
 
         function sendToStore(button) {
             swal({
@@ -85,17 +107,17 @@
                     },
                 },
             }).then((value) => {
-                if(value){
+                if (value) {
                     $.ajax({
                         type: 'get',
                         url: button.attr('data-src'),
                         headers: {'X-CSRF-TOKEN': '{{ csrf_token() }}'},
                         dataType: 'json',
-                        success:function (response) {
-                            if(response.success){
+                        success: function (response) {
+                            if (response.success) {
                                 notification('success', response.message)
                                 reloadDatatable();
-                            }else{
+                            } else {
                                 notification('error', response.message);
                                 return;
                             }

@@ -6,7 +6,7 @@
 
     <div class="content">
         <div class="container-fluid">
-            @include('components.breadcrumb', ['item' => ['/'=>languageValue(websiteSettings()->name),'admin/productions'=>'Productions','active'=>'Productions'],
+            @include('components.breadcrumb', ['item' => ['/'=>languageValue(websiteSettings()->name),'admin/commercial/work-orders'=>'Work Orders','active'=>'Commercial'],
             'pTitle' => $title])
 
             <div class="row">
@@ -66,14 +66,12 @@
 
         function ProductionChargeCreate(event) {
             $('#showUserDetailsModal .modal-title').html('Charge Create');
-            $('#showUserDetailsModal .modal-dialog').removeClass('modal-xl').addClass('modal-lg');
             $('#showUserDetailsModal .modal-body').empty().load(event.attr('data-src'))
             $('#showUserDetailsModal').modal('show');
         }
 
         function EditPiCharges(event) {
             $('#showUserDetailsModal .modal-title').html('Charge Edit');
-            $('#showUserDetailsModal .modal-dialog').removeClass('modal-xl').addClass('modal-lg');
             $('#showUserDetailsModal .modal-body').empty().load(event.attr('data-src'))
             $('#showUserDetailsModal').modal('show');
         }

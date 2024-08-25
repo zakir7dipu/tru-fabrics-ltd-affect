@@ -7,6 +7,7 @@
                         <li><strong>{{__('Reference No') }}
                                 :</strong> {{$finishedGood->reference_no}}
                         </li>
+
                         <li><strong>{{__('Received Date')}}
                                 :</strong> {{date('d M Y',strtotime($finishedGood->received_date))}}
                         </li>
@@ -15,7 +16,7 @@
                 <div class="col-6">
                     <ul class="list-styled mb0 pull-right">
                         <li><strong>{{__('Work Order No')}}
-                                :</strong>{{$finishedGood->workOrder->reference_no}}
+                                :</strong>{{$finishedGood->workOrder->work_order_no}}
                         </li>
                         <li><strong>{{__('Customer')}}
                                 :</strong>{{isset($finishedGood->workOrder->customer->name)?$finishedGood->workOrder->customer->name:''}}
@@ -31,11 +32,14 @@
                 <thead>
                 <tr class="text-center">
                     <th>SL</th>
-                    <th>Category</th>
-                    <th>Product</th>
+                    <th>Product Category</th>
+                    <th width="40%">Product Detail</th>
                     <th>UOM</th>
                     <th>Qty</th>
                     <th>Warehouse</th>
+                    <th>FG Received</th>
+                    <th>UOM Type</th>
+                    <th>UOM QTY</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -47,13 +51,19 @@
                             ( {{isset($item->workOrderItem->product->sku)?$item->workOrderItem->product->sku:''}}
                             ) {{ getProductAttributesFaster($item->workOrderItem->product) }}</td>
                         <td>{{ isset($item->workOrderItem->product->productUnit->unit_name)?$item->workOrderItem->product->productUnit->unit_name:'' }}</td>
-                        <td class="text-center">{{$item->qty}}</td>
+                        <td class="text-center">{{number_format($item->qty)}}</td>
                         <td class="text-center">{{$item->warehouse->name}}</td>
+                        <td class="text-center">{{date('d-M-Y', strtotime($item->fg_received_date))}}</td>
+                        <td class="text-center">{{$item->uom_type}}</td>
+                        <td class="text-center">{{$item->uom_qty}}</td>
                     </tr>
                 @endforeach
                 <tr>
                     <td colspan="4">Total</td>
-                    <td>{{$finishedGood->finishedGoodItems->sum('qty')}}</td>
+                    <td>{{number_format($finishedGood->finishedGoodItems->sum('qty'))}}</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
                     <td></td>
                 </tr>
                 </tbody>

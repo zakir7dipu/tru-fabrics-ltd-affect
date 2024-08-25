@@ -31,7 +31,9 @@
         <div class="form-group">
             <div class="form-line">
                 {!!  Form::label('segments', 'Segments', array('class' => 'col-form-label')) !!}
-                {!! Form::Select('segments',array('greige'=>'Greige','d&c'=>'D&C'),Request::old('segments'),['id'=>'segments', 'class'=>'form-control select2']) !!}
+                {!! Form::Select('segments',
+                array('grey-fabric'=>'Grey-Fabric','d&c'=>'D&C','spare-parts'=>'Spare-Parts','stationary'=>'Stationary','general'=>'Other General Items')
+                ,Request::old('segments'),['id'=>'segments', 'class'=>'form-control select2']) !!}
                 {!! $errors->first('segments') !!}
             </div>
         </div>
@@ -39,10 +41,11 @@
     <div class="col-md-3">
         <div class="form-group">
             <div class="form-line">
-                {!!  Form::label('phone', 'Phone', ['class' => 'col-form-label']) !!}
+                {!!  Form::label('phone', 'Phone', ['class' => 'col-form-label']) !!} <span class="text-danger">*</span>
                 {!! Form::text('phone', request()->old('phone'), [
                     'id' => 'phone',
                     'class' => 'form-control',
+                    'required' => true,
                     'placeholder' => 'Enter Suppliers Phone'
                 ]) !!}
                 {!! $errors->first('phone') !!}

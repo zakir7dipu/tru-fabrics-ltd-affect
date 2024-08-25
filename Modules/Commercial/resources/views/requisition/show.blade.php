@@ -4,26 +4,36 @@
             <div class="invoice-details mt25 row">
                 <div class="well col-6">
                     <ul class="list-styled mb0">
-                        <li><strong>{{__('Reference No') }}
-                                : </strong> {{$requisition->reference_no}}
+                        @if(isset($requisition->workOrderItem->workOrder))
+                            <li><strong>{{__('Work Order No')}}
+                                    : </strong> {{isset($requisition->workOrderItem->workOrder->work_order_no)?$requisition->workOrderItem->workOrder->work_order_no:''}}
+                            </li>
+                        @endif
+                        <li><strong>{{__('Requisition No') }}
+                                : </strong> {{$requisition->requisition_no}}
                         </li>
 
-                        <li><strong>{{__('Requisition Date')}}
+                        <li><strong>{{__('Request Date')}}
                                 : </strong>{{date('d M Y',strtotime($requisition->requisition_date))}}
                         </li>
-                        <li><strong>{{__('WorkOrder Ref No')}}
-                                : </strong> {{isset($requisition->workOrderItem->workOrder->reference_no)?$requisition->workOrderItem->workOrder->reference_no:''}}
+                        <li><strong>{{__('Department') }}
+                                : </strong> {{isset($requisition->department->name)?$requisition->department->name:''}}
                         </li>
                     </ul>
                 </div>
                 <div class="col-6">
                     <ul class="list-styled mb0 pull-right">
-                        <li><strong>{{__('Finished Good')}}
-                                : </strong>{{isset($requisition->workOrderItem->product->name)?$requisition->workOrderItem->product->name:''}} {{ getProductAttributesFaster($requisition->workOrderItem->product) }}
+                        <li><strong>{{__('Fabric Type') }}
+                                : </strong> {{isset($requisition->finish_type)?$requisition->finish_type:''}}
                         </li>
-                        <li><strong>{{__('Delivery Date')}}
-                                : </strong> {{date('d M Y',strtotime($requisition->workOrderItem->workOrder->delivery_date?$requisition->workOrderItem->workOrder->delivery_date:''))}}
-                        </li>
+                        @if(isset($requisition->workOrderItem->workOrder))
+                            <li><strong>{{__('Finished Good')}}
+                                    : </strong>{{isset($requisition->workOrderItem->product->name)?$requisition->workOrderItem->product->name .getProductAttributesFaster($requisition->workOrderItem->product):''}}
+                            </li>
+                            <li><strong>{{__('Delivery Date')}}
+                                    : </strong> {{date('d M Y',strtotime(isset($requisition->workOrderItem->workOrder->delivery_date)?$requisition->workOrderItem->workOrder->delivery_date:''))}}
+                            </li>
+                        @endif
 
                     </ul>
                 </div>
@@ -36,8 +46,8 @@
                 <thead>
                 <tr class="text-center">
                     <th>SL</th>
-                    <th>Category</th>
-                    <th>Product</th>
+                    <th>Product Category</th>
+                    <th>Product Detail</th>
                     <th>UOM</th>
                     <th>Qty</th>
                 </tr>

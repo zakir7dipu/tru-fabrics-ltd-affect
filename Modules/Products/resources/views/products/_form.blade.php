@@ -40,7 +40,7 @@
         </div>
     </div>
 
-    <div class="col-md-4">
+    <div class="col-md-6">
         <div class="form-group">
             <div class="form-line">
                 {!!  Form::label('name', 'Name', ['class' => 'col-form-label']) !!} <span class="text-danger">*</span>
@@ -53,59 +53,59 @@
             </div>
         </div>
     </div>
-    <div class="col-md-2">
-        <div class="form-group">
-            <div class="form-line">
-                {!!  Form::label('unit_price', 'Unit Price', ['class' => 'col-form-label']) !!} <span
-                    class="text-danger">*</span>
-                {!! Form::text('unit_price', request()->old('unit_price'), [
-                    'id' => 'unit_price',
-                    'class' => 'form-control mask-money',
-                    'placeholder' => 'Enter Products Unit Price'
-                ]) !!}
-                {!! $errors->first('unit_price') !!}
-            </div>
-        </div>
-    </div>
-    <div class="col-md-2">
-        <div class="form-group">
-            <div class="form-line">
-                {!!  Form::label('vat', 'Vat', ['class' => 'col-form-label']) !!}
-                {!! Form::text('vat', request()->old('vat'), [
-                    'id' => 'vat',
-                    'class' => 'form-control mask-money',
-                    'placeholder' => 'Enter Products Vat'
-                ]) !!}
-                {!! $errors->first('vat') !!}
-            </div>
-        </div>
-    </div>
-    <div class="col-md-2">
-        <div class="form-group">
-            <div class="form-line">
-                {!!  Form::label('tax', 'Tax', ['class' => 'col-form-label']) !!}
-                {!! Form::text('tax', request()->old('tax'), [
-                    'id' => 'tax',
-                    'class' => 'form-control mask-money',
-                    'placeholder' => 'Enter Products Tax'
-                ]) !!}
-                {!! $errors->first('tax') !!}
-            </div>
-        </div>
-    </div>
-    <div class="col-md-2">
-        <div class="form-group">
-            <div class="form-line">
-                {!!  Form::label('sales_price', 'Sales Price', ['class' => 'col-form-label']) !!}
-                {!! Form::text('sales_price', request()->old('sales_price'), [
-                    'id' => 'sales_price',
-                    'class' => 'form-control mask-money',
-                    'placeholder' => 'Enter Products Sales Price'
-                ]) !!}
-                {!! $errors->first('sales_price') !!}
-            </div>
-        </div>
-    </div>
+    {{--    <div class="col-md-2">--}}
+    {{--        <div class="form-group">--}}
+    {{--            <div class="form-line">--}}
+    {{--                {!!  Form::label('unit_price', 'Unit Price', ['class' => 'col-form-label']) !!} <span--}}
+    {{--                    class="text-danger">*</span>--}}
+    {{--                {!! Form::text('unit_price', request()->old('unit_price'), [--}}
+    {{--                    'id' => 'unit_price',--}}
+    {{--                    'class' => 'form-control mask-money',--}}
+    {{--                    'placeholder' => 'Enter Products Unit Price'--}}
+    {{--                ]) !!}--}}
+    {{--                {!! $errors->first('unit_price') !!}--}}
+    {{--            </div>--}}
+    {{--        </div>--}}
+    {{--    </div>--}}
+    {{--    <div class="col-md-2">--}}
+    {{--        <div class="form-group">--}}
+    {{--            <div class="form-line">--}}
+    {{--                {!!  Form::label('vat', 'Vat', ['class' => 'col-form-label']) !!}--}}
+    {{--                {!! Form::text('vat', request()->old('vat'), [--}}
+    {{--                    'id' => 'vat',--}}
+    {{--                    'class' => 'form-control mask-money',--}}
+    {{--                    'placeholder' => 'Enter Products Vat'--}}
+    {{--                ]) !!}--}}
+    {{--                {!! $errors->first('vat') !!}--}}
+    {{--            </div>--}}
+    {{--        </div>--}}
+    {{--    </div>--}}
+    {{--    <div class="col-md-2">--}}
+    {{--        <div class="form-group">--}}
+    {{--            <div class="form-line">--}}
+    {{--                {!!  Form::label('tax', 'Tax', ['class' => 'col-form-label']) !!}--}}
+    {{--                {!! Form::text('tax', request()->old('tax'), [--}}
+    {{--                    'id' => 'tax',--}}
+    {{--                    'class' => 'form-control mask-money',--}}
+    {{--                    'placeholder' => 'Enter Products Tax'--}}
+    {{--                ]) !!}--}}
+    {{--                {!! $errors->first('tax') !!}--}}
+    {{--            </div>--}}
+    {{--        </div>--}}
+    {{--    </div>--}}
+    {{--    <div class="col-md-2">--}}
+    {{--        <div class="form-group">--}}
+    {{--            <div class="form-line">--}}
+    {{--                {!!  Form::label('sales_price', 'Sales Price', ['class' => 'col-form-label']) !!}--}}
+    {{--                {!! Form::text('sales_price', request()->old('sales_price'), [--}}
+    {{--                    'id' => 'sales_price',--}}
+    {{--                    'class' => 'form-control mask-money',--}}
+    {{--                    'placeholder' => 'Enter Products Sales Price'--}}
+    {{--                ]) !!}--}}
+    {{--                {!! $errors->first('sales_price') !!}--}}
+    {{--            </div>--}}
+    {{--        </div>--}}
+    {{--    </div>--}}
     <div class="col-md-2">
         <div class="form-group">
             <div class="form-line">
@@ -124,10 +124,57 @@
             </div>
         </div>
     </div>
+    <div class="col-md-2">
+        <div class="form-group">
+            <div class="form-line">
+                {!!  Form::label('is_bulk_requisition', 'Is Apply for Bulk Requisition?', array('class' => 'col-form-label')) !!}
+                {!! Form::Select('is_bulk_requisition',array('no'=>'No','yes'=>'Yes'),Request::old('is_bulk_requisition'),['id'=>'is_bulk_requisition', 'class'=>'form-control select2']) !!}
+                {!! $errors->first('is_bulk_requisition') !!}
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="form-group">
+            <div class="form-line">
+                {!!  Form::label('is_general_item', 'Is Apply for General Requisition?', array('class' => 'col-form-label')) !!}
+                {!! Form::Select('is_general_item',array('no'=>'No','yes'=>'Yes'),Request::old('is_general_item'),['id'=>'is_general_item', 'class'=>'form-control select2']) !!}
+                {!! $errors->first('is_general_item') !!}
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="form-group">
+            <div class="form-line">
+                {!!  Form::label('is_expire_date', 'Is Expire Date Applicable?', array('class' => 'col-form-label')) !!}
+                {!! Form::Select('is_expire_date',array('no'=>'No','yes'=>'Yes'),Request::old('is_expire_date'),['id'=>'is_expire_date', 'class'=>'form-control select2']) !!}
+                {!! $errors->first('is_expire_date') !!}
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="form-group">
+            <div class="form-line">
+                {!!  Form::label('type', 'Type', array('class' => 'col-form-label')) !!}
+                {!! Form::Select('type',productTypes(),Request::old('type'),['id'=>'type', 'class'=>'form-control select2']) !!}
+                {!! $errors->first('type') !!}
+            </div>
+        </div>
+    </div>
+    {{--    <div class="col-md-6">--}}
+    {{--        {!!  Form::label('$supplier', 'Suppliers', array('class' => 'col-form-label')) !!}--}}
+    {{--        <select name="supplier[]" id="supplier" class="form-control rounded select2" multiple>--}}
+    {{--            @if(isset($suppliers[0]))--}}
+    {{--                @foreach($suppliers as $key => $supplier)--}}
+    {{--                    <option--}}
+    {{--                        value="{{ $supplier->id }}" {{ isset($existedSuppliers)? (in_array($supplier->id, $existedSuppliers) ? 'selected' : ''):'' }}>{{ $supplier->name }}</option>--}}
+    {{--                @endforeach--}}
+    {{--            @endif--}}
+    {{--        </select>--}}
+    {{--    </div>--}}
 
     <input type="hidden" value="approved" name="status"/>
 
-    <div class="col-md-8">
+    <div class="col-md-12">
         {!!  Form::label('attributes', 'Attributes', array('class' => 'col-form-label')) !!}
         <select name="productAttributes[]" id="attributes"
                 class="form-control rounded product-attributes select2" multiple
@@ -166,17 +213,6 @@
         </div>
     </div>
 
-    <div class="col-md-12">
-        {!!  Form::label('$supplier', 'Suppliers', array('class' => 'col-form-label')) !!}
-        <select name="supplier[]" id="supplier" class="form-control rounded select2" multiple>
-            @if(isset($suppliers[0]))
-                @foreach($suppliers as $key => $supplier)
-                    <option
-                        value="{{ $supplier->id }}" {{ isset($existedSuppliers)? (in_array($supplier->id, $existedSuppliers) ? 'selected' : ''):'' }}>{{ $supplier->name }}</option>
-                @endforeach
-            @endif
-        </select>
-    </div>
 
     <div class="col-md-12">
         <div class="form-group">

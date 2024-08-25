@@ -5,23 +5,25 @@
     <meta charset="utf-8" />
     <title>{{env('APP_NAME')}} | Log In</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="title" content=" "/>
-    <meta name="keywords" content="Sanajinx"/>
-    <meta name="description" content="Sanajinx"/>
-    <meta name="author" content="Sanajinx">
+    <meta name="title" content="Bizzsol PLC"/>
+    <meta name="keywords" content="Bizzsol PLC"/>
+    <meta name="description" content="{{ languageValue(websiteSettings()->slogan) }}"/>
+    <meta name="author" content="the LaraSoft">
     <meta name="og:title"
-          content="Sanajinx.net"/>
+          content="{{ languageValue(websiteSettings()->name) }} | Login"/>
     <meta name="og:type" content="website"/>
-    <meta name="og:url" content="https://sanajinx.net"/>
-    <meta name="og:image" content="{{asset(session()->get('language') == 'en' ? websiteSettings()->logo : websiteSettings()->default_user_cover)}}"/>
-    <meta name="og:site_name" content="sanajinx.net"/>
+    <meta name="og:url" content="{{url('/')}}"/>
+    <meta name="og:image"
+          content="{{asset(session()->get('language') == 'en' ? websiteSettings()->logo : websiteSettings()->default_user_cover)}}"/>
+    <meta name="og:site_name" content="bizzsol.com.bd"/>
     <meta name="og:description"
-          content=""/>
+          content="{{ languageValue(websiteSettings()->slogan) }}"/>
 
     <link rel="shortcut icon" href="{{asset(websiteSettings()->favicon)}}">
     <script src="{{url('backend')}}/assets/js/hyper-config.js"></script>
     <link href="{{url('backend')}}/assets/css/app-saas.min.css" rel="stylesheet" type="text/css" id="app-style"/>
     <link href="{{url('backend')}}/assets/css/icons.min.css" rel="stylesheet" type="text/css"/>
+    <script async src="https://www.google.com/recaptcha/api.js"></script>
 </head>
 <body class="authentication-bg pb-0">
     <div class="auth-fluid">

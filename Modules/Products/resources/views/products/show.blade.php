@@ -26,7 +26,7 @@
                 <td>{{translate('Product Supplier')}}:</td>
                 <td>
 
-                    @if($suppliers[0])
+                    @if($suppliers)
                         @foreach($suppliers as $supplier)
                             <span class="badge badge-outline-info m-1">{{$supplier->name}}</span>
                         @endforeach

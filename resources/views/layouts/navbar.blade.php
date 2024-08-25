@@ -1,3 +1,16 @@
+@php
+    $ids = \DB::table('logs')->when(isset(auth()->user()->id), function ($query) {
+            return $query->whereIn('notification_event_id', auth()->user()->assginNotificationEvents->pluck('pivot.notification_event_id')->toArray());
+    })->whereJsonContains('read_by', auth()->user()->id)->pluck('id')->toArray();
+
+    $logs = \DB::table('logs')->when(isset(auth()->user()->id), function ($query) {
+            return $query->whereIn('notification_event_id', auth()->user()->assginNotificationEvents->pluck('pivot.notification_event_id')->toArray());
+    })->whereNotIn('id',$ids)
+        ->orderBy('id', 'desc')
+            ->take(10)
+            ->get();
+@endphp
+
 <div class="navbar-custom topnav-navbar">
     <div class="container-fluid detached-nav">
         <!-- Topbar Logo -->
@@ -89,7 +102,9 @@
                 <a class="nav-link dropdown-toggle arrow-none" data-bs-toggle="dropdown" href="#" role="button"
                    aria-haspopup="false" aria-expanded="false">
                     <i class="ri-notification-3-line noti-icon"></i>
-                    <span class="noti-icon-badge"></span>
+                    @if(isset($logs[0]))
+                        <span class="noti-icon-badge"></span>
+                    @endif
                 </a>
                 <div class="dropdown-menu dropdown-menu-end dropdown-menu-animated dropdown-lg py-0">
                     <div class="p-2 border-top-0 border-start-0 border-end-0 border-dashed border">
@@ -99,18 +114,7 @@
                             </div>
                         </div>
                     </div>
-                    @php
-                        $ids = \DB::table('logs')->when(isset(auth()->user()->id), function ($query) {
-                                return $query->whereIn('notification_event_id', auth()->user()->assginNotificationEvents->pluck('pivot.notification_event_id')->toArray());
-                        })->whereJsonContains('read_by', auth()->user()->id)->pluck('id')->toArray();
 
-                        $logs = \DB::table('logs')->when(isset(auth()->user()->id), function ($query) {
-                                return $query->whereIn('notification_event_id', auth()->user()->assginNotificationEvents->pluck('pivot.notification_event_id')->toArray());
-                        })->whereNotIn('id',$ids)
-                            ->orderBy('id', 'desc')
-                                ->take(10)
-                                ->get();
-                    @endphp
                     @if(isset($logs[0]))
                         @foreach($logs as $log)
 

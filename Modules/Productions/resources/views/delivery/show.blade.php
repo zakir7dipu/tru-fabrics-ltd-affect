@@ -7,30 +7,32 @@
                         <li><strong>{{__('FG Reference No') }}
                                 :</strong> {{$fgDelivery->reference_no}}
                         </li>
+                        <li><strong>{{__('FG Challan No') }}
+                                :</strong> {{$fgDelivery->challan_no}}
+                        </li>
 
                         <li><strong>{{__('Work Order No')}}
                                 :</strong>{{$fgDelivery->workOrder->work_order_no}}
                         </li>
-                        <li><strong>{{__('Garments Name')}}
-                                :</strong> {{$fgDelivery->workOrder->garments_name}}
+                        <li><strong>{{__('Delivered Date')}}
+                                :</strong> {{date('d M Y',strtotime($fgDelivery->delivered_date))}}
                         </li>
-                        <li><strong>{{__('Estimated Delivery Date')}}
-                                :</strong> {{date('d M Y',strtotime($fgDelivery->workOrder->delivery_date))}}
+                        <li><strong>{{__('UP Ref No')}}
+                                :</strong> {{$fgDelivery->custom_charge_ref_no}}
                         </li>
-
+                        <li><strong>{{__('UP Charge')}}
+                                :</strong> {{systemMoneyFormat($fgDelivery->custom_charge,'$',2)}}
+                        </li>
                     </ul>
                 </div>
                 <div class="col-6">
                     <ul class="list-styled mb0 pull-right">
-                        <li><strong>{{__('Delivered Date')}}
-                                :</strong> {{date('d M Y',strtotime($fgDelivery->delivered_date))}}
+                        <li><strong>{{__('Vendor')}}
+                                :</strong> {{ucfirst(isset($fgDelivery->vendor->name)?$fgDelivery->vendor->name:'')}}
                         </li>
-                        <li><strong>{{__('Customer')}}
-                                :</strong>{{isset($fgDelivery->workOrder->customer->name)?$fgDelivery->workOrder->customer->name:''}}
-                        </li>
-                        <li><strong>{{__('Lab Dep Approval')}}
-                                :</strong> {{ucfirst($fgDelivery->workOrder->lab_dep_approval)}}</li>
-                        <li><strong>{{__('Shrinkage')}}:</strong> {{ucfirst($fgDelivery->workOrder->shrinkage)}}</li>
+                        <li><strong>{{__('Truck No')}}:</strong> {{ucfirst($fgDelivery->truck_no)}}</li>
+                        <li><strong>{{__('Driver Name')}}:</strong> {{ucfirst($fgDelivery->driver_name)}}</li>
+                        <li><strong>{{__('Driver Phone')}}:</strong> {{ucfirst($fgDelivery->driver_phone)}}</li>
                     </ul>
                 </div>
             </div>
@@ -42,10 +44,12 @@
                 <thead>
                 <tr class="text-center">
                     <th>SL</th>
-                    <th>Category</th>
-                    <th>Product</th>
+                    <th>Product Category</th>
+                    <th>Product Detail</th>
                     <th>UOM</th>
                     <th>Delivery Qty</th>
+                    <th width="10%">UOM Type</th>
+                    <th width="10%">UOM Qty</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -58,11 +62,14 @@
                             ) {{ getProductAttributesFaster($item->workOrderItem->product) }}</td>
                         <td>{{ isset($item->workOrderItem->product->productUnit->unit_name)?$item->workOrderItem->product->productUnit->unit_name:'' }}</td>
                         <td class="text-center">{{$item->delivery_qty}}</td>
+                        <td class="text-center">{{$item->uom_type}}</td>
+                        <td class="text-center">{{$item->uom_qty}}</td>
                     </tr>
                 @endforeach
                 <tr>
                     <td colspan="4" class="text-right">Total</td>
                     <td class="text-center">{{$fgDelivery->finishedGoodDeliveryItems->sum('delivery_qty')}}</td>
+                    <td colspan="2"></td>
                 </tr>
                 </tbody>
             </table>

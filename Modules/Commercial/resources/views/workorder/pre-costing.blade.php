@@ -43,235 +43,263 @@
                                         @endif
 
                                         <div class="row">
-                                            <div class="col-md-3">
-                                                <div class="form-group">
-                                                    <div class="form-line">
-                                                        {!!  Form::label('yarn_cost', 'Yarn Cost', ['class' => 'col-form-label']) !!}
-                                                        <span class="text-danger">*</span>
-                                                        {!! Form::text('yarn_cost', request()->old('yarn_cost'), [
-                                                            'id' => 'yarn_cost',
-                                                            'class' => 'form-control mask-money',
-                                                            'placeholder' => 'Enter Shrinkage'
-                                                        ]) !!}
-                                                        {!! $errors->first('yarn_cost') !!}
-                                                    </div>
+                                            <div class="form-group row">
+                                                <label for="yarn_cost"
+                                                       class="col-4 col-form-label text-right"><strong>{{translate('Yarn Cost per ')}} {{$workOrderUnit}}
+                                                    </strong><span class="text-danger">*</span></label>
+
+                                                <div class="col-3">
+                                                    {!! Form::number('yarn_cost', request()->old('yarn_cost'), [
+                                                        'id' => 'yarn_cost',
+                                                        'class' => 'form-control mask-money',
+                                                        'placeholder' => '0',
+                                                        'step'=>'any'
+                                                    ]) !!}
+                                                    {!! $errors->first('yarn_cost') !!}
                                                 </div>
                                             </div>
 
-                                            <div class="col-md-3">
-                                                <div class="form-group">
-                                                    <div class="form-line">
-                                                        {!!  Form::label('weaving_cost', 'Weaving Cost', ['class' => 'col-form-label']) !!}
-                                                        <span class="text-danger">*</span>
-                                                        {!! Form::text('weaving_cost', request()->old('weaving_cost'), [
-                                                            'id' => 'weaving_cost',
-                                                            'class' => 'form-control mask-money',
-                                                            'placeholder' => 'Weaving cost'
-                                                        ]) !!}
-                                                        {!! $errors->first('weaving_cost') !!}
-                                                    </div>
+                                            <div class="form-group row mt-3">
+                                                <label for="weaving_cost"
+                                                       class="col-4 col-form-label text-right"><strong>{{translate('Weaving Cost per')}} {{$workOrderUnit}}
+                                                    </strong><span class="text-danger">*</span></label>
+                                                <div class="col-3">
+                                                    {!! Form::number('weaving_cost', request()->old('weaving_cost'), [
+                                                        'id' => 'weaving_cost',
+                                                        'class' => 'form-control mask-money',
+                                                        'placeholder' => 'Weaving cost',
+                                                        'step'=>'any'
+                                                    ]) !!}
+                                                    {!! $errors->first('weaving_cost') !!}
                                                 </div>
                                             </div>
 
-                                            <div class="col-md-3">
-                                                <div class="form-group">
-                                                    <div class="form-line">
-                                                        {!!  Form::label('grey_cost_fabric', 'Gray Cost Fabric', ['class' => 'col-form-label']) !!}
-                                                        <span class="text-danger">*</span>
-                                                        {!! Form::text('grey_cost_fabric', request()->old('grey_cost_fabric'), [
-                                                            'id' => 'grey_cost_fabric',
-                                                            'class' => 'form-control mask-money',
-                                                            'placeholder' => 'Gray cost fabric'
-                                                        ]) !!}
-                                                        {!! $errors->first('grey_cost_fabric') !!}
-                                                    </div>
+                                            <div class="form-group row mt-3">
+                                                <label for="grey_cost_fabric"
+                                                       class="col-4 col-form-label text-right"><strong>{{translate('Grey Cost per')}} {{$workOrderUnit}}
+                                                    </strong><span class="text-danger">*</span></label>
+
+                                                <div class="col-3">
+                                                    {!! Form::number('grey_cost_fabric', request()->old('grey_cost_fabric'), [
+                                                        'id' => 'grey_cost_fabric',
+                                                        'class' => 'form-control mask-money',
+                                                        'step'=>'any',
+                                                        'placeholder' => 'Grey cost per (Yds/Meter)'
+                                                    ]) !!}
+                                                    {!! $errors->first('grey_cost_fabric') !!}
                                                 </div>
                                             </div>
 
-                                            <div class="col-md-3">
-                                                <div class="form-group">
-                                                    <div class="form-line">
-                                                        {!!  Form::label('dyes_chemical', 'Dyes Chemical', ['class' => 'col-form-label']) !!}
-                                                        <span class="text-danger">*</span>
-                                                        {!! Form::text('dyes_chemical', request()->old('dyes_chemical'), [
-                                                            'id' => 'dyes_chemical',
-                                                            'class' => 'form-control mask-money',
-                                                            'placeholder' => 'Dyes Chemical'
-                                                        ]) !!}
-                                                        {!! $errors->first('dyes_chemical') !!}
-                                                    </div>
+                                            <div class="form-group row mt-3">
+                                                <label for="dyes_chemical"
+                                                       class="col-4 col-form-label text-right"><strong>{{translate('Dyes Chemical per ')}} {{$workOrderUnit}}
+                                                    </strong><span class="text-danger">*</span></label>
+                                                <div class="col-3">
+
+                                                    {!! Form::number('dyes_chemical', request()->old('dyes_chemical'), [
+                                                        'id' => 'dyes_chemical',
+                                                        'class' => 'form-control mask-money',
+                                                        'step'=>'any',
+                                                        'placeholder' => 'Dyes chemical per (Yds/Meter)'
+                                                    ]) !!}
+                                                    {!! $errors->first('dyes_chemical') !!}
                                                 </div>
                                             </div>
 
-                                            <div class="col-md-3">
-                                                <div class="form-group">
-                                                    <div class="form-line">
-                                                        {!!  Form::label('special_finish_cost', 'Special Finish Cost', ['class' => 'col-form-label']) !!}
-                                                        <span class="text-danger">*</span>
-                                                        {!! Form::text('special_finish_cost', request()->old('special_finish_cost'), [
-                                                            'id' => 'special_finish_cost',
-                                                            'class' => 'form-control mask-money',
-                                                            'placeholder' => 'Special Finish Cost'
-                                                        ]) !!}
-                                                        {!! $errors->first('special_finish_cost') !!}
-                                                    </div>
+                                            <div class="form-group row mt-3">
+                                                <label for="special_finish_cost"
+                                                       class="col-4 col-form-label text-right"><strong>{{translate('Special Finish Cost per ')}} {{$workOrderUnit}}
+                                                    </strong><span class="text-danger">*</span></label>
+                                                <div class="col-3">
+
+                                                    {!! Form::number('special_finish_cost', request()->old('special_finish_cost'), [
+                                                        'id' => 'special_finish_cost',
+                                                        'class' => 'form-control mask-money',
+                                                        'step'=>'any',
+                                                        'placeholder' => 'Special Finish Cost'
+                                                    ]) !!}
+                                                    {!! $errors->first('special_finish_cost') !!}
+
                                                 </div>
                                             </div>
 
-                                            <div class="col-md-3">
-                                                <div class="form-group">
-                                                    <div class="form-line">
-                                                        {!!  Form::label('excess_less_cost', 'Excess Less Cost', ['class' => 'col-form-label']) !!}
-                                                        <span class="text-danger">*</span>
-                                                        {!! Form::text('excess_less_cost', request()->old('excess_less_cost'), [
-                                                            'id' => 'excess_less_cost',
-                                                            'class' => 'form-control mask-money',
-                                                            'placeholder' => 'Excess Less Cost'
-                                                        ]) !!}
-                                                        {!! $errors->first('excess_less_cost') !!}
-                                                    </div>
+                                            <div class="form-group row mt-3">
+                                                <label for="excess_less_cost"
+                                                       class="col-4 col-form-label text-right"><strong>{{translate('Excess/Less Cost per ')}} {{$workOrderUnit}}
+                                                    </strong><span class="text-danger">*</span></label>
+                                                <div class="col-3">
+
+                                                    {!! Form::number('excess_less_cost', request()->old('excess_less_cost'), [
+                                                        'id' => 'excess_less_cost',
+                                                        'class' => 'form-control mask-money',
+                                                        'step'=>'any',
+                                                        'placeholder' => 'Excess/Less cost'
+                                                    ]) !!}
+                                                    {!! $errors->first('excess_less_cost') !!}
+
                                                 </div>
                                             </div>
 
-                                            <div class="col-md-3">
-                                                <div class="form-group">
-                                                    <div class="form-line">
-                                                        {!!  Form::label('overhead_cost', 'Overhead Cost', ['class' => 'col-form-label']) !!}
-                                                        <span class="text-danger">*</span>
-                                                        {!! Form::text('overhead_cost', request()->old('overhead_cost'), [
-                                                            'id' => 'overhead_cost',
-                                                            'class' => 'form-control mask-money',
-                                                            'placeholder' => 'Overhead Cost'
-                                                        ]) !!}
-                                                        {!! $errors->first('overhead_cost') !!}
-                                                    </div>
+                                            <div class="form-group row mt-3">
+                                                <label for="overhead_cost"
+                                                       class="col-4 col-form-label text-right"><strong>{{translate('Overhead Cost per ')}}{{$workOrderUnit}}
+                                                    </strong><span class="text-danger">*</span></label>
+                                                <div class="col-3">
+                                                    {!! Form::number('overhead_cost', isset($preCosting)? request()->old('overhead_cost') : $overHeadCost, [
+                                                        'id' => 'overhead_cost',
+                                                        'class' => 'form-control mask-money',
+                                                        'step'=>'any',
+                                                        'placeholder' => 'Overhead Cost'
+                                                    ]) !!}
+                                                    {!! $errors->first('overhead_cost') !!}
+
                                                 </div>
                                             </div>
 
-                                            <div class="col-md-3">
-                                                <div class="form-group">
-                                                    <div class="form-line">
-                                                        {!!  Form::label('allowance_percentage', 'Allowance Percentage %', ['class' => 'col-form-label']) !!}
-                                                        <span class="text-danger">*</span>
-                                                        {!! Form::text('allowance_percentage', request()->old('allowance_percentage'), [
-                                                            'id' => 'allowance_percentage',
-                                                            'class' => 'form-control mask-money',
-                                                            'placeholder' => 'Allowance Percentage'
-                                                        ]) !!}
-                                                        {!! $errors->first('allowance_percentage') !!}
-                                                    </div>
+                                            <div class="form-group row mt-3">
+                                                <label for="allowance_percentage"
+                                                       class="col-4 col-form-label text-right"><strong>Allowance
+                                                        Percentage %
+                                                    </strong><span class="text-danger">*</span></label>
+                                                <div class="col-3">
+
+                                                    {!! Form::number('allowance_percentage', request()->old('allowance_percentage'), [
+                                                        'id' => 'allowance_percentage',
+                                                        'class' => 'form-control mask-money',
+                                                        'step'=>'any',
+                                                        'placeholder' => 'Allowance Percentage'
+                                                    ]) !!}
+                                                    {!! $errors->first('allowance_percentage') !!}
+                                                </div>
+
+                                            </div>
+
+                                            <div class="form-group row mt-3">
+                                                <label for="allowance_cost"
+                                                       class="col-4 col-form-label text-right"><strong>Allowance
+                                                        Cost per {{$workOrderUnit}}
+                                                    </strong><span class="text-danger">*</span></label>
+                                                <div class="col-3">
+                                                    {!! Form::number('allowance_cost', request()->old('allowance_cost'), [
+                                                        'id' => 'allowance_cost',
+                                                        'class' => 'form-control mask-money',
+                                                        'step'=>'any',
+                                                        'placeholder' => 'Allowance Cost'
+                                                    ]) !!}
+                                                    {!! $errors->first('allowance_cost') !!}
+
                                                 </div>
                                             </div>
 
-                                            <div class="col-md-3">
-                                                <div class="form-group">
-                                                    <div class="form-line">
-                                                        {!!  Form::label('allowance_cost', 'Allowance Cost', ['class' => 'col-form-label']) !!}
-                                                        <span class="text-danger">*</span>
-                                                        {!! Form::text('allowance_cost', request()->old('allowance_cost'), [
-                                                            'id' => 'allowance_cost',
-                                                            'class' => 'form-control mask-money',
-                                                            'placeholder' => 'Allowance Cost'
-                                                        ]) !!}
-                                                        {!! $errors->first('allowance_cost') !!}
-                                                    </div>
+                                            <div class="form-group row mt-3">
+                                                <label for="commercial_percentage"
+                                                       class="col-4 col-form-label text-right"><strong>Commercial
+                                                        Percentage (%)
+                                                    </strong><span class="text-danger">*</span></label>
+                                                <div class="col-3">
+                                                    {!! Form::number('commercial_percentage', request()->old('commercial_percentage'), [
+                                                        'id' => 'commercial_percentage',
+                                                        'class' => 'form-control mask-money',
+                                                        'step'=>'any',
+                                                        'placeholder' => 'Commercial Percentage'
+                                                    ]) !!}
+                                                    {!! $errors->first('commercial_percentage') !!}
+
                                                 </div>
                                             </div>
 
-                                            <div class="col-md-3">
-                                                <div class="form-group">
-                                                    <div class="form-line">
-                                                        {!!  Form::label('commercial_percentage', 'Commercial Percentage %', ['class' => 'col-form-label']) !!}
-                                                        <span class="text-danger">*</span>
-                                                        {!! Form::text('commercial_percentage', request()->old('commercial_percentage'), [
-                                                            'id' => 'commercial_percentage',
-                                                            'class' => 'form-control mask-money',
-                                                            'placeholder' => 'Commercial Percentage'
-                                                        ]) !!}
-                                                        {!! $errors->first('commercial_percentage') !!}
-                                                    </div>
+                                            <div class="form-group row mt-3">
+                                                <label for="commercial_cost"
+                                                       class="col-4 col-form-label text-right"><strong>Commercial
+                                                        Cost per {{$workOrderUnit}}
+                                                    </strong><span class="text-danger">*</span></label>
+                                                <div class="col-3">
+                                                    {!! Form::number('commercial_cost', request()->old('commercial_cost'), [
+                                                        'id' => 'commercial_cost',
+                                                        'class' => 'form-control mask-money',
+                                                        'step'=>'any',
+                                                        'placeholder' => 'Commercial Cost'
+                                                    ]) !!}
+                                                    {!! $errors->first('commercial_cost') !!}
+
                                                 </div>
                                             </div>
 
-                                            <div class="col-md-3">
-                                                <div class="form-group">
-                                                    <div class="form-line">
-                                                        {!!  Form::label('commercial_cost', 'Commercial Cost', ['class' => 'col-form-label']) !!}
-                                                        <span class="text-danger">*</span>
-                                                        {!! Form::text('commercial_cost', request()->old('commercial_cost'), [
-                                                            'id' => 'commercial_cost',
-                                                            'class' => 'form-control mask-money',
-                                                            'placeholder' => 'Commercial Cost'
-                                                        ]) !!}
-                                                        {!! $errors->first('commercial_cost') !!}
-                                                    </div>
+                                            <div class="form-group row mt-3">
+                                                <label for="commercial_cost"
+                                                       class="col-4 col-form-label text-right"><strong>Sales
+                                                        Commission per {{$workOrderUnit}}
+                                                    </strong><span class="text-danger">*</span></label>
+                                                <div class="col-3">
+                                                    {!! Form::number('sales_commission', request()->old('sales_commission'), [
+                                                        'id' => 'sales_commission',
+                                                        'class' => 'form-control mask-money',
+                                                        'step'=>'any',
+                                                        'placeholder' => 'Sales Commission'
+                                                    ]) !!}
+                                                    {!! $errors->first('sales_commission') !!}
+
                                                 </div>
                                             </div>
 
-                                            <div class="col-md-3">
-                                                <div class="form-group">
-                                                    <div class="form-line">
-                                                        {!!  Form::label('net_sales_price', 'Net Sales Price', ['class' => 'col-form-label']) !!}
-                                                        <span class="text-danger">*</span>
-                                                        {!! Form::text('net_sales_price', request()->old('net_sales_price'), [
-                                                            'id' => 'net_sales_price',
-                                                            'class' => 'form-control mask-money',
-                                                            'placeholder' => 'Net Sales Price'
-                                                        ]) !!}
-                                                        {!! $errors->first('net_sales_price') !!}
-                                                    </div>
+                                            <div class="form-group row mt-3">
+                                                <label for="actual_cost"
+                                                       class="col-4 col-form-label text-right"><strong>Actual
+                                                        Cost per {{$workOrderUnit}}
+                                                    </strong><span class="text-danger">*</span></label>
+                                                <div class="col-3">
+                                                    {!! Form::number('actual_cost', request()->old('actual_cost'), [
+                                                        'id' => 'actual_cost',
+                                                        'class' => 'form-control mask-money',
+                                                        'step'=>'any',
+                                                        'placeholder' => 'Actual Cost'
+                                                    ]) !!}
+                                                    {!! $errors->first('actual_cost') !!}
+
                                                 </div>
                                             </div>
 
-                                            <div class="col-md-3">
-                                                <div class="form-group">
-                                                    <div class="form-line">
-                                                        {!!  Form::label('profit_loss_on_sales', 'Profit Loss on Sales', ['class' => 'col-form-label']) !!}
-                                                        <span class="text-danger">*</span>
-                                                        {!! Form::text('profit_loss_on_sales', request()->old('profit_loss_on_sales'), [
-                                                            'id' => 'profit_loss_on_sales',
-                                                            'class' => 'form-control mask-money',
-                                                            'placeholder' => 'Profit Loss on Sales'
-                                                        ]) !!}
-                                                        {!! $errors->first('profit_loss_on_sales') !!}
-                                                    </div>
+                                            <div class="form-group row mt-3">
+                                                <label for="net_sales_price"
+                                                       class="col-4 col-form-label text-right"><strong>Net Sales Price
+                                                        per {{$workOrderUnit}}
+                                                    </strong><span class="text-danger">*</span></label>
+                                                <div class="col-3">
+                                                    {!! Form::number('net_sales_price', request()->old('net_sales_price'), [
+                                                        'id' => 'net_sales_price',
+                                                        'class' => 'form-control mask-money',
+                                                        'step'=>'any',
+                                                        'placeholder' => 'Net Sales Price',
+                                                        'onkeyup'=>'calculateProfitLoss()',
+                                                        'onchange'=>'calculateProfitLoss()',
+                                                    ]) !!}
+                                                    {!! $errors->first('net_sales_price') !!}
+
                                                 </div>
                                             </div>
 
-                                            {{--                                            <div class="col-md-3">--}}
-                                            {{--                                                <div class="form-group">--}}
-                                            {{--                                                    <div class="form-line">--}}
-                                            {{--                                                        {!!  Form::label('yarn_con_wrap', 'Yarn Con Wrap', ['class' => 'col-form-label']) !!}--}}
-
-                                            {{--                                                        {!! Form::text('yarn_con_wrap', request()->old('yarn_con_wrap'), [--}}
-                                            {{--                                                            'id' => 'yarn_con_wrap',--}}
-                                            {{--                                                            'class' => 'form-control',--}}
-                                            {{--                                                            'placeholder' => 'Yarn Con Wrap'--}}
-                                            {{--                                                        ]) !!}--}}
-                                            {{--                                                        {!! $errors->first('yarn_con_wrap') !!}--}}
-                                            {{--                                                    </div>--}}
-                                            {{--                                                </div>--}}
-                                            {{--                                            </div>--}}
-
-                                            {{--                                            <div class="col-md-3">--}}
-                                            {{--                                                <div class="form-group">--}}
-                                            {{--                                                    <div class="form-line">--}}
-                                            {{--                                                        {!!  Form::label('yarn_con_weft', 'Yarn Con Weft', ['class' => 'col-form-label']) !!}--}}
-                                            {{--                                                        {!! Form::text('yarn_con_weft', request()->old('yarn_con_weft'), [--}}
-                                            {{--                                                            'id' => 'yarn_con_weft',--}}
-                                            {{--                                                            'class' => 'form-control',--}}
-                                            {{--                                                            'placeholder' => 'Yarn Con Wrap'--}}
-                                            {{--                                                        ]) !!}--}}
-                                            {{--                                                        {!! $errors->first('yarn_con_weft') !!}--}}
-                                            {{--                                                    </div>--}}
-                                            {{--                                                </div>--}}
-                                            {{--                                            </div>--}}
-
+                                            <div class="form-group row mt-3">
+                                                <label for="net_sales_price"
+                                                       class="col-4 col-form-label text-right"><strong>Profit/Loss on
+                                                        Sale per {{$workOrderUnit}}
+                                                    </strong><span class="text-danger">*</span></label>
+                                                <div class="col-3">
+                                                    {!! Form::number('profit_loss_on_sales', request()->old('profit_loss_on_sales'), [
+                                                        'id' => 'profit_loss_on_sales',
+                                                        'class' => 'form-control mask-money',
+                                                        'step'=>'any',
+                                                        'placeholder' => 'Profit/Loss on Sales'
+                                                    ]) !!}
+                                                    {!! $errors->first('profit_loss_on_sales') !!}
+                                                </div>
+                                            </div>
 
                                             <input type="hidden" name="work_order_id" value="{{$workOrder->id}}">
 
-                                            <div class="col-md-12 mt-2">
-                                                {!! Form::submit('Save changes', ['class' => 'btn btn-primary pull-right m-t-15','data-placement'=>'top','data-content'=>'click save changes button for save role information']) !!}
+                                            <div class="form-group row mt-3">
+                                                <div class="col-md-3 offset-md-5">
+                                                    {!! Form::submit('Save changes', ['class' => 'btn btn-primary center m-t-15','data-placement'=>'top','data-content'=>'click save changes button for save role information']) !!}
+                                                </div>
                                                 &nbsp;
                                             </div>
                                         </div>
@@ -286,7 +314,21 @@
                 </div>
             </div>
         </div>
+    </div>
 
 @endsection
 @section('javascript')
+    <script type="text/javascript">
+        calculateProfitLoss();
+
+        function calculateProfitLoss() {
+            var netSalePrice = $('#net_sales_price').val();
+            var actualCost = $('#actual_cost').val();
+
+            if (netSalePrice !== null && actualCost !== null) {
+                var profitLoss = parseFloat(netSalePrice - actualCost);
+                $('#profit_loss_on_sales').val(profitLoss.toFixed(3));
+            }
+        }
+    </script>
 @endsection

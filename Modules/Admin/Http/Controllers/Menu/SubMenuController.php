@@ -50,7 +50,7 @@ class SubMenuController extends Controller
          $input = $request->all();
 
 
-        $validator = Validator::make($input, [   
+        $validator = Validator::make($input, [
                     'name'          => 'required',
                     'url'    => 'required',
                     'icon' => 'mimes:jpeg,jpg,bmp,png'
@@ -86,7 +86,7 @@ class SubMenuController extends Controller
     public function show($id)
     {
         //$page=Page::where('status',1)->pluck('name','link');
-        $allData=SubMenu::leftJoin('menus','sub_menus.menu_id','=','menus.id')->select('sub_menus.*','menus.name as menu_name')->where('menu_id',$id)->orderBy('serial_num','DESC')->paginate(20);
+        $allData=SubMenu::leftJoin('menus','sub_menus.menu_id','=','menus.id')->select('sub_menus.*','menus.name as menu_name')->where('menu_id',$id)->orderBy('serial_num','DESC')->simplePaginate(30);
 
         $menu=Menu::findOrFail($id);
         $title='Create submenu under the ('.$menu->name.') Main Menu';
@@ -119,6 +119,7 @@ class SubMenuController extends Controller
             ->where('sub_menus.id',$id)->orderBy('serial_num','DESC')->first(20);
 
         $menu=Menu::findOrFail($data->menu_id);
+        $allMenus=Menu::orderBy('serial_num','asc')->pluck('name','id')->all();
         $max_serial=SubMenu::where('menu_id',$data->menu_id)->max('serial_num');
         $permissions = Permission::orderBy('id','DESC')->pluck('name', 'name');
 
@@ -133,7 +134,7 @@ class SubMenuController extends Controller
         $openTab=[SubMenu::NO_OPEN_NEW_TAB  => SubMenu::NO_OPEN_NEW_TAB ,
             SubMenu::OPEN_NEW_TAB  => SubMenu::OPEN_NEW_TAB];
         $title='Edit submenu under the ('.$menu->name.') Main Menu';
-        return view('admin::menu.submenuEdit',compact('data','max_serial','menu','permissions','menuFor','status','openTab','title'));
+        return view('admin::menu.submenuEdit',compact('data','max_serial','menu','permissions','menuFor','status','openTab','title','allMenus'));
     }
 
     /**
@@ -147,14 +148,14 @@ class SubMenuController extends Controller
     {
        $input = $request->all();
         $data=SubMenu::findOrFail($id);
-        
+
         $validator = Validator::make($input, [
                     'name'    => 'required',
                     'url'          => 'required',
                     'icon' => 'mimes:jpeg,jpg,bmp,png'
                    // 'icon' => 'mimes:jpeg,jpg,bmp,png|dimensions:min_width=128,max_width=256'
                 ]);
-        
+
         if ($validator->fails()) {
             return redirect()->back()->withErrors($validator)->withInput();
         }
@@ -174,7 +175,7 @@ class SubMenuController extends Controller
             return $this->backWithError($e->getMessage());
         }
 
-    } 
+    }
     /**
      * Remove the specified resource from storage.
      *
@@ -183,7 +184,7 @@ class SubMenuController extends Controller
      */
     public function destroy($id)
     {
-        
+
         $data=SubMenu::findOrFail($id);
        try{
 

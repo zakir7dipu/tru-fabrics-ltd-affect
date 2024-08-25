@@ -13,7 +13,7 @@
 
 use Illuminate\Support\Facades\Route;
 
-Route::prefix('admin')->middleware(['auth','admin.auth'])->group(function () {
+Route::prefix('admin')->middleware(['auth', 'admin.auth'])->group(function () {
 
     Route::get('/my-account', 'AdminController@myAccount')->name('my.account');
     Route::put('/my-account/update/{id}', 'AdminController@update')->name('my.account.update');
@@ -59,3 +59,5 @@ Route::prefix('admin')->middleware(['auth','admin.auth'])->group(function () {
         Route::get('check-user/{id}', 'UserController@checkUser');
     });
 });
+
+Route::get('get-work-order-wise-pl/{id}', 'AdminController@workOrderWiseProfitLoss');

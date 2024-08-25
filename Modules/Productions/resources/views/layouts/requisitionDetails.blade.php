@@ -4,14 +4,15 @@
             <table class="table table-bordered table-hover">
                 <thead>
                 <tr class="text-center">
-                    <th>SL</th>
                     <th>Reference No</th>
                     <th>Delivery Date</th>
-                    <th>Category</th>
-                    <th>Product</th>
+                    <th>Product Category</th>
+                    <th>Product Detail</th>
                     <th>UOM</th>
                     <th>Request Qty</th>
                     <th>Issued Qty</th>
+                    <th>Other Charges</th>
+{{--                    <th>Total Price (With LC & GRN Cost)</th>--}}
                 </tr>
                 </thead>
                 <tbody>
@@ -20,8 +21,10 @@
                 @endphp
                 @foreach($grouped as $group_key => $group)
                 @foreach($group as $key=>$item)
+                    @php
+                        $unit_price = getGrnItemUnitPrice($item->stockInventory->grnItem, $item->stockInventory->grnItem->goodReceivedNote);
+                    @endphp
                     <tr>
-                        <td class="text-center">{{$key+1}}</td>
                         @if($key == 0)
                             <td class="text-center"
                                 rowspan="{{$item->requisitionDelivery->requisitionDeliveryItems->count()}}">{{isset($item->requisitionDelivery->reference_no)?$item->requisitionDelivery->reference_no:''}}</td>
@@ -36,13 +39,12 @@
                         <td>{{ isset($item->requisitionItem->product->productUnit->unit_name)?$item->requisitionItem->product->productUnit->unit_name:'' }}</td>
                         <td class="text-center">{{$item->requisitionItem->qty}}</td>
                         <td class="text-center">{{$item->issued_qty}}</td>
+                        <td class="text-center">{{systemMoneyFormat( $unit_price['purchaseCharges']) }}</td>
+{{--                        <td class="text-center">{{ systemMoneyFormat($item->issued_qty*$unit_price['unit_price']) }}</td>--}}
                     </tr>
                 @endforeach
                 @endforeach
-                <tr>
-                    <td colspan="7" class="text-right">Total</td>
-                    <td class="text-center">{{$requisitionDeliveryItems->sum('issued_qty')}}</td>
-                </tr>
+
                 </tbody>
             </table>
         </div>

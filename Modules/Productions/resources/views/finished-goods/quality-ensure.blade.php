@@ -25,12 +25,12 @@
                                             <thead>
                                             <tr class="text-center">
                                                 <th>SL</th>
-                                                <th>Category</th>
-                                                <th width="25%">Product</th>
+                                                <th>Product Category</th>
+                                                <th width="25%">Product Detail</th>
                                                 <th>UOM</th>
                                                 <th>Qty</th>
                                                 <th>Prev. QC Qty</th>
-                                                <th>Left QC Qty</th>
+                                                <th>Remaining QC Qty</th>
                                                 @foreach($qualityStatus as $key=>$value)
                                                     <th width="10%">{{$value}}</th>
                                                 @endforeach
@@ -124,12 +124,12 @@
             var reject = parseInt(element.parent().parent().find('.reject-items').val());
 
             if (keyType === 'fresh') {
-                if(fresh+reject > max){
-                    fresh = max-reject;
+                if (fresh + reject > max) {
+                    fresh = max - reject;
                 }
             } else if (keyType === 'reject') {
-                if(fresh+reject > max){
-                    reject = max-fresh;
+                if (fresh + reject > max) {
+                    reject = max - fresh;
                 }
             }
 

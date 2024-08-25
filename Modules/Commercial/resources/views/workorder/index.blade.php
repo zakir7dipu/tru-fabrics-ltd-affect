@@ -19,6 +19,11 @@
                                 </div>
                                 <div class="col-xl-4">
                                     <div class="text-xl-end mt-xl-0 mt-2">
+                                        <a href="javascript:void(0)" class="btn btn-success mb-2"
+                                           data-toggle="modal" title="Upload Opening Stock by xlsx file"
+                                           id="uploadOptionFile"> <i class="mdi mdi-cloud-upload"></i> Upload
+                                            Bulk Work Order</a>
+
                                         @if (isOptionPermitted('work-order-create'))
                                             <a href="{{ route('work-orders.create') }}" class="btn btn-info mb-2 me-2"
                                                data-toggle="tooltip" title="Add New"> <i
@@ -52,12 +57,20 @@
             </div>
         </div>
     </div>
+
+    @include('commercial::workorder.xlsfile')
 @endsection
 
 @section('javascript')
     @include('yajra.js')
     <script>
+        $('#uploadOptionFile').on('click', function () {
+            $('#productUploadModal .modal-title').html('Upload Workorder Bulk Data');
+            $('#productUploadModal').modal('show');
+        });
+
         function showDetails(id) {
+
             $('#dataBody').empty().load('{{ url(Request()->route()->getPrefix() . '/work-orders') }}/' + id);
             $('#showUserDetailsModal').modal('show');
         }

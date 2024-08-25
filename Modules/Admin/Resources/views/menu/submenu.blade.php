@@ -208,6 +208,7 @@
 
                                                     </tbody>
                                                 </table>
+                                                {{$allData->links()}}
 
                                             </div>
                                         </div> <!--end Table view -->
